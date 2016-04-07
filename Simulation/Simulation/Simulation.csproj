@@ -69,6 +69,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelView\Property_Changed\File_Dialog.cs" />
+    <Compile Include="Model\File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,7 +97,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Command\" />
+    <Folder Include="ModelView\Commands\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\clock.png" />
     <Resource Include="Pictures\icon-375.png" />

@@ -14,8 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.IO.Pipes;
+using Simulation.ModelView;
 
-namespace Simulation
+namespace Simulation.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,11 +25,8 @@ namespace Simulation
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
-
         
-
-      
     }
 }
