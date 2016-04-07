@@ -8,8 +8,52 @@
         Title="Simulator" Height="780" Width="1024" MinWidth="640" MinHeight="480" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
     <Grid>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="1018" Margin="0,0,-0.4,0">
-            <MenuItem Header="File" StaysOpenOnClick="True" Height="45" Width="50" FontSize="16" FontWeight="Bold"/>
+            <MenuItem Header="FILE" StaysOpenOnClick="True" Height="45" Width="50" FontSize="16" FontWeight="Bold"/>
+            <MenuItem FontWeight="Bold" Header="EDIT" FontSize="16"/>
+            <MenuItem FontWeight="Bold" Header="DEBUG" FontSize="16"/>
+            <MenuItem FontWeight="Bold" Header="HELP" FontSize="16"/>
         </Menu>
+        <Button x:Name="Start" Content="" HorizontalAlignment="Left" Margin="295,365,0,0" VerticalAlignment="Top" Width="40" Click="startSimulation" Height="40" BorderBrush="White">
+            <Button.Foreground>
+                <ImageBrush ImageSource="Pictures/clock.png"/>
+            </Button.Foreground>
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/clock.png"/>
+            </Button.Background>
+        </Button>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="30,410,0,0" VerticalAlignment="Top" Height="310" Width="205" >
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header=" "/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="0"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="1"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="2"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="3"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="4"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="5"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="6"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="7"/>
+                <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="310" Margin="290,410,0,0" VerticalAlignment="Top" Width="470">
+
+        </ListBox>
+        <Button x:Name="button" Content="" HorizontalAlignment="Left" Margin="340,365,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/icon-375.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button1" Content="" HorizontalAlignment="Left" Margin="430,365,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/play.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="button2" Content="" HorizontalAlignment="Left" Margin="385,365,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderBrush="White" Foreground="White">
+            <Button.Background>
+                <ImageBrush ImageSource="Pictures/video.png"/>
+            </Button.Background>
+        </Button>
+
 
     </Grid>
 </Window>
