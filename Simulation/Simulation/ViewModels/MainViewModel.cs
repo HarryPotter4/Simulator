@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using System.Windows.Forms;
 
 namespace Simulation.ViewModels
 {
-    class MainViewModel : Screen
+    class MainViewModel : Caliburn.Micro.Screen
     {
 
         public void btn_play()
@@ -26,10 +27,29 @@ namespace Simulation.ViewModels
         public void btn_back()
         {
             Debug.WriteLine("Button läuft!");
+            
         }
         public void menuItem_Open()
         {
             Debug.WriteLine("Open läuft!");
+
+            OpenFileDialog fileDialog = new OpenFileDialog();
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.StreamReader sr = new System.IO.StreamReader(fileDialog.FileName);
+
+                //TODO: Export File to TextBlock
+
+                MessageBox.Show(sr.ReadToEnd());
+                sr.Close();
+            }
+
+            
         }
+
+        
+
+
     }
 }

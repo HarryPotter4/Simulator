@@ -11,7 +11,7 @@
 
 
     <Grid Margin="0,0,-0.4,0.4">
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="1018" Margin="0,0,-0.4,0">
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="46" VerticalAlignment="Top" Width="1018">
             <MenuItem Header="FILE" StaysOpenOnClick="True" Height="45" Width="50" FontSize="16" FontWeight="Bold">
                 <MenuItem x:Name="menuItem_Open" Header="Open..." />
             </MenuItem>
