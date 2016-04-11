@@ -63,7 +63,7 @@ namespace Simulation.ViewModels
 
                 MessageBox.Show(sr.ReadToEnd());
 
-                VM_FileHandler 
+                
 
 
                 sr.Close();
