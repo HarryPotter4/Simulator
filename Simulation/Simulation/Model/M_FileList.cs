@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Simulation.Model
 {
@@ -18,9 +19,12 @@ namespace Simulation.Model
 
         public M_FileList(string arg1, string arg2)
         {
+            
             lineArgs[lineNumber][0] = arg1;
             lineArgs[lineNumber][1] = arg2;
             lineNumber++;
+
+            MessageBox.Show(arg1 + " "+arg2);
         }
     }
 }
