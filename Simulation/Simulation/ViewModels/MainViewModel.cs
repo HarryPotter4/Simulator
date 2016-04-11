@@ -11,10 +11,27 @@ namespace Simulation.ViewModels
 {
     class MainViewModel : Caliburn.Micro.Screen
     {
+        private string _windowTitle;
+
+        public string Windowtitle
+        {
+            get
+            {
+                return _windowTitle;
+            }
+
+            set
+            {
+
+                _windowTitle = value;
+                NotifyOfPropertyChange(() => Windowtitle);
+            }
+        }
 
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
+
         }
         public void btn_next()
         {
@@ -40,6 +57,9 @@ namespace Simulation.ViewModels
                 System.IO.StreamReader sr = new System.IO.StreamReader(fileDialog.FileName);
 
                 //TODO: Export File to TextBlock
+                
+
+
 
                 MessageBox.Show(sr.ReadToEnd());
                 sr.Close();
