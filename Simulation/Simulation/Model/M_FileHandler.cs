@@ -12,7 +12,7 @@ namespace Simulation.Model
         private string fileName;
 
         public M_FileHandler(){
-           
+                       
         }
         public string Name{
             get { return fileName; }

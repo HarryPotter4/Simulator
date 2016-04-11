@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Model\M_FileHandler.cs" />
+    <Compile Include="Model\M_FileList.cs" />
     <Compile Include="ViewModels\VM_FileHandler.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
