@@ -24,7 +24,6 @@ namespace Simulation.ViewModels
 
             set
             {
-
                 _windowTitle = value;
                 NotifyOfPropertyChange(() => Windowtitle);
             }
@@ -55,14 +54,10 @@ namespace Simulation.ViewModels
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.DefaultExt = ".LST";
             fileDialog.InitialDirectory = "C:/Users/Marius Becherer/Documents/Rechnertechnik/assembler/Testprogramm";
-                               
-            
-
+               
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 System.IO.StreamReader sr = new System.IO.StreamReader(fileDialog.FileName);
-                //MessageBox.Show(sr.ReadToEnd());
-
                 loadedFile =new VM_FileHandler(fileDialog.FileName);        
 
                 sr.Close();

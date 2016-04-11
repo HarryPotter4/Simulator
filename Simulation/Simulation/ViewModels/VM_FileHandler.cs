@@ -8,69 +8,61 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Simulation.ViewModels
 {
 
     class VM_FileHandler
     {
-        private M_FileList[] operationList;
+        private M_FileList operationList;
         private string argPC;
         private string argOPcode;
 
         public VM_FileHandler(string pathName)
         {
             StreamReader file = new StreamReader(pathName);
-
+            operationList = new M_FileList();
             int index = 0;
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
                
-                if(isProgramCounter(line))
+                if(isUsedLine(line))
                 {
-                   operationList[index] = new M_FileList(argPC, argOPcode);
+                    operationList.addLine(index,argPC, argOPcode);
+                   // MessageBox.Show(argPC + " " + argOPcode);
                    index++;
                 }
-                /* */
-
-                // new VM_FileList(ArgIterator,)
             }
 
 
         }
 
-        private bool isProgramCounter(string line)
+        private bool isUsedLine(string line)
         {
-
             argPC = "";
-
-            for (int i = 0; i < 5; i++)
+            for (int index = 0; index < 5; index++)
             {
                 try
                 {
-                    char charValue = Convert.ToChar(line[i]);
+                    char charValue = Convert.ToChar(line[index]);
                     bool queryForNumbers = (charValue <= '9' && charValue >= '0');
                     bool queryForLetters = (charValue <= 'F' && charValue >= 'A');
-                    bool queryForWhiteSpace = (charValue == ' ' && i ==4);
+                    bool queryForWhiteSpace = (charValue == ' ' && index ==4);
 
                     if ((queryForNumbers || queryForLetters) || queryForWhiteSpace)
                     {
-                        if (i < 4)
-                        {
+                        if (index < 4)
                             argPC = argPC + charValue;
-                        }
-                        else if (i == 4 && charValue == ' ')
+
+                        else if (index == 4 && charValue == ' ')
                         {
-                       //     MessageBox.Show("Leerzeichen erreicht!");
-                            setOPcode(line);
-                            return true;
+                            return isSuccessful(line);
                         }
                         else
                         {
-                            MessageBox.Show("Unexpected Problem: Value of I is" + i + "");
+                            MessageBox.Show("Unexpected Problem: Value of I is" + index + "");
                         }
-                       // MessageBox.Show("Das " + i + ". Zeichen ist:" + charValue);
-
                     }
                     else
                     {
@@ -83,6 +75,14 @@ namespace Simulation.ViewModels
                 }
             }
             return true;
+        }
+
+        private bool isSuccessful(string line)
+        {
+            if (setOPcode(line))
+                return true;
+            else
+                return false;
         }
 
         private bool setOPcode(string line)
@@ -111,7 +111,7 @@ namespace Simulation.ViewModels
                     {
                         MessageBox.Show("Unexpected Problem: Value of I is" + i);
                     }
-                    MessageBox.Show("Das " + i + ". Zeichen ist:" + charValue);
+                    //MessageBox.Show("Das " + i + ". Zeichen ist:" + charValue);
                 }
                 else
                 {
