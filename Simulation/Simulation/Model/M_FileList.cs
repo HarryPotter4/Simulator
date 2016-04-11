@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simulation.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,11 +11,12 @@ namespace Simulation.Model
 {
     class M_FileList
     {
-        private List<M_FileListItem> listItem;
+        private List<M_FileListItem> listItems;
 
         public M_FileList()
         {
-            listItem = new List<M_FileListItem>();
+            listItems = new List<M_FileListItem>();
+            MainViewModel transmitList = new MainViewModel(listItems);
         }
 
         /// <summary>
@@ -24,7 +26,7 @@ namespace Simulation.Model
 
         public void addLine(int index, string arg1, string arg2)
         {
-            listItem.Add(new M_FileListItem(arg1,arg2));                   
+            listItems.Add(new M_FileListItem(arg1,arg2));                   
         }
     }
 }

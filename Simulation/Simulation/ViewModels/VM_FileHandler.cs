@@ -22,103 +22,97 @@ namespace Simulation.ViewModels
         {
             StreamReader file = new StreamReader(pathName);
             operationList = new M_FileList();
+            ParseDocument(file);
+
+        }
+
+        private void ParseDocument(StreamReader file)
+        {
             int index = 0;
             while (!file.EndOfStream)
             {
                 string line = file.ReadLine();
-               
-                if(isUsedLine(line))
+
+                if (isOpCodeLine(line))
                 {
-                    operationList.addLine(index,argPC, argOPcode);
-                   // MessageBox.Show(argPC + " " + argOPcode);
-                   index++;
+                    operationList.addLine(index, argPC, argOPcode);
+                    index++;
                 }
             }
-
-
         }
 
-        private bool isUsedLine(string line)
+        private bool isOpCodeLine(string line)
         {
             argPC = "";
-            for (int index = 0; index < 5; index++)
+            for (int element = 0; element < 5; element++)
             {
-                try
+                char rowElement;
+
+                try { rowElement = Convert.ToChar(line[element]); }
+                catch (Exception) { throw; }
+
+                bool queryForNumbers = (rowElement <= '9' && rowElement >= '0');
+                bool queryForLetters = (rowElement <= 'F' && rowElement >= 'A');
+                bool queryForWhiteSpace = (rowElement == ' ' && element == 4);
+
+                if (isHexNumber(queryForNumbers, queryForLetters) || queryForWhiteSpace)
                 {
-                    char charValue = Convert.ToChar(line[index]);
-                    bool queryForNumbers = (charValue <= '9' && charValue >= '0');
-                    bool queryForLetters = (charValue <= 'F' && charValue >= 'A');
-                    bool queryForWhiteSpace = (charValue == ' ' && index ==4);
+                    bool isPCElement = element < 4;
 
-                    if ((queryForNumbers || queryForLetters) || queryForWhiteSpace)
-                    {
-                        if (index < 4)
-                            argPC = argPC + charValue;
-
-                        else if (index == 4 && charValue == ' ')
-                        {
-                            return isSuccessful(line);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Unexpected Problem: Value of I is" + index + "");
-                        }
-                    }
+                    if (isPCElement)
+                        argPC = argPC + rowElement;
+                    else if (queryForWhiteSpace)
+                        return parseOperationCode(line);
                     else
-                    {
-                        return false;
-                    }
+                        MessageBox.Show("Unexpected Problem: Value of I is" + element + "");
                 }
-                catch (Exception)
+                else
                 {
-                    throw;
+                    return false;
                 }
             }
             return true;
         }
 
-        private bool isSuccessful(string line)
+        private static bool isHexNumber(bool queryForNumbers, bool queryForLetters)
         {
-            if (setOPcode(line))
+            return (queryForNumbers || queryForLetters);
+        }
+
+        private bool parseOperationCode(string line)
+        {
+            if (isParseOpSuccessful(line))
                 return true;
             else
                 return false;
         }
 
-        private bool setOPcode(string line)
+        private bool isParseOpSuccessful(string line)
         {
             argOPcode = "";
 
-            for (int i = 5; i < 9; i++)
+            for (int elementIndex = 5; elementIndex < 9; elementIndex++)
             {
-                char charValue = Convert.ToChar(line[i]);
+                char charValue = Convert.ToChar(line[elementIndex]);
                 bool queryForNumbers = (charValue <= '9' && charValue >= '0');
                 bool queryForLetters = (charValue <= 'F' && charValue >= 'A');
-                bool isInOpCodeArea = (i > 4 && i < 9);
+                bool isInOpCodeArea = (elementIndex > 4 && elementIndex < 9);
+                bool isLineFinished = elementIndex == 8;
+                bool isOpCode = elementIndex > 4 && elementIndex < 9;
 
-                if ((queryForNumbers || queryForLetters) && isInOpCodeArea)
-                {
-                    if (i > 4 && i < 9)
-                    {
+                if (isHexNumber(queryForNumbers, queryForLetters) && isInOpCodeArea)
+                {                   
+                    if (isOpCode)
                         argOPcode = argOPcode + charValue;
-                    }
-                    else if (i == 8)
-                    {
-                        MessageBox.Show("Ende erreicht");
-                        return true;
-                    }
+                    else if (isLineFinished)
+                        return true;                    
                     else
-                    {
-                        MessageBox.Show("Unexpected Problem: Value of I is" + i);
-                    }
-                    //MessageBox.Show("Das " + i + ". Zeichen ist:" + charValue);
+                        MessageBox.Show("Unexpected Problem: Value of I is" + elementIndex);                    
                 }
                 else
-                {
-                    return false;
-                }                
+                    return false;                                
             }
-            return true;
+            return false;
         }
     }
 }

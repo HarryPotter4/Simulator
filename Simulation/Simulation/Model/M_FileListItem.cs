@@ -21,8 +21,6 @@ namespace Simulation.Model
         {
             this.programCounter = arg1;
             this.opCode = arg2;
-
-
             MessageBox.Show(arg1 + " " + arg2);
         }
     }

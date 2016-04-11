@@ -6,15 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using System.Windows.Forms;
-
+using Simulation.Views;
+using Simulation.Model;
 
 namespace Simulation.ViewModels
 {
     class MainViewModel : Caliburn.Micro.Screen
     {
-        private string _windowTitle;
-        public VM_FileHandler loadedFile;
+        private VM_FileHandler loadedFile;
+        private static List<M_FileListItem> listItems;
 
+        private string _windowTitle;
         public string Windowtitle
         {
             get
@@ -25,6 +27,26 @@ namespace Simulation.ViewModels
             set
             {
                 _windowTitle = value;
+                NotifyOfPropertyChange(() => Windowtitle);
+            }
+        }
+
+        private string _Listview_programStepper;
+
+        public MainViewModel()
+        {
+
+        }
+
+        public MainViewModel(List<M_FileListItem> listItems)
+        {
+            this.listItems = listItems;
+        }
+
+        public string Listview_programStepper
+        {
+            get{ return _Listview_programStepper; }
+            set{ _Listview_programStepper = value;
                 NotifyOfPropertyChange(() => Windowtitle);
             }
         }
@@ -47,6 +69,7 @@ namespace Simulation.ViewModels
             Debug.WriteLine("Button läuft!");
             
         }
+
         public void menuItem_Open()
         {
             Debug.WriteLine("Open läuft!");
@@ -58,15 +81,21 @@ namespace Simulation.ViewModels
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 System.IO.StreamReader sr = new System.IO.StreamReader(fileDialog.FileName);
-                loadedFile =new VM_FileHandler(fileDialog.FileName);        
-
+                loadedFile = new VM_FileHandler(fileDialog.FileName);   
                 sr.Close();
             }
+            int index = 0;
 
-            
+            foreach (M_FileListItem item in listItems)
+            {
+                MessageBox.Show((index++) + ". Row is:" + item.ToString());                
+            }
+          
+
         }
+       
 
-        
+
 
 
     }
