@@ -80,9 +80,10 @@ namespace Simulation.ViewModels
                
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                System.IO.StreamReader sr = new System.IO.StreamReader(fileDialog.FileName);
+                System.IO.StreamReader reader = new System.IO.StreamReader(fileDialog.FileName);
                 loadedFile = new VM_FileHandler(fileDialog.FileName);   
-                sr.Close();
+                reader.Close();
+                //TODO: After parsing object listItems is null before it has all objects.
             }
             int index = 0;
 
