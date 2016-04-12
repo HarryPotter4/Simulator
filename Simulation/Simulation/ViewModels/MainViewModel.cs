@@ -14,7 +14,7 @@ namespace Simulation.ViewModels
     class MainViewModel : Caliburn.Micro.Screen
     {
         private VM_FileHandler loadedFile;
-        private static List<M_FileListItem> listItems;
+        public List<M_FileListItem> listItems;
 
         private string _windowTitle;
         public string Windowtitle
@@ -81,7 +81,7 @@ namespace Simulation.ViewModels
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 System.IO.StreamReader reader = new System.IO.StreamReader(fileDialog.FileName);
-                loadedFile = new VM_FileHandler(fileDialog.FileName);   
+                loadedFile = new VM_FileHandler(this,fileDialog.FileName);   
                 reader.Close();
                 //TODO: After parsing object listItems is null before it has all objects.
             }

@@ -15,16 +15,33 @@ namespace Simulation.ViewModels
     class VM_FileHandler
     {
         private M_FileList operationList;
+        public List<M_FileListItem> listItems;
         private string argPC;
         private string argOPcode;
 
-        public VM_FileHandler(string pathName)
+        internal List<M_FileListItem> ListItems
+        {
+            get
+            {
+                return listItems;
+            }
+
+            set
+            {
+                listItems = value;
+            }
+        }
+
+        public VM_FileHandler(MainViewModel obj, string pathName)
         {
             StreamReader file = new StreamReader(pathName);
-            operationList = new M_FileList();
+            operationList = new M_FileList(this);
             ParseDocument(file);
-
+            obj.listItems = this.listItems;
+            int i=0;
         }
+
+
 
         private void ParseDocument(StreamReader file)
         {
@@ -33,7 +50,7 @@ namespace Simulation.ViewModels
             {
                 string line = file.ReadLine();
 
-                if (isOpCodeLine(line))
+                 if (isOpCodeLine(line))
                 {
                     operationList.addLine(index, argPC, argOPcode);
                     index++;
@@ -91,27 +108,29 @@ namespace Simulation.ViewModels
         {
             argOPcode = "";
 
-            for (int elementIndex = 5; elementIndex < 9; elementIndex++)
+            for (int elementIndex = 5; elementIndex < 10; elementIndex++)
             {
                 char charValue = Convert.ToChar(line[elementIndex]);
                 bool queryForNumbers = (charValue <= '9' && charValue >= '0');
-                bool queryForLetters = (charValue <= 'F' && charValue >= 'A');
-                bool isInOpCodeArea = (elementIndex > 4 && elementIndex < 9);
-                bool isLineFinished = elementIndex == 8;
+                bool queryForLetters = (charValue <= 'F' && charValue >= 'A');                
                 bool isOpCode = elementIndex > 4 && elementIndex < 9;
 
-                if (isHexNumber(queryForNumbers, queryForLetters) && isInOpCodeArea)
-                {                   
-                    if (isOpCode)
-                        argOPcode = argOPcode + charValue;
-                    else if (isLineFinished)
-                        return true;                    
+                if (isHexNumber(queryForNumbers, queryForLetters))
+                {
+                    if (isOpCode) { argOPcode = argOPcode + charValue; }
                     else
-                        MessageBox.Show("Unexpected Problem: Value of I is" + elementIndex);                    
+                    {
+                        MessageBox.Show("Unexpected Problem: Value of I is" + elementIndex);
+                        return false;
+                    }              
                 }
                 else
-                    return false;                                
+                {  
+                    if (charValue == ' ') { return true; }
+                    else { return false; }
+                }
             }
+            MessageBox.Show("Unexpected Problem: Value of I is");
             return false;
         }
     }

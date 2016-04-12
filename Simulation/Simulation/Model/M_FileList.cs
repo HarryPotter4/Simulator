@@ -13,10 +13,10 @@ namespace Simulation.Model
     {
         private List<M_FileListItem> listItems;
 
-        public M_FileList()
+        public M_FileList(VM_FileHandler obj)
         {
-            listItems = new List<M_FileListItem>();
-            MainViewModel transmitList = new MainViewModel(listItems);
+            listItems = new List<M_FileListItem>();    
+
         }
 
         /// <summary>
