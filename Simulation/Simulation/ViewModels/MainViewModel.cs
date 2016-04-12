@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using System.Windows.Forms;
 
+
 namespace Simulation.ViewModels
 {
     class MainViewModel : Caliburn.Micro.Screen
     {
         private string _windowTitle;
+        public VM_FileHandler loadedFile;
 
         public string Windowtitle
         {
@@ -51,20 +53,17 @@ namespace Simulation.ViewModels
             Debug.WriteLine("Open läuft!");
 
             OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.DefaultExt = ".LST";
+            fileDialog.InitialDirectory = "C:/Users/Marius Becherer/Documents/Rechnertechnik/assembler/Testprogramm";
+                               
+            
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 System.IO.StreamReader sr = new System.IO.StreamReader(fileDialog.FileName);
+                //MessageBox.Show(sr.ReadToEnd());
 
-                //TODO: Export File to TextBlock
-                
-
-
-
-                MessageBox.Show(sr.ReadToEnd());
-
-                
-
+                loadedFile =new VM_FileHandler(fileDialog.FileName);        
 
                 sr.Close();
             }
