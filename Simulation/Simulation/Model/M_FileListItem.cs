@@ -12,6 +12,32 @@ namespace Simulation.Model
         private string programCounter;
         private string opCode;
 
+        public string ProgramCounter
+        {
+            get
+            {
+                return programCounter;
+            }
+
+            set
+            {
+                programCounter = value;
+            }
+        }
+
+        public string OpCode
+        {
+            get
+            {
+                return opCode;
+            }
+
+            set
+            {
+                opCode = value;
+            }
+        }
+
         /// <summary>
         /// Add argument 1 to object which is about program counter
         /// Add argument 2 to object which is about the operation with parameters.
@@ -19,9 +45,8 @@ namespace Simulation.Model
 
         public M_FileListItem(string arg1, string arg2)
         {
-            this.programCounter = arg1;
-            this.opCode = arg2;
-            MessageBox.Show(arg1 + " " + arg2);
+            this.ProgramCounter = arg1;
+            this.OpCode = arg2;            
         }
     }
 }

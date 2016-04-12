@@ -13,8 +13,8 @@ namespace Simulation.ViewModels
 {
     class MainViewModel : Caliburn.Micro.Screen
     {
-        private VM_FileHandler loadedFile;
-        public List<M_FileListItem> listItems;
+        private L_FileExplorer _fileOpen;
+        private List<M_FileListItem> _listItems;
 
         private string _windowTitle;
         public string Windowtitle
@@ -32,17 +32,6 @@ namespace Simulation.ViewModels
         }
 
         private string _Listview_programStepper;
-
-        public MainViewModel()
-        {
-
-        }
-
-        public MainViewModel(List<M_FileListItem> listItems)
-        {
-            this.listItems = listItems;
-        }
-
         public string Listview_programStepper
         {
             get{ return _Listview_programStepper; }
@@ -69,35 +58,18 @@ namespace Simulation.ViewModels
             Debug.WriteLine("Button läuft!");
             
         }
-
         public void menuItem_Open()
         {
             Debug.WriteLine("Open läuft!");
+            _fileOpen = new L_FileExplorer();
+            _listItems = _fileOpen.ListItems;
 
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.DefaultExt = ".LST";
-            fileDialog.InitialDirectory = "C:/Users/Marius Becherer/Documents/Rechnertechnik/assembler/Testprogramm";
-               
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            foreach(M_FileListItem item in _listItems)
             {
-                System.IO.StreamReader reader = new System.IO.StreamReader(fileDialog.FileName);
-                loadedFile = new VM_FileHandler(this,fileDialog.FileName);   
-                reader.Close();
-                //TODO: After parsing object listItems is null before it has all objects.
+                MessageBox.Show(item.ProgramCounter + "  " + item.OpCode );
             }
-            int index = 0;
-
-            foreach (M_FileListItem item in listItems)
-            {
-                MessageBox.Show((index++) + ". Row is:" + item.ToString());                
-            }
-          
-
+            //-- Update view -> list view
         }
-       
-
-
-
-
+               
     }
 }
