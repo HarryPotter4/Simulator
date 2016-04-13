@@ -66,6 +66,7 @@ namespace Simulation.ViewModels
 
             foreach(M_FileListItem item in _listItems)
             {
+                Listview_programStepper.
                 MessageBox.Show(item.ProgramCounter + "  " + item.OpCode );
             }
             //-- Update view -> list view

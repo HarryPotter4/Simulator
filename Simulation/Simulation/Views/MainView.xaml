@@ -41,7 +41,7 @@
                 <DataGridCheckBoxColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ListBox x:Name="Listview_programStepper" Margin="456,146,44.4,295.6"/>
+        <ListBox x:Name="Listview_programStepper" Margin="456,146,44.4,295.6"  />
         <Button x:Name="btn_play" Content="" HorizontalAlignment="Left" Margin="496,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
             <Button.Background>
                 <ImageBrush ImageSource="../Pictures/icon-375.png"/>

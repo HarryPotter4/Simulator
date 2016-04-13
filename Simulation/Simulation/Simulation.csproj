@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -85,6 +86,12 @@
     <Compile Include="Model\L_Parser.cs" />
     <Compile Include="Model\M_FileListItem.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\codeBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\codeBox.Designer.cs">
+      <DependentUpon>codeBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -107,6 +114,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\codeBox.resx">
+      <DependentUpon>codeBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
