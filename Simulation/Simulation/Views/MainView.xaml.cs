@@ -25,7 +25,6 @@ namespace Simulation.Views
         public MainView()
         {
             InitializeComponent();
-        }
-        
+        }    
     }
 }

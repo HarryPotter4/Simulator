@@ -15,6 +15,12 @@ namespace Simulation.ViewModels
     {
         private L_FileExplorer _fileOpen;
         private List<M_FileListItem> _listItems;
+        private string _listView;
+        private string _listView_Line;
+        private string _listView_ProgramCounter;
+        private string _listView_OpCode;
+        private string _listView_SourceCode;
+        private string _listView_Items
 
         private string _windowTitle;
         public string Windowtitle
@@ -37,6 +43,87 @@ namespace Simulation.ViewModels
             get{ return _Listview_programStepper; }
             set{ _Listview_programStepper = value;
                 NotifyOfPropertyChange(() => Windowtitle);
+            }
+        }
+
+        public string ListView_Line
+        {
+            get
+            {
+                return _listView_Line;
+            }
+
+            set
+            {
+                _listView_Line = value;
+                NotifyOfPropertyChange(() => ListView_Line);
+            }
+        }
+        public string ListView_ProgramCounter
+        {
+            get
+            {
+                return _listView_ProgramCounter;
+            }
+
+            set
+            {
+                _listView_ProgramCounter = value;
+                NotifyOfPropertyChange(() => ListView_ProgramCounter);
+            }
+        }
+        public string ListView_OpCode
+        {
+            get
+            {
+                return _listView_OpCode;
+            }
+
+            set
+            {
+                _listView_OpCode = value;
+                NotifyOfPropertyChange(() => ListView_OpCode);
+            }
+        }
+        public string ListView_SourceCode
+        {
+            get
+            {
+                return _listView_SourceCode;
+            }
+
+            set
+            {
+                _listView_SourceCode = value;
+                NotifyOfPropertyChange(() => ListView_SourceCode);
+            }
+        }
+
+        public string ListView
+        {
+            get
+            {
+                return _listView;
+            }
+
+            set
+            {
+                _listView = value;
+                NotifyOfPropertyChange(() => ListView);
+            }
+        }
+
+        public string ListView_Items
+        {
+            get
+            {
+                return _listView_Items;
+            }
+
+            set
+            {
+                _listView_Items = value;
+                NotifyOfPropertyChange(() => ListView);
             }
         }
 
@@ -64,13 +151,17 @@ namespace Simulation.ViewModels
             _fileOpen = new L_FileExplorer();
             _listItems = _fileOpen.ListItems;
 
+         
+
+
             foreach(M_FileListItem item in _listItems)
-            {
-                Listview_programStepper.
+            {       
                 MessageBox.Show(item.ProgramCounter + "  " + item.OpCode );
+                
             }
             //-- Update view -> list view
         }
-               
+              
+         
     }
 }

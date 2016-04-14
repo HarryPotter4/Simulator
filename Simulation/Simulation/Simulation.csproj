@@ -64,9 +64,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -85,13 +87,8 @@
     <Compile Include="Model\L_FileExplorer.cs" />
     <Compile Include="Model\L_Parser.cs" />
     <Compile Include="Model\M_FileListItem.cs" />
+    <Compile Include="ViewModels\CreateProgramView.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\codeBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\codeBox.Designer.cs">
-      <DependentUpon>codeBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,9 +111,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\codeBox.resx">
-      <DependentUpon>codeBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
