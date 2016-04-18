@@ -10,12 +10,17 @@ namespace Simulation.ViewModels
 {
     class RamViewModel : Screen
     {
+        private string[,] _ramArray;
+
         public RamViewModel()
         {
             _dataGrid_RamView = new BindableCollection<M_RamRow>();
+            _ramArray = new string[16, 16];
+            map_List_To_RamArray();
+
 
             for (int row = 0; row < 16; row++)
-            {
+            {   
                 _dataGrid_RamView.Add(new M_RamRow
                 {
                     Column_Description = row.ToString(),
@@ -38,7 +43,53 @@ namespace Simulation.ViewModels
                 });
             }
         }
-        
+
+        private void map_List_To_RamArray()
+        {
+            for(int row=0; row < 16; row++)
+            {                
+                _ramArray[row, 0] = _dataGrid_RamView.ElementAt(row).Column_0;
+                _ramArray[row, 1] = _dataGrid_RamView.ElementAt(row).Column_1;
+                _ramArray[row, 2] = _dataGrid_RamView.ElementAt(row).Column_2;
+                _ramArray[row, 3] = _dataGrid_RamView.ElementAt(row).Column_3;
+                _ramArray[row, 4] = _dataGrid_RamView.ElementAt(row).Column_4;
+                _ramArray[row, 5] = _dataGrid_RamView.ElementAt(row).Column_5;
+                _ramArray[row, 6] = _dataGrid_RamView.ElementAt(row).Column_6;
+                _ramArray[row, 7] = _dataGrid_RamView.ElementAt(row).Column_7;
+                _ramArray[row, 8] = _dataGrid_RamView.ElementAt(row).Column_8;
+                _ramArray[row, 9] = _dataGrid_RamView.ElementAt(row).Column_9;
+                _ramArray[row, 10] = _dataGrid_RamView.ElementAt(row).Column_10;
+                _ramArray[row, 11] = _dataGrid_RamView.ElementAt(row).Column_11;
+                _ramArray[row, 12] = _dataGrid_RamView.ElementAt(row).Column_12;
+                _ramArray[row, 13] = _dataGrid_RamView.ElementAt(row).Column_13;
+                _ramArray[row, 14] = _dataGrid_RamView.ElementAt(row).Column_14;
+                _ramArray[row, 15] = _dataGrid_RamView.ElementAt(row).Column_15;
+            }
+        }
+
+        /// <summary>
+        /// Set Byte in Ram! Column and Row starts with 0!
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="value"></param>
+        public void setByte(int row, int column , byte value)
+        {
+            RamArray[row, column] = value.ToString();                    
+        }
+        /// <summary>
+        /// Attention! It starts with Column = 0 and not with Column = 1!!
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public byte getByte(int row, int column)
+        {
+            return Convert.ToByte(RamArray[row,column]);
+        }
+
+
+
 
         private IObservableCollection<M_RamRow> _dataGrid_RamView;
         public IObservableCollection<M_RamRow> DataGrid_RamView
@@ -55,9 +106,24 @@ namespace Simulation.ViewModels
             }
         }
 
+        public string[,] RamArray
+        {
+            get
+            {
+                return _ramArray;
+            }
+
+            set
+            {
+                _ramArray = value;
+                NotifyOfPropertyChange(() => RamArray);
+            }
+        }        
         public RamViewModel getRamViewModel()
         {
             return this;
         }
+
+
     }
 }
