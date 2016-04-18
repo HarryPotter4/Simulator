@@ -13,6 +13,7 @@ namespace Simulation.Model
         private M_Operators command;
         private RamViewModel ramViewModel;
 
+
         
 
         public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel) 
