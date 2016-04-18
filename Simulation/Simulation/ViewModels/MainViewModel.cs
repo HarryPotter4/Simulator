@@ -49,7 +49,7 @@ namespace Simulation.ViewModels
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            programExecution = new M_ProgramExecution(_listItems);
+            programExecution = new M_ProgramExecution(_listItems,ramViewModel);
 
         }
         public void btn_next()
@@ -84,6 +84,8 @@ namespace Simulation.ViewModels
             sfrViewModel = new SfrViewModel();
             sfrViewModel = sfrViewModel.getsfrViewModel();
             SFRDisplay = new BindableCollection<SfrViewModel> { sfrViewModel };
+                      
+
         }
 
         private BindableCollection<OperationViewModel> _operationCode;
