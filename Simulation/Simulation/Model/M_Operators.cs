@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simulation.ViewModels;
 
 namespace Simulation.Model
 
@@ -13,8 +14,12 @@ namespace Simulation.Model
         int wReg = 0;
         int fileReg = 0;
         int destinationBit = 0;
-        
-        
+        private RamViewModel ramViewModel;
+
+        public M_Operators(RamViewModel ramViewModel)
+        {
+            this.ramViewModel = ramViewModel;
+        }
 
         public void addWf(int argument)
         {
@@ -26,7 +31,7 @@ namespace Simulation.Model
              else{
                 wReg = wReg + fileReg;
             }               
-
+            
 
 
         }
@@ -36,7 +41,8 @@ namespace Simulation.Model
             argument = fileReg;
             if(0==destinationBit)
             {
-                fileReg = wReg && fileReg;     
+                fileReg = wReg && fileReg;    
+                
             }
             else
             {
