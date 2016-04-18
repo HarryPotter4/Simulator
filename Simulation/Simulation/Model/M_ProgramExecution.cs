@@ -12,6 +12,7 @@ namespace Simulation.Model
         private List<M_FileListItem> _listItems;
         private M_Operators command;
         private RamViewModel ramViewModel;
+        
 
 
       
@@ -37,9 +38,46 @@ namespace Simulation.Model
 
         private void nextMachineCycle(string programCounter, string opCode)
         {
-            
+            findOperation(opCode);
+        }
 
+        private void findOperation(string opCode)
+        {
+            int code = Convert.ToInt32(opCode);
+
+            int byteOrientatedMask =  convertBinToInt("0010_0110_0000_0011");
+            int bitOrientatedMask = convertBinToInt("0010_0110_0000_0011");
+            int literalAndControl = convertBinToInt("0010_0110_0000_0011");
+
+            if (code )
+            {
+
+            }
+            else if( )
 
         }
+
+        private int convertBinToInt(string bin)
+        {
+            bin = bin.Replace("_", "");
+
+            return Convert.ToInt32(bin, 2);
+        }
+
+        private void getOperation()
+        {
+
+        }
+
+        private void getArgument()
+        {
+
+        }
+        private void getDestinationBit()
+        {
+
+        }
+
+
     }
 }

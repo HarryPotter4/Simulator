@@ -1,10 +1,14 @@
-﻿using Caliburn.Micro;
+﻿
+
+using Caliburn.Micro;
 using Simulation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+
 
 namespace Simulation.ViewModels
 {
@@ -15,7 +19,7 @@ namespace Simulation.ViewModels
         public RamViewModel()
         {
             _dataGrid_RamView = new BindableCollection<M_RamRow>();
-            _ramArray = new string[16, 16];
+            _ramArray = new string[16,16];
             map_List_To_RamArray();
 
 
