@@ -85,7 +85,19 @@ namespace Simulation.Model
             fileReg=~fileReg;
         }
 
-        
+        internal void subwf(int destinationsBit, int fileRegister)
+        {
+            throw new NotImplementedException();
+        }
 
+        internal void decf(int destinationsBit, int fileRegister)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void iOrWf(int destinationsBit, int fileRegister)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
