@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\M_OperationList.cs" />
+    <Compile Include="Model\M_Operators.cs" />
     <Compile Include="Model\M_RamRow.cs" />
     <Compile Include="Model\M_SfrRow.cs" />
     <Compile Include="Model\M_ProgramExecution.cs" />

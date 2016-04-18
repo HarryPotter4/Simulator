@@ -14,8 +14,7 @@ namespace Simulation.Model
         private RamViewModel ramViewModel;
 
 
-        
-
+      
         public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel) 
         {
             this.ramViewModel = ramViewModel;
