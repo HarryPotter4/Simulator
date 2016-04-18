@@ -14,9 +14,11 @@ namespace Simulation.Model
         int fileReg = 0;
         int destinationBit = 0;
         
+        
 
-        public void addWf(argument)
+        public void addWf(int argument)
         {
+            argument = fileReg;
             if (0==destinationBit)
                 {
                     fileReg = wReg + fileReg;
@@ -29,12 +31,37 @@ namespace Simulation.Model
 
         }
 
-        public void andWf(argument)
+        public void andWf(int argument)
         {
+            argument = fileReg;
             if(0==destinationBit)
             {
-                 
+                fileReg = wReg && fileReg;     
+            }
+            else
+            {
+                wReg = wReg && fileReg;
             }
         }
+
+        public void clearF(int argument)
+        {
+            argument = fileReg;
+            fileReg = 0;
+        }
+
+        public void clearW()
+        {
+            wReg = 0;
+        }
+
+        public void compF(int argument)
+        {
+            argument = fileReg;
+            fileReg=~fileReg;
+        }
+
+        
+
     }
 }
