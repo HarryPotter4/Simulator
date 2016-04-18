@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulation"
+        xmlns:cal="http://www.caliburnproject.org"
         
         mc:Ignorable="d"
         Title="{Binding Windowtitle}" Height="780" Width="1024" MinWidth="760" MinHeight="780" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -56,10 +57,8 @@
                 <ImageBrush ImageSource="../Pictures/video.png"/>
             </Button.Background>
         </Button>
-
-        <DataGrid x:Name="dataGrid1" HorizontalAlignment="Left" Margin="453,146,0,0" VerticalAlignment="Top" Height="318" Width="546" SelectionChanged="dataGrid1_SelectionChanged"/>
-
-
-
+        <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="455,135,0,0" VerticalAlignment="Top" Height="324" Width="538">
+            
+        </ListBox>
     </Grid>
 </Window>

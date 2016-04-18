@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Simulation.ViewModels
 {
-    class CreateProgramView
+    class CreateProgramViewModel
     {
     }
 }
