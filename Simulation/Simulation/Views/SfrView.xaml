@@ -9,14 +9,7 @@
              >
     <Grid Margin="0,0,-43,0" >
         <DataGrid CanUserAddRows="False" VerticalAlignment="Top"   Margin="0,0,-196,-24" IsEnabled="True" Height="324" RenderTransformOrigin="0,0" AutoGenerateColumns="False" HorizontalAlignment="Left" Width="539" >
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Width="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Delete"   />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+            <DataGrid.Columns>                
                 <DataGridTextColumn Binding="{Binding Column_Description}"  Header="Register" IsReadOnly="True"  />
                 <DataGridTextColumn Binding="{Binding Column_0}" Header="0" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Column_1}" Header="1" IsReadOnly="True"/>

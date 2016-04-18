@@ -18,6 +18,7 @@ namespace Simulation.ViewModels
         private OperationViewModel operationViewModel;
         private RamViewModel ramViewModel;
         private SfrViewModel sfrViewModel;
+        private ProgramExecution programExecution;
         
 
         private string _windowTitle;
@@ -48,6 +49,7 @@ namespace Simulation.ViewModels
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
+            programExecution = new ProgramExecution(_listItems);
 
         }
         public void btn_next()
