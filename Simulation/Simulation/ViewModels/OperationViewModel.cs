@@ -11,8 +11,13 @@ namespace Simulation.ViewModels
 {
     class OperationViewModel : Caliburn.Micro.Screen
     {
+        private List<M_FileListItem> _listItems;
+        private int index = 0;
+
         public OperationViewModel(List<M_FileListItem> _listItems)
         {
+            this._listItems = _listItems;
+
             _dataGrid_Operation = new BindableCollection<M_OperationList>();
             int line = 0;
 
@@ -27,6 +32,8 @@ namespace Simulation.ViewModels
                     Text_ProgramCounter = item.ProgramCounter
                 });
             }
+
+            SelectItem = DataGrid_Operation.ElementAt(0);
         }
         
         private IObservableCollection<M_OperationList> _dataGrid_Operation;
@@ -43,8 +50,8 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => DataGrid_Operation);
             }
         }
-        private string _SelectItem;
-        public string SelectItem
+        private M_OperationList _SelectItem;
+        public M_OperationList SelectItem
         {
             get
             {
@@ -68,8 +75,16 @@ namespace Simulation.ViewModels
         }
 
   
+        public void nextLine()
+        {
+            SelectItem = DataGrid_Operation.ElementAt(index++);
+        }
 
-        
+        public void gotoLine(int lineNumber)
+        {
+            SelectItem = DataGrid_Operation.ElementAt(lineNumber);
+        }
+
 
         /*
                 public bool CheckboxIsSelected

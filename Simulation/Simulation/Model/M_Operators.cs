@@ -19,7 +19,7 @@ namespace Simulation.Model
         }
 
         private RamViewModel ramViewModel;
-
+        /*
         int wReg = 0;       // vorübergehend
         int fileReg = 0;    // vorübergehend
         int OPCODE;         // hier kommt der Opcode von Marius
@@ -43,7 +43,7 @@ namespace Simulation.Model
             int addWfMask = 0x0780;
             int argument = mask & opcode;
             int adressA = argument/16;      // hier muss die adresse aus dem argument extrahiert werden
-            int adressB = argument&;
+            int adressB = argument;
             if (destinationBit==0x0080)
                 {
                     
@@ -72,6 +72,7 @@ namespace Simulation.Model
                 wReg = wReg && fileReg;
             }
         }
+        
 
         public void clearF(int argument)
         {
@@ -88,8 +89,9 @@ namespace Simulation.Model
         public void compF(int argument)
         {
             argument = fileReg;
-            fileRe g= ~fileReg;
+            fileReg= ~fileReg;
         }
+        */
 
         internal void subwf(int destinationsBit, int fileRegister)
         {
@@ -127,6 +129,16 @@ namespace Simulation.Model
         }
 
         internal void compF(int destinationsBit, int fileRegister)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void clearF(int fileRegister)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void clearW()
         {
             throw new NotImplementedException();
         }

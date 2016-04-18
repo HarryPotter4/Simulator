@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Simulation.ViewModels;
-using Caliburn.Micro
+using Caliburn.Micro;
 
 namespace Simulation.Model
 {
@@ -38,10 +38,11 @@ namespace Simulation.Model
 
             foreach (M_FileListItem listItem in _listItems)
             {
-                operationViewModel.
+                
                 programCounter = Convert.ToInt32(listItem.ProgramCounter);
                 executionCode = Convert.ToInt32(listItem.OpCode);
                 nextMachineCycle(listItem.OpCode);
+                operationViewModel.nextLine();
             }
         }
 
