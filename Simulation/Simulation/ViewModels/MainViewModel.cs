@@ -16,7 +16,6 @@ namespace Simulation.ViewModels
         private L_FileExplorer _fileOpen;
         private List<M_FileListItem> _listItems;
         private OperationViewModel operationViewModel;
-
  
         private string _windowTitle;
         public string Windowtitle

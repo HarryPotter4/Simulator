@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Simulation.Model
 {
-    class M_OperationList 
+    class M_OperationList : Screen
 
     {
         public M_OperationList()
@@ -44,6 +44,7 @@ namespace Simulation.Model
             set
             {
                 _CheckBox_Breakpoint = value;
+                NotifyOfPropertyChange(() =>  CheckBox_Breakpoint);
             }
         }
         public string Text_Line
