@@ -17,6 +17,7 @@ namespace Simulation.ViewModels
         private List<M_FileListItem> _listItems;
         private OperationViewModel operationViewModel;
         private RamViewModel ramViewModel;
+        private SfrViewModel sfrViewModel;
         
 
         private string _windowTitle;
@@ -77,6 +78,10 @@ namespace Simulation.ViewModels
             ramViewModel = new RamViewModel();
             ramViewModel = ramViewModel.getRamViewModel();
             RamDisplay = new BindableCollection<RamViewModel> { ramViewModel };
+
+            sfrViewModel = new SfrViewModel();
+            sfrViewModel = sfrViewModel.getsfrViewModel();
+            SFRDisplay = new BindableCollection<SfrViewModel> { sfrViewModel };
         }
 
         private BindableCollection<OperationViewModel> _operationCode;
@@ -94,6 +99,7 @@ namespace Simulation.ViewModels
             }
         }
 
+        private BindableCollection<RamViewModel> _ramDisplay;
         public BindableCollection<RamViewModel> RamDisplay
         {
             get
@@ -107,7 +113,22 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => RamDisplay);
             }
         }
-        private BindableCollection<RamViewModel> _ramDisplay;
 
+        public BindableCollection<SfrViewModel> SFRDisplay
+        {
+            get
+            {
+                return _sFRDisplay;
+            }
+
+            set
+            {
+                _sFRDisplay = value;
+                NotifyOfPropertyChange(() => SFRDisplay);
+            }
+        }  
+        private BindableCollection<SfrViewModel> _sFRDisplay;
+
+        
     }
 }

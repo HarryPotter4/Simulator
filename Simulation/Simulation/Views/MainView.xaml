@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulation"
         xmlns:cal="http://www.caliburnproject.org"
-        
+        cal:Message.Attach="[Event MouseDoubleClick] = [Action RowSelect($dataContext)]"
         mc:Ignorable="d"
         Title="{Binding Windowtitle}" Height="780" Width="1024" MinWidth="760" MinHeight="780" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
 
@@ -20,6 +20,10 @@
             <MenuItem FontWeight="Bold" Header="DEBUG" FontSize="16"/>
             <MenuItem FontWeight="Bold" Header="HELP" FontSize="16"/>
         </Menu>
+       
+        <ListBox x:Name="RamDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="30,95,0,0" VerticalAlignment="Top" Height="365" Width="390"/>
+        <ListBox x:Name="SFRDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="34,485,0,0" VerticalAlignment="Top" Height="232" Width="385"/>
+        
         <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" Margin="451,90,0,0" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
             <Button.Foreground>
                 <ImageBrush ImageSource="../Pictures/clock.png"/>
@@ -28,8 +32,6 @@
                 <ImageBrush ImageSource="../Pictures/clock.png"/>
             </Button.Background>
         </Button>
-        <ListBox x:Name="RamDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="30,95,0,0" VerticalAlignment="Top" Height="365" Width="390"/>
-
         <Button x:Name="btn_play" Content="" HorizontalAlignment="Left" Margin="496,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
             <Button.Background>
                 <ImageBrush ImageSource="../Pictures/icon-375.png"/>
@@ -45,8 +47,9 @@
                 <ImageBrush ImageSource="../Pictures/video.png"/>
             </Button.Background>
         </Button>
-        <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="455,135,0,0" VerticalAlignment="Top" Height="324" Width="538">
+        <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="455,135,0,0" VerticalAlignment="Top" Height="324" Width="538"/>
 
-        </ListBox>
+        
+
     </Grid>
 </Window>
