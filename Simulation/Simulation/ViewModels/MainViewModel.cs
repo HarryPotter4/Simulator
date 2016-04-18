@@ -16,7 +16,9 @@ namespace Simulation.ViewModels
         private L_FileExplorer _fileOpen;
         private List<M_FileListItem> _listItems;
         private OperationViewModel operationViewModel;
- 
+        private RamViewModel ramViewModel;
+        
+
         private string _windowTitle;
         public string Windowtitle
         {
@@ -67,10 +69,14 @@ namespace Simulation.ViewModels
             _listItems = _fileOpen.ListItems;
 
             operationViewModel = new OperationViewModel(_listItems);
-            operationViewModel.getOperationViewModel();
+            operationViewModel = operationViewModel.getOperationViewModel();
 
             OperationCode = new BindableCollection<OperationViewModel> { operationViewModel };
-          //  OperationCode = new BindableCollection<OperationViewModel> { new OperationViewModel(_listItems) };
+            //  OperationCode = new BindableCollection<OperationViewModel> { new OperationViewModel(_listItems) };
+
+            ramViewModel = new RamViewModel();
+            ramViewModel = ramViewModel.getRamViewModel();
+            RamDisplay = new BindableCollection<RamViewModel> { ramViewModel };
         }
 
         private BindableCollection<OperationViewModel> _operationCode;
@@ -88,6 +94,20 @@ namespace Simulation.ViewModels
             }
         }
 
+        public BindableCollection<RamViewModel> RamDisplay
+        {
+            get
+            {
+                return _ramDisplay;
+            }
+
+            set
+            {
+                _ramDisplay = value;
+                NotifyOfPropertyChange(() => RamDisplay);
+            }
+        }
+        private BindableCollection<RamViewModel> _ramDisplay;
 
     }
 }

@@ -75,10 +75,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\M_OperationList.cs" />
+    <Compile Include="Model\M_RamRow.cs" />
     <Compile Include="ViewModelHelper.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
+    <Compile Include="ViewModels\RamViewModel.cs" />
     <Compile Include="Views\OperationView.xaml.cs">
       <DependentUpon>OperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RamView.xaml.cs">
+      <DependentUpon>RamView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\OperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -46,20 +46,8 @@ namespace Simulation.ViewModels
         public OperationViewModel getOperationViewModel()
         {
             return this;
-        }
+        }               
 
-        private M_OperationList _selectedLine;
-        public M_OperationList SelectedLine
-        {
-            get
-            {
-                return _selectedLine;
-            }
-            set
-            {
-                this.Set(ref _selectedLine, value);
-            }
-        }
 /*
         public bool CheckboxIsSelected
         {

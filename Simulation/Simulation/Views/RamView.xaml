@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Simulation.Views.RamView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Simulation.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <Grid Margin="0,0,-43,0" >
+        <DataGrid  ItemsSource="{Binding DataGrid_RamView}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="539"   Margin="0,0,0,0" IsEnabled="True" Height="324" RenderTransformOrigin="0,0" AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Column_Description}"  Header=" " IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_0}" Header="0" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_1}" Header="1" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_2}" Header="2" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_3}" Header="3" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_4}" Header="4" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_5}" Header="5" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_6}" Header="6" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_7}" Header="7" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_8}" Header="8" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_9}" Header="9" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_10}" Header="A" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_11}" Header="B" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_12}" Header="C" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_13}" Header="D" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_14}" Header="E" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_15}" Header="F" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
