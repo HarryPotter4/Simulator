@@ -41,6 +41,7 @@ namespace Simulation.Model
                 
                 programCounter = Convert.ToInt32(listItem.ProgramCounter);
                 executionCode = Convert.ToInt32(listItem.OpCode);
+
                 nextMachineCycle(listItem.OpCode);
                 operationViewModel.nextLine();
             }
@@ -49,25 +50,21 @@ namespace Simulation.Model
 
         private void nextMachineCycle(string opCode)
         {
-            int code = Convert.ToInt32(opCode);
+            int code = Convert.ToInt32(opCode,16);
 
-            int byteOrientatedMask =  convertBinToInt("1111_0000_0000_0000");
-            int bitOrientatedMask = convertBinToInt("0001_0000_0000_0000");
-            int literalAndControl = convertBinToInt("0010_0000_0000_0000");
+            int patternMask =  convertBinToInt("1111_0000_0000_0000");
+            patternMask = (code & patternMask) / Convert.ToInt32(Math.Pow(2,12));
 
-            byteOrientatedMask = (code & byteOrientatedMask) / Convert.ToInt32(Math.Pow(2,12));
-            bitOrientatedMask = (code & bitOrientatedMask) / Convert.ToInt32(Math.Pow(2, 12));
-            literalAndControl = (code & literalAndControl) / Convert.ToInt32(Math.Pow(2, 12));
 
-            if (byteOrientatedMask == 0)
+            if (patternMask == 0)
             {
                 select_BO_Command(code);
             }
-            else if(literalAndControl > 1)
+            else if(patternMask > 1)
             {
                 select_LIT_Operations(code);
             }
-            else if(bitOrientatedMask == 1)
+            else if(patternMask == 1)
             {
                 select_Bit_Operations(code);
             }
@@ -79,7 +76,7 @@ namespace Simulation.Model
 
             int operationCodeMask = convertBinToInt("0000_1111_0000_0000");
             int destinationBitMask = convertBinToInt("0000_0000_1000_0000");
-            int fileRegisterMask = convertBinToInt("0010_0000_0111_1111");
+            int fileRegisterMask = convertBinToInt("0000_0000_0111_1111");
 
             int operationCode = (code & operationCodeMask) / Convert.ToInt32(Math.Pow(2, 8));
             int destinationsBit = (code & destinationBitMask) / Convert.ToInt32(Math.Pow(2, 7));

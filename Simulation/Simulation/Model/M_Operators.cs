@@ -95,182 +95,182 @@ namespace Simulation.Model
 
         internal void subwf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void decf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void iOrWf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void andWf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void xorWF(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
 
         internal void addWf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void movF(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
 
         internal void compF(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void clearF(int fileRegister)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void clearW()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void incF(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void decfsz(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void rrf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void rlf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void swapf(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void incfsz(int destinationsBit, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void movWF(int v, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void nop(int v, int fileRegister)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void movLW(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void goTo(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void call(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void retLW(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void iorLW(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void andLW(int constValue)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void xorLW(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void subLW(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void addLW(int constValue)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void subwf(int constValue)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void bcf(int fileRegister, int selectedBit)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void clrwdt()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void bsf(int fileRegister, int selectedBit)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void retIEF()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void btfsc(int fileRegister, int selectedBit)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         internal void reTurn()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void btfss(int fileRegister, int selectedBit)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void sleep()
         {
-            throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
     }
 }

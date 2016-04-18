@@ -17,8 +17,8 @@ namespace Simulation.ViewModels
        public RamViewModel()
         {
             _dataGrid_RamView = new BindableCollection<M_RamRow>();
-            _ramArray = new string[16,16];
-            map_List_To_RamArray();
+            //_ramArray = new string[16,16];
+            //map_List_To_RamArray();
 
 
             for (int row = 0; row < 16; row++)
