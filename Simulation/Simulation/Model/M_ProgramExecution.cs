@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Simulation.Model
 {
-    class ProgramExecution
+    class M_ProgramExecution
     {
         private List<M_FileListItem> _listItems;
         private M_Operators command;
 
-        public ProgramExecution(List<M_FileListItem> _listItems)
+        public M_ProgramExecution(List<M_FileListItem> _listItems)
         {
             this._listItems = _listItems;
 
