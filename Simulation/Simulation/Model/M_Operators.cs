@@ -11,6 +11,8 @@ namespace Simulation.Model
 {
     class M_Operators
     {
+        int argument = 0;   // HIER hier kristalliere ich das argument herraus. 
+
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
@@ -40,10 +42,14 @@ namespace Simulation.Model
         {
             int addWfMask = 0x0780;
             int argument = mask & opcode;
+            int adressA = argument/16;      // hier muss die adresse aus dem argument extrahiert werden
+            int adressB = argument&;
             if (destinationBit==0x0080)
                 {
                     
-                    fileReg = wReg + fileReg;
+                    byte value= wReg + (int)ramViewModel.getByte(adressA,adressB);
+                Convert.ToInt32(value);
+                    ramViewModel.setByte(adressA,adressB,value);
                 }
              else{
                 wReg = wReg + fileReg;
