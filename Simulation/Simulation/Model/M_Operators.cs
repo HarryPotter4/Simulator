@@ -88,7 +88,7 @@ namespace Simulation.Model
         public void compF(int argument)
         {
             argument = fileReg;
-            fileReg=~fileReg;
+            fileRe g= ~fileReg;
         }
 
         internal void subwf(int destinationsBit, int fileRegister)

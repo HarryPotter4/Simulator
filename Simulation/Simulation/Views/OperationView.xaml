@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              >
     <Grid Height="324" Width="538" >
-        <DataGrid ItemsSource="{Binding DataGrid_Operation}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="539"   Margin="0,0,0,0" IsEnabled="True" Height="324" RenderTransformOrigin="0,0" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding DataGrid_Operation}" x:Name="SelectItem" SelectionUnit="FullRow" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="539"   Margin="0,0,0,0" IsEnabled="True" Height="324" RenderTransformOrigin="0,0" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn  Binding="{Binding CheckBox_Breakpoint}"  Header="Breakpoint"/>
                 <DataGridTextColumn Binding="{Binding Text_Line}"   Header="Line" IsReadOnly="True"/>

@@ -43,99 +43,122 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => DataGrid_Operation);
             }
         }
+        private string _SelectItem;
+        public string SelectItem
+        {
+            get
+            {
+                return _SelectItem;
+            }
+
+            set
+            {
+                _SelectItem = value;
+                NotifyOfPropertyChange(() => SelectItem);
+            }
+        }
+
         public OperationViewModel getOperationViewModel()
         {
             return this;
-        }               
-
-/*
-        public bool CheckboxIsSelected
-        {
-            get
-            {
-                return _CheckboxIsSelected;
-            }
-
-            set
-            {
-                _CheckboxIsSelected = value;
-                NotifyOfPropertyChange(() => value);
-            }
         }
-        public string CheckBox_Breakpoint
+        public IObservableCollection<M_OperationList> getOperationsList()
         {
-            get
-            {
-                return _CheckBox_Breakpoint;
-            }
-
-            set
-            {
-                _CheckBox_Breakpoint = value;
-                NotifyOfPropertyChange(() => value);
-            }
-        }
-        public string Text_Line
-        {
-            get
-            {
-                return _Text_Line;
-            }
-
-            set
-            {
-                _Text_Line = value;
-                NotifyOfPropertyChange(() => value);
-            }
-        }
-        public string Text_ProgramCounter
-        {
-            get
-            {
-                return _Text_ProgramCounter;
-            }
-
-            set
-            {
-                _Text_ProgramCounter = value;
-                NotifyOfPropertyChange(() => value);
-            }
-        }
-        public string Text_Operation
-        {
-            get
-            {
-                return _Text_Operation;
-            }
-
-            set
-            {
-                _Text_Operation = value;
-                NotifyOfPropertyChange(() => value);
-            }
-        }
-        public string Text_SourceCode
-        {
-            get
-            {
-                return _Text_SourceCode;
-            }
-
-            set
-            {
-                _Text_SourceCode = value;
-                NotifyOfPropertyChange(() => value);
-            }
+            return _dataGrid_Operation;
         }
 
-        private bool _CheckboxIsSelected;
-        private string _CheckBox_Breakpoint;
-        private string _Text_Line;
-        private string _Text_ProgramCounter;
-        private string _Text_Operation;
-        private string _Text_SourceCode;
+  
 
-     */  
+        
+
+        /*
+                public bool CheckboxIsSelected
+                {
+                    get
+                    {
+                        return _CheckboxIsSelected;
+                    }
+
+                    set
+                    {
+                        _CheckboxIsSelected = value;
+                        NotifyOfPropertyChange(() => value);
+                    }
+                }
+                public string CheckBox_Breakpoint
+                {
+                    get
+                    {
+                        return _CheckBox_Breakpoint;
+                    }
+
+                    set
+                    {
+                        _CheckBox_Breakpoint = value;
+                        NotifyOfPropertyChange(() => value);
+                    }
+                }
+                public string Text_Line
+                {
+                    get
+                    {
+                        return _Text_Line;
+                    }
+
+                    set
+                    {
+                        _Text_Line = value;
+                        NotifyOfPropertyChange(() => value);
+                    }
+                }
+                public string Text_ProgramCounter
+                {
+                    get
+                    {
+                        return _Text_ProgramCounter;
+                    }
+
+                    set
+                    {
+                        _Text_ProgramCounter = value;
+                        NotifyOfPropertyChange(() => value);
+                    }
+                }
+                public string Text_Operation
+                {
+                    get
+                    {
+                        return _Text_Operation;
+                    }
+
+                    set
+                    {
+                        _Text_Operation = value;
+                        NotifyOfPropertyChange(() => value);
+                    }
+                }
+                public string Text_SourceCode
+                {
+                    get
+                    {
+                        return _Text_SourceCode;
+                    }
+
+                    set
+                    {
+                        _Text_SourceCode = value;
+                        NotifyOfPropertyChange(() => value);
+                    }
+                }
+
+                private bool _CheckboxIsSelected;
+                private string _CheckBox_Breakpoint;
+                private string _Text_Line;
+                private string _Text_ProgramCounter;
+                private string _Text_Operation;
+                private string _Text_SourceCode;
+
+             */
     }
 
    

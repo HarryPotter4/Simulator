@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Simulation.ViewModels;
+using Caliburn.Micro
 
 namespace Simulation.Model
 {
@@ -14,12 +15,11 @@ namespace Simulation.Model
         private RamViewModel ramViewModel;
         private int programCounter;
         private int executionCode;
-        
+        private OperationViewModel operationViewModel;
 
-
-      
-        public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel) 
+        public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel) 
         {
+            this.operationViewModel = operationViewModel;
             this.ramViewModel = ramViewModel;
             this._listItems = _listItems;
             command = new M_Operators(ramViewModel);
@@ -29,10 +29,16 @@ namespace Simulation.Model
             }
             
         }
+
+        
+
         private void startProgram()
         {
-            foreach(M_FileListItem listItem in _listItems)
+            
+
+            foreach (M_FileListItem listItem in _listItems)
             {
+                operationViewModel.
                 programCounter = Convert.ToInt32(listItem.ProgramCounter);
                 executionCode = Convert.ToInt32(listItem.OpCode);
                 nextMachineCycle(listItem.OpCode);
