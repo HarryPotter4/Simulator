@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simulation.ViewModels;
 
 namespace Simulation.Model
 
@@ -10,17 +11,38 @@ namespace Simulation.Model
 {
     class M_Operators
     {
-        int wReg = 0;
-        int fileReg = 0;
+        public M_Operators(RamViewModel ramViewModel)
+        {
+            this.ramViewModel = ramViewModel;
+        }
+
+        private RamViewModel ramViewModel;
+
+        int wReg = 0;       // vorübergehend
+        int fileReg = 0;    // vorübergehend
+        int OPCODE;         // hier kommt der Opcode von Marius
         int destinationBit = 0;
-        
+
+        public const int destiMask = 0x0080; // constant destination bit mask
+
         
 
-        public void addWf(int argument)
+        public int getDestinationBit(int opcode)
         {
-            argument = fileReg;
-            if (0==destinationBit)
+            destinationBit = destiMask & opcode;
+            return destinationBit;
+        }
+
+   
+        
+
+        public void addWf(int opcode)
+        {
+            int addWfMask = 0x0780;
+            int argument = mask & opcode;
+            if (destinationBit==0x0080)
                 {
+                    
                     fileReg = wReg + fileReg;
                 }
              else{
@@ -33,6 +55,7 @@ namespace Simulation.Model
 
         public void andWf(int argument)
         {
+            int andWfMask = 0; // TODO
             argument = fileReg;
             if(0==destinationBit)
             {
@@ -46,6 +69,7 @@ namespace Simulation.Model
 
         public void clearF(int argument)
         {
+            
             argument = fileReg;
             fileReg = 0;
         }
