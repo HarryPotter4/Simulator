@@ -34,8 +34,7 @@ namespace Simulation.Model
             destinationBit = destiMask & opcode;
             return destinationBit;
         }
-
-   
+          
         
 
         public void addWf(int opcode)
