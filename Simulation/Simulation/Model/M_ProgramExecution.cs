@@ -39,8 +39,9 @@ namespace Simulation.Model
             foreach (M_FileListItem listItem in _listItems)
             {
                 
-                programCounter = Convert.ToInt32(listItem.ProgramCounter);
-                executionCode = Convert.ToInt32(listItem.OpCode);
+                programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
+                executionCode = Convert.ToInt32(listItem.OpCode, 16);
+                
 
                 nextMachineCycle(listItem.OpCode);
                 operationViewModel.nextLine();

@@ -70,8 +70,11 @@ namespace Simulation.ViewModels
            */
 
 
-        public void setByte(int row, int column, byte value)
+        public void setByte(int row, int column, int value)
         {
+            value = value & 255;
+
+
             switch (column)
             {
                 case 0: _dataGrid_RamView.ElementAt(row).Column_0 = value.ToString(); break;
@@ -93,7 +96,7 @@ namespace Simulation.ViewModels
                 default: Console.WriteLine("Error in getByte()"); break;
             }
         }
-        public byte getByte(int row, int column)
+        public int getByte(int row, int column)
         {
             switch (column)
             {

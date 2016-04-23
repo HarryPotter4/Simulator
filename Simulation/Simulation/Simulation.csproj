@@ -151,7 +151,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Pictures\clock.png" />
     <Resource Include="Pictures\icon-375.png" />

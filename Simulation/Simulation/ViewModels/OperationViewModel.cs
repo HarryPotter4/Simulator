@@ -174,7 +174,5 @@ namespace Simulation.ViewModels
                 private string _Text_SourceCode;
 
              */
-    }
-
-   
+    }   
 }
