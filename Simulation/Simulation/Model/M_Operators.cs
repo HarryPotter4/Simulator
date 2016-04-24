@@ -642,7 +642,32 @@ namespace Simulation.Model
 
         internal void decfsz(int destinationsBit, int fileRegister)
         {
-            //throw new NotImplementedException();
+            int row = Convert.ToInt32(fileRegister / 16);
+            int column = fileRegister % 16;
+
+            int currentValue = ramViewModel.getByte(row, column);
+            int result = currentValue - 1;
+
+            if (currentValue == 0)
+            {
+                ProgramCounter++;
+                ProgramCounter++;
+            }
+            else if (destinationsBit == 1)
+            {
+                ramViewModel.setByte(row, column, result);
+                ProgramCounter++;
+
+            }
+            else if (destinationsBit == 0)
+            {
+                W_Register = result;
+                ProgramCounter++;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal void rrf(int destinationsBit, int fileRegister)
@@ -704,7 +729,33 @@ namespace Simulation.Model
 
         internal void incfsz(int destinationsBit, int fileRegister)
         {
-            //throw new NotImplementedException();
+            int row = Convert.ToInt32(fileRegister / 16);
+            int column = fileRegister % 16;
+
+            int currentValue = ramViewModel.getByte(row, column);
+            int result = currentValue + 1;
+           
+            if(currentValue == 0)
+            {
+                ProgramCounter++;
+                ProgramCounter++;
+            }                         
+            else if (destinationsBit == 1)
+            {
+                ramViewModel.setByte(row, column, result);
+                ProgramCounter++;
+
+            }
+            else if (destinationsBit == 0)
+            {
+                W_Register = result;
+                ProgramCounter++;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }         
+
         }
 
         internal void movWF(int v, int fileRegister)
@@ -733,24 +784,25 @@ namespace Simulation.Model
         {
             //throw new NotImplementedException();
 
-            ProgramCounter++;
-            ProgramCounter++;
+            ProgramCounter = constValue;
         }
 
         internal void call(int constValue)
         {
             //throw new NotImplementedException();
 
-            ProgramCounter++;
-            ProgramCounter++;
+            stackProgramCounter.Add(ProgramCounter);
+            ProgramCounter = constValue;
         }
 
         internal void retLW(int constValue)
         {
-            //throw new NotImplementedException();
+            
 
-            ProgramCounter++;
-            ProgramCounter++;
+            W_Register = constValue;
+            ProgramCounter = stackProgramCounter.Last();
+            stackProgramCounter.Remove(stackProgramCounter.Last());
+
         }
 
         internal void iorLW(int constValue)
@@ -837,7 +889,7 @@ namespace Simulation.Model
 
         internal void clrwdt()
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
 
             ProgramCounter++;
         }
@@ -857,10 +909,9 @@ namespace Simulation.Model
 
         internal void retIEF()
         {
-            // throw new NotImplementedException();
-
-            ProgramCounter++;
-            ProgramCounter++;
+            
+            ProgramCounter = stackProgramCounter.Last();
+            stackProgramCounter.Remove(stackProgramCounter.Last());
         }
 
         internal void btfsc(int fileRegister, int selectedBit)
@@ -890,8 +941,8 @@ namespace Simulation.Model
         internal void reTurn()
         {
             //throw new NotImplementedException();
-            ProgramCounter++;
-            ProgramCounter++;
+            ProgramCounter = stackProgramCounter.Last();
+            stackProgramCounter.Remove(stackProgramCounter.Last());
         }
 
         internal void btfss(int fileRegister, int selectedBit)
