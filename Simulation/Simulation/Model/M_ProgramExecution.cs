@@ -34,17 +34,22 @@ namespace Simulation.Model
 
         private void startProgram()
         {
-            
+            M_FileListItem listItem;
 
-            foreach (M_FileListItem listItem in _listItems)
+
+
+            for (int programCounter = 0; programCounter < Convert.ToInt32(_listItems.Count );)
             {
-                
+                listItem = _listItems.ElementAt(programCounter);
+
                 programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
                 executionCode = Convert.ToInt32(listItem.OpCode, 16);
                 
 
                 nextMachineCycle(listItem.OpCode);
                 operationViewModel.nextLine();
+
+                programCounter = command.getProgramCounter();
             }
         }
 

@@ -122,6 +122,56 @@ namespace Simulation.ViewModels
             }            
         }
 
+        public void setBit(int row,int column, int bit, int bitValue)
+        {
+            int mask;
+            int value;
+
+            if(bitValue == 1)
+            {
+                value = getByte(row, column) | Convert.ToInt32(Math.Pow(2, bit));
+            }
+            else if (bitValue == 0)
+            {
+                mask = 255 / Convert.ToInt32(Math.Pow(2, bit));
+                value = getByte(row,column) & mask;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+
+
+            
+            
+
+            switch (column)
+            {
+                case 0: _dataGrid_RamView.ElementAt(row).Column_0 = value.ToString(); break;
+                case 1: _dataGrid_RamView.ElementAt(row).Column_1 = value.ToString(); break;
+                case 2: _dataGrid_RamView.ElementAt(row).Column_2 = value.ToString(); break;
+                case 3: _dataGrid_RamView.ElementAt(row).Column_3 = value.ToString(); break;
+                case 4: _dataGrid_RamView.ElementAt(row).Column_4 = value.ToString(); break;
+                case 5: _dataGrid_RamView.ElementAt(row).Column_5 = value.ToString(); break;
+                case 6: _dataGrid_RamView.ElementAt(row).Column_6 = value.ToString(); break;
+                case 7: _dataGrid_RamView.ElementAt(row).Column_7 = value.ToString(); break;
+                case 8: _dataGrid_RamView.ElementAt(row).Column_8 = value.ToString(); break;
+                case 9: _dataGrid_RamView.ElementAt(row).Column_9 = value.ToString(); break;
+                case 10: _dataGrid_RamView.ElementAt(row).Column_10 = value.ToString(); break;
+                case 11: _dataGrid_RamView.ElementAt(row).Column_11 = value.ToString(); break;
+                case 12: _dataGrid_RamView.ElementAt(row).Column_12 = value.ToString(); break;
+                case 13: _dataGrid_RamView.ElementAt(row).Column_13 = value.ToString(); break;
+                case 14: _dataGrid_RamView.ElementAt(row).Column_14 = value.ToString(); break;
+                case 15: _dataGrid_RamView.ElementAt(row).Column_15 = value.ToString(); break;
+                default: Console.WriteLine("Error in getByte()"); break;
+            }
+
+        }
+        public int getBit(int row, int column, int bit)
+        {
+            return -1;
+        }
+
         private IObservableCollection<M_RamRow> _dataGrid_RamView;
         public IObservableCollection<M_RamRow> DataGrid_RamView
         {
