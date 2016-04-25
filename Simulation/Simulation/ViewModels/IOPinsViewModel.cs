@@ -30,6 +30,7 @@ namespace Simulation.ViewModels
                 _Checkbox_PortA_Pin4 = value;
                 ramViewModel.setBit(0, 5, 4, getIntValue(Checkbox_PortA_Pin4)); 
                 NotifyOfPropertyChange(() => Checkbox_PortA_Pin4);
+                MessageBox.Show("portA_pin4 property");
             }
         }
 
@@ -43,6 +44,18 @@ namespace Simulation.ViewModels
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+        public void isChecked_A_0()
+        {
+            MessageBox.Show("portA_pin0 function");
+            
+        }
+
+        public void isUnchecked_A_0()
+        {
+            MessageBox.Show("Unchecked");
         }
     }
 }
