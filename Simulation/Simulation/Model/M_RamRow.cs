@@ -38,6 +38,7 @@ namespace Simulation.Model
             set
             {
                 _column_Description = value;
+                NotifyOfPropertyChange(() => Column_Description);
             }
         }
         public string Column_0
@@ -50,6 +51,7 @@ namespace Simulation.Model
             set
             {
                 _column_0 = value;
+                NotifyOfPropertyChange(() => Column_0);
             }
         }
         public string Column_1
@@ -62,6 +64,7 @@ namespace Simulation.Model
             set
             {
                 _column_1 = value;
+                NotifyOfPropertyChange(() => Column_1);
             }
         }
         public string Column_2
@@ -74,6 +77,7 @@ namespace Simulation.Model
             set
             {
                 _column_2 = value;
+                NotifyOfPropertyChange(() => Column_2);
             }
         }
         public string Column_3
@@ -86,6 +90,7 @@ namespace Simulation.Model
             set
             {
                 _column_3 = value;
+                NotifyOfPropertyChange(() => Column_3);
             }
         }
         public string Column_4
@@ -98,6 +103,7 @@ namespace Simulation.Model
             set
             {
                 _column_4 = value;
+                NotifyOfPropertyChange(() => Column_4);
             }
         }
         public string Column_5
@@ -110,6 +116,7 @@ namespace Simulation.Model
             set
             {
                 _column_5 = value;
+                NotifyOfPropertyChange(() => Column_5);
             }
         }
         public string Column_6
@@ -122,6 +129,7 @@ namespace Simulation.Model
             set
             {
                 _column_6 = value;
+                NotifyOfPropertyChange(() => Column_6);
             }
         }
         public string Column_7
@@ -134,6 +142,7 @@ namespace Simulation.Model
             set
             {
                 _column_7 = value;
+                NotifyOfPropertyChange(() => Column_7);
             }
         }        
         public string Column_8
@@ -146,6 +155,7 @@ namespace Simulation.Model
             set
             {
                 _column_8 = value;
+                NotifyOfPropertyChange(() => Column_8);
             }
         }
         public string Column_9
@@ -158,6 +168,7 @@ namespace Simulation.Model
             set
             {
                 _column_9 = value;
+                NotifyOfPropertyChange(() => Column_9);
             }
         }
         public string Column_10
@@ -170,6 +181,7 @@ namespace Simulation.Model
             set
             {
                 _column_10 = value;
+                NotifyOfPropertyChange(() => Column_10);
             }
         }
         public string Column_11
@@ -182,6 +194,7 @@ namespace Simulation.Model
             set
             {
                 _column_11 = value;
+                NotifyOfPropertyChange(() => Column_11);
             }
         }
         public string Column_12
@@ -194,6 +207,7 @@ namespace Simulation.Model
             set
             {
                 _column_12 = value;
+                NotifyOfPropertyChange(() => Column_12);
             }
         }
         public string Column_13
@@ -206,6 +220,7 @@ namespace Simulation.Model
             set
             {
                 _column_13 = value;
+                NotifyOfPropertyChange(() => Column_13);
             }
         }
         public string Column_14
@@ -218,6 +233,7 @@ namespace Simulation.Model
             set
             {
                 _column_14 = value;
+                NotifyOfPropertyChange(() => Column_14);
             }
         }
         public string Column_15
@@ -230,6 +246,7 @@ namespace Simulation.Model
             set
             {
                 _column_15 = value;
+                NotifyOfPropertyChange(() => Column_15);
             }
         }
 
