@@ -10,16 +10,8 @@
         <Label x:Name="label" Content="Port A" HorizontalAlignment="Left" Margin="17,35,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.37,0.667"/>
         <Label x:Name="label1" Content="Port B" HorizontalAlignment="Left" Margin="20,72,0,0" VerticalAlignment="Top"/>
 
-        <CheckBox x:Name="portA_pin7" IsChecked="{Binding Checkbox_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="67,39,0,0" RenderTransformOrigin="-0.541,-0.659" >
-            <CheckBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="0.018"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </CheckBox.RenderTransform>
-        </CheckBox>
+        <CheckBox x:Name="portA_pin7" IsChecked="{Binding Checkbox_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="67,39,0,0" RenderTransformOrigin="-0.541,-0.659" />
+
 
     </Grid>
 </UserControl>
