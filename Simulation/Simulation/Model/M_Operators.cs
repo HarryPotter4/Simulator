@@ -53,7 +53,11 @@ namespace Simulation.Model
             {
                 _W_Register = value;
             }
+
+            
         }
+
+        
         public int TMR0
         {
             get
