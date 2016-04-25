@@ -380,7 +380,18 @@ namespace Simulation.Model
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
-            stackProgramCounter = new List<int>();            
+            stackProgramCounter = new List<int>();
+            initRam();
+        }
+
+        private void initRam()
+        {
+            ramViewModel.setByte(0, 3, 24);
+            ramViewModel.setByte(8, 1, 256);
+            ramViewModel.setByte(8, 3, 24);
+            ramViewModel.setByte(8, 5, 32);
+            ramViewModel.setByte(8, 6, 256);
+
         }
 
         private void isZero(int currentValue, int result)
