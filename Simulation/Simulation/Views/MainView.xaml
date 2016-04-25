@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulation"
         xmlns:cal="http://www.caliburnproject.org"
+        xmlns:controls="clr-namespace:Simulation.Views"
         cal:Message.Attach="[Event MouseDoubleClick] = [Action RowSelect($dataContext)]"
         mc:Ignorable="d"
         Title="{Binding Windowtitle}" Height="780" Width="1024" MinWidth="760" MinHeight="780" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -48,7 +49,7 @@
             </Button.Background>
         </Button>
         <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="498,135,0,0" VerticalAlignment="Top" Height="324" Width="495"/>
-
+        <controls:IOPinsView Margin="510,533,148,46" />
 
 
     </Grid>
