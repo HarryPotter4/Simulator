@@ -105,7 +105,6 @@
     <Compile Include="Model\L_FileExplorer.cs" />
     <Compile Include="Model\L_Parser.cs" />
     <Compile Include="Model\M_FileListItem.cs" />
-    <Compile Include="ViewModels\CreateProgramViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -152,7 +151,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Pictures\clock.png" />
     <Resource Include="Pictures\icon-375.png" />
