@@ -11,6 +11,19 @@ namespace Simulation.Model
     {
         private string programCounter;
         private string opCode;
+        private string sourceCode;
+
+        public string SourceCode
+        {
+            get
+            {
+                return sourceCode;
+            }
+            set
+            {
+                sourceCode = value;
+            }
+        }
 
         public string ProgramCounter
         {
@@ -43,10 +56,13 @@ namespace Simulation.Model
         /// Add argument 2 to object which is about the operation with parameters.
         /// </summary>
 
-        public M_FileListItem(string arg1, string arg2)
+        
+
+        public M_FileListItem(string arg1, string arg2, string sourceCode) 
         {
+            this.SourceCode = sourceCode;
             this.ProgramCounter = arg1;
-            this.OpCode = arg2;            
+            this.OpCode = arg2;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Simulation.Model
         public List<M_FileListItem> listItems;
         private string argPC;
         private string argOPcode;
+        private string sourceCode;
 
         internal List<M_FileListItem> ListItems
         {
@@ -45,17 +46,28 @@ namespace Simulation.Model
 
                 if (isRelevantLine(line))
                 {
-                    listItems.Add(new M_FileListItem(argPC, argOPcode));                    
+                    listItems.Add(new M_FileListItem(argPC, argOPcode, sourceCode));                    
                 }
             }
         }
 
         private bool isRelevantLine(string line)
         {
-            if (isProgramCounterArg(line) && isOpCode(line))
+            if (isProgramCounterArg(line) && isOpCode(line) && isSourccode(line))
                 return true;
             else
                 return false;
+        }
+
+        private bool isSourccode(string line)
+        {
+            sourceCode = "";
+            for(int elementIndex = 33;  elementIndex < line.Length; elementIndex++)
+            {
+                sourceCode = sourceCode + line[elementIndex];
+                Convert.ToChar(line[elementIndex + 1]);
+            }
+            return true;
         }
 
         private bool isProgramCounterArg(string line)

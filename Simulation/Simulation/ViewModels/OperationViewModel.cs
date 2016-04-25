@@ -28,7 +28,7 @@ namespace Simulation.ViewModels
                     CheckBox_Breakpoint = "",
                     Text_Line = (line++).ToString(),
                     Text_Operation = item.OpCode,
-                    Text_SourceCode = "Hallo Welt",
+                    Text_SourceCode = item.SourceCode,
                     Text_ProgramCounter = item.ProgramCounter
                 });
             }
