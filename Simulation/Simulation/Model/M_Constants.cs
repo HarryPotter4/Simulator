@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Simulation.Model
 {
-    static class M_Constants
+    public static class M_Constants
     {
         public const int DESTINATIONBIT = 0x0080;
+
     }
 }
