@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Simulation.ViewModels;
 using Caliburn.Micro;
 using System.Windows;
+using System.Threading;
 
 namespace Simulation.Model
 {
@@ -17,6 +18,7 @@ namespace Simulation.Model
         private int programCounter;
         private int executionCode;
         private OperationViewModel operationViewModel;
+        private Thread programExecutionThread;
 
         public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel) 
         {
@@ -24,9 +26,11 @@ namespace Simulation.Model
             this.ramViewModel = ramViewModel;
             this._listItems = _listItems;
             command = new M_Operators(ramViewModel);
+            programExecutionThread = new Thread(startProgram);
+
             if (!(this._listItems.Count.Equals(null)))
             {
-                startProgram();
+                programExecutionThread.Start();
             }
             
         }
@@ -48,12 +52,14 @@ namespace Simulation.Model
                 
 
                 nextMachineCycle(listItem.OpCode);
+                Thread.Sleep(500);
+
                 programCounter = command.getProgramCounter();
                 operationViewModel.nextLine(programCounter);
-
-                if (programCounter == 6)
-                    MessageBox.Show("Hall Welt");
+                               
             }
+
+            
         }
 
 
