@@ -10,11 +10,6 @@ namespace Simulation.ViewModels
 {
     class IOPinsViewModel : Screen
     {
-        public void portA_pin7()
-        {
-            MessageBox.Show("Hallow ");
-        }
-
         private bool _Checkbox_PortA_Pin7;
         private RamViewModel ramViewModel;
 
