@@ -10,5 +10,6 @@ namespace Simulation.Model
     {
         public const int DESTINATIONBIT = 0x0080;
 
+
     }
 }
