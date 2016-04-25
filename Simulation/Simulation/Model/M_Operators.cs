@@ -387,10 +387,10 @@ namespace Simulation.Model
         private void initRam()
         {
             ramViewModel.setByte(0, 3, 24);
-            ramViewModel.setByte(8, 1, 256);
+            ramViewModel.setByte(8, 1, 255);
             ramViewModel.setByte(8, 3, 24);
             ramViewModel.setByte(8, 5, 32);
-            ramViewModel.setByte(8, 6, 256);
+            ramViewModel.setByte(8, 6, 255);
 
         }
 
