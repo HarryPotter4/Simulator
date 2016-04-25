@@ -50,6 +50,7 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => DataGrid_Operation);
             }
         }
+
         private M_OperationList _SelectItem;
         public M_OperationList SelectItem
         {
@@ -75,15 +76,10 @@ namespace Simulation.ViewModels
         }
 
   
-        public void nextLine()
+        public void nextLine(int programCounter)
         {
-            SelectItem = DataGrid_Operation.ElementAt(index++);
-        }
-
-        public void gotoLine(int lineNumber)
-        {
-            SelectItem = DataGrid_Operation.ElementAt(lineNumber);
-        }
+            SelectItem = DataGrid_Operation.ElementAt(programCounter);                        
+        }        
 
 
         /*

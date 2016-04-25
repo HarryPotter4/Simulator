@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Simulation.ViewModels;
 using Caliburn.Micro;
+using System.Windows;
 
 namespace Simulation.Model
 {
@@ -23,7 +24,7 @@ namespace Simulation.Model
             this.ramViewModel = ramViewModel;
             this._listItems = _listItems;
             command = new M_Operators(ramViewModel);
-            if (this._listItems.Count != 0)
+            if (!(this._listItems.Count.Equals(null)))
             {
                 startProgram();
             }
@@ -37,8 +38,8 @@ namespace Simulation.Model
             M_FileListItem listItem;
 
 
-
-            for (int programCounter = 0; programCounter < Convert.ToInt32(_listItems.Count );)
+            programCounter = 0;
+            for (programCounter = 0; programCounter < Convert.ToInt32(_listItems.Count );)
             {
                 listItem = _listItems.ElementAt(programCounter);
 
@@ -47,9 +48,11 @@ namespace Simulation.Model
                 
 
                 nextMachineCycle(listItem.OpCode);
-                operationViewModel.nextLine();
-
                 programCounter = command.getProgramCounter();
+                operationViewModel.nextLine(programCounter);
+
+                if (programCounter == 6)
+                    MessageBox.Show("Hall Welt");
             }
         }
 
@@ -260,7 +263,7 @@ namespace Simulation.Model
                     command.subLW(constValue);
                     break;
                 case 13:
-                    command.subwf(constValue);
+                    command.subLW(constValue);
                     break;
                 case 14:
                     command.addLW(constValue);

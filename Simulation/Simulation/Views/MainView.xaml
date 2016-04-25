@@ -20,11 +20,11 @@
             <MenuItem FontWeight="Bold" Header="DEBUG" FontSize="16"/>
             <MenuItem FontWeight="Bold" Header="HELP" FontSize="16"/>
         </Menu>
-       
-        <ListBox x:Name="RamDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="30,95,0,0" VerticalAlignment="Top" Height="365" Width="390"/>
-        <ListBox x:Name="SFRDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="34,485,0,0" VerticalAlignment="Top" Height="232" Width="385"/>
-        
-        <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" Margin="451,90,0,0" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
+
+        <ListBox x:Name="RamDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="30,95,0,0" VerticalAlignment="Top" Height="412" Width="440"/>
+        <ListBox x:Name="SFRDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="34,533,0,0" VerticalAlignment="Top" Height="184" Width="431"/>
+
+        <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" Margin="501,90,0,0" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
             <Button.Foreground>
                 <ImageBrush ImageSource="../Pictures/clock.png"/>
             </Button.Foreground>
@@ -32,24 +32,24 @@
                 <ImageBrush ImageSource="../Pictures/clock.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="btn_play" Content="" HorizontalAlignment="Left" Margin="496,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
+        <Button x:Name="btn_play" Content="" HorizontalAlignment="Left" Margin="546,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
             <Button.Background>
                 <ImageBrush ImageSource="../Pictures/icon-375.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="btn_next" Content="" HorizontalAlignment="Left" Margin="586,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
+        <Button x:Name="btn_next" Content="" HorizontalAlignment="Left" Margin="636,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
             <Button.Background>
                 <ImageBrush ImageSource="../Pictures/play.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="btn_pause" Content="" HorizontalAlignment="Left" Margin="541,90,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderBrush="White" Foreground="White">
+        <Button x:Name="btn_pause" Content="" HorizontalAlignment="Left" Margin="591,90,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderBrush="White" Foreground="White">
             <Button.Background>
                 <ImageBrush ImageSource="../Pictures/video.png"/>
             </Button.Background>
         </Button>
-        <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="455,135,0,0" VerticalAlignment="Top" Height="324" Width="538"/>
+        <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="498,135,0,0" VerticalAlignment="Top" Height="324" Width="495"/>
 
-        
+
 
     </Grid>
 </Window>

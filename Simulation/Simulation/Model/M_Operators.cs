@@ -191,7 +191,7 @@ namespace Simulation.Model
                 _STATUS = value;
                 ramViewModel.setByte(0, 3, _STATUS);
                 ramViewModel.setByte(8, 3, _STATUS);
-                _STATUS = ramViewModel.getByte(0,3):
+                _STATUS = ramViewModel.getByte(0, 3);
             }
         } 
         public int PCL
@@ -206,7 +206,7 @@ namespace Simulation.Model
                 _PCL = value;
                 ramViewModel.setByte(0, 2, _PCL);
                 ramViewModel.setByte(8, 2, _PCL);
-                _PCL = ramViewModel.setByte(0, 2);
+                _PCL = ramViewModel.getByte(0, 2);
             }
         }
         public int EECON2
@@ -571,7 +571,7 @@ namespace Simulation.Model
             }
             else if (destinationsBit == 0)
             {
-                W_Register = result
+                W_Register = result;
             }
             else
             {
@@ -596,7 +596,7 @@ namespace Simulation.Model
             }
             else if (destinationsBit == 0)
             {
-                W_Register = ;
+                W_Register = result;
             }
             else
             {
