@@ -10,7 +10,7 @@ namespace Simulation.ViewModels
 {
     class IOPinsViewModel : Screen
     {
-        private bool _Checkbox_PortA_Pin7;
+        private bool _Checkbox_PortA_Pin4;
         private RamViewModel ramViewModel;
 
         public IOPinsViewModel(RamViewModel ramViewModel)
@@ -18,18 +18,18 @@ namespace Simulation.ViewModels
             this.ramViewModel = ramViewModel;
         }
 
-        public bool Checkbox_PortA_Pin7
+        public bool Checkbox_PortA_Pin4
         {
             get
             {
-                return _Checkbox_PortA_Pin7;
+                return _Checkbox_PortA_Pin4;
             }
 
             set
             {
-                _Checkbox_PortA_Pin7 = value;
-                ramViewModel.setBit(0, 5, 4, getIntValue(Checkbox_PortA_Pin7));
-                NotifyOfPropertyChange(() => Checkbox_PortA_Pin7);
+                _Checkbox_PortA_Pin4 = value;
+                ramViewModel.setBit(0, 5, 4, getIntValue(Checkbox_PortA_Pin4)); 
+                NotifyOfPropertyChange(() => Checkbox_PortA_Pin4);
             }
         }
 
