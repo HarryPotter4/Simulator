@@ -19,6 +19,7 @@ namespace Simulation.ViewModels
         private RamViewModel ramViewModel;
         private SfrViewModel sfrViewModel;
         private M_ProgramExecution programExecution;
+        private IOPinsViewModel ioPinViewModel;
         
 
         private string _windowTitle;
@@ -80,6 +81,8 @@ namespace Simulation.ViewModels
             ramViewModel = new RamViewModel();
             ramViewModel = ramViewModel.getRamViewModel();
             RamDisplay = new BindableCollection<RamViewModel> { ramViewModel };
+
+            ioPinViewModel = new IOPinsViewModel(ramViewModel);
 
             sfrViewModel = new SfrViewModel();
             sfrViewModel = sfrViewModel.getsfrViewModel();
