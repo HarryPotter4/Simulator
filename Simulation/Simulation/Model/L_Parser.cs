@@ -62,7 +62,7 @@ namespace Simulation.Model
         private bool isSourccode(string line)
         {
             sourceCode = "";
-            for(int elementIndex = 33;  elementIndex < line.Length; elementIndex++)
+            for(int elementIndex = 33;  elementIndex < line.Length-1; elementIndex++)
             {
                 sourceCode = sourceCode + line[elementIndex];
                 Convert.ToChar(line[elementIndex + 1]);

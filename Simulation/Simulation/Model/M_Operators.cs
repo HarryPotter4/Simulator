@@ -965,9 +965,9 @@ namespace Simulation.Model
             int row = Convert.ToInt32(fileRegister / 16);
             int column = fileRegister % 16;
 
-            int result = ramViewModel.getByte(row, column) & Convert.ToInt32(Math.Pow(2, selectedBit));
+            int result = (ramViewModel.getByte(row, column) & Convert.ToInt32(Math.Pow(2, selectedBit))) / Convert.ToInt32(Math.Pow(2, selectedBit));
 
-            if (result == 1 )
+            if (result == 0 )
             {
                 ProgramCounter++;
 

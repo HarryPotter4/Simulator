@@ -28,7 +28,7 @@ namespace Simulation.ViewModels
             set
             {
                 _Checkbox_PortA_Pin4 = value;
-                ramViewModel.setBit(0, 5, 4, getIntValue(Checkbox_PortA_Pin4)); 
+                ramViewModel.setBit(0, 5, 4, getIntValue(Checkbox_PortA_Pin4));  //geht nicht nicht
                 NotifyOfPropertyChange(() => Checkbox_PortA_Pin4);
             }
         }
