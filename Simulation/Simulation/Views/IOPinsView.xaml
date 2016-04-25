@@ -10,7 +10,14 @@
         <Label x:Name="label" Content="Port A" HorizontalAlignment="Left" Margin="32,93,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.37,0.667"/>
         <Label x:Name="label1" Content="Port B" HorizontalAlignment="Left" Margin="35,130,0,0" VerticalAlignment="Top"/>
 
-        <CheckBox x:Name="portA_pin7" IsChecked="{Binding Checkbox_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="82,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="82,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin6" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="100,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7_Copy1" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="118,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7_Copy2" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="136,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7_Copy3" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="154,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7_Copy4" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="172,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7_Copy5" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="190,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
+        <CheckBox x:Name="portA_pin7_Copy6" IsChecked="{Binding Checkbox_PortA_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="208,97,0,0" RenderTransformOrigin="-0.541,-0.659" />
 
     </Grid>
 </UserControl>
