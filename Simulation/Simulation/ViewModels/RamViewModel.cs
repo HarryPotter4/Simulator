@@ -114,8 +114,8 @@ namespace Simulation.ViewModels
             }
             else if (bitValue == 0)
             {
-                mask = 255 / Convert.ToInt32(Math.Pow(2, bit));
-                value = getByte(row,column) & mask;
+                 
+                value = getByte(row,column) ^ Convert.ToInt32(Math.Pow(2, bit)); 
             }
             else
             {
@@ -150,6 +150,7 @@ namespace Simulation.ViewModels
         }
         public int getBit(int row, int column, int bit)
         {
+            throw new NotImplementedException();
             return -1;
         }
 

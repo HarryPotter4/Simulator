@@ -14,13 +14,13 @@
         <CheckBox x:Name="portA_pin7" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="61,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
         <CheckBox x:Name="portA_pin6" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="79,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
         <CheckBox x:Name="portA_pin5" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="97,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
-        <CheckBox x:Name="PortA_pin4" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="16" Margin="115,15,0,0"/>
-        <CheckBox x:Name="portA_pin3" IsChecked="{Binding Checkbox_PortA_Pin3}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="133,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
-        <CheckBox x:Name="portA_pin2" IsChecked="{Binding Checkbox_PortA_Pin2}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="151,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
-        <CheckBox x:Name="portA_pin1" IsChecked="{Binding Checkbox_PortA_Pin1}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="169,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
-        <CheckBox x:Name="portA_pin0" IsChecked="{Binding Checkbox_PortA_Pin0}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="187,15,0,0" RenderTransformOrigin="-0.541,-0.659" >
-         
-        </CheckBox>
+        <CheckBox x:Name="PortA_pin4" IsChecked="{Binding Checkbox_PortA_Pin4}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="16" Margin="115,15,0,0"/>
+        <CheckBox x:Name="portA_pin3" IsChecked="{Binding Checkbox_PortA_Pin3}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="133,15,0,0"/>
+        <CheckBox x:Name="portA_pin2" IsChecked="{Binding Checkbox_PortA_Pin2}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="151,15,0,0"/>
+        <CheckBox x:Name="portA_pin1" IsChecked="{Binding Checkbox_PortA_Pin1}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="169,15,0,0"/>
+        <CheckBox x:Name="portA_pin0" IsChecked="{Binding Checkbox_PortA_Pin0}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="187,15,0,0"/>
+
+
 
         <CheckBox x:Name="portB_pin7" IsChecked="{Binding Checkbox_PortB_Pin7}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="61,59,0,0" RenderTransformOrigin="-0.541,-0.659" Grid.RowSpan="2" />
         <CheckBox x:Name="portB_pin6" IsChecked="{Binding Checkbox_PortB_Pin6}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="79,59,0,0" RenderTransformOrigin="-0.541,-0.659" Grid.RowSpan="2" />
