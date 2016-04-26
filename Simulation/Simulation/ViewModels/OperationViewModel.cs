@@ -29,6 +29,7 @@ namespace Simulation.ViewModels
             {
                 _dataGrid_Operation.Add(new M_OperationList
                 {
+                    Checkbox_IsSelected = false,
                     CheckBox_Breakpoint = "",
                     Text_Line = (line++).ToString(),
                     Text_Operation = item.OpCode,
@@ -77,7 +78,6 @@ namespace Simulation.ViewModels
         {
             return _dataGrid_Operation;
         }
-
   
         public void nextLine(int programCounter)
         {

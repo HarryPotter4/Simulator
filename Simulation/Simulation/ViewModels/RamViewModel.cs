@@ -21,13 +21,18 @@ namespace Simulation.ViewModels
             //map_List_To_RamArray();
 
 
+            initializeFields();
+        }
+
+        private void initializeFields()
+        {
             for (int row = 0; row < 16; row++)
             {
                 RowHeaderValue = row.ToString();
 
                 DataGrid_RamView.Add(new M_RamRow
                 {
-                    
+
                     Column_Description = row.ToString(),
                     Column_0 = "0",
                     Column_1 = "0",
@@ -104,8 +109,7 @@ namespace Simulation.ViewModels
         }
 
         public void setBit(int row,int column, int bit, int bitValue)
-        {
-            int mask;
+        {            
             int value;
 
             if(bitValue == 1)
@@ -150,8 +154,7 @@ namespace Simulation.ViewModels
         }
         public int getBit(int row, int column, int bit)
         {
-            throw new NotImplementedException();
-            return -1;
+            throw new NotImplementedException();           
         }
 
         private IObservableCollection<M_RamRow> _dataGrid_RamView;

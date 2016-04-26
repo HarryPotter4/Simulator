@@ -78,6 +78,7 @@
     <Compile Include="Model\M_Operators.cs" />
     <Compile Include="Model\M_RamRow.cs" />
     <Compile Include="Model\M_ProgramExecution.cs" />
+    <Compile Include="Model\M_SFRrow.cs" />
     <Compile Include="ViewModelHelper.cs" />
     <Compile Include="ViewModels\IOPinsViewModel.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />

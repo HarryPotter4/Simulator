@@ -18,19 +18,21 @@ namespace Simulation.Model
         private int programCounter;
         private int executionCode;
         private OperationViewModel operationViewModel;
-        private Thread programExecutionThread;
+        private Thread executionThread;
+        
 
-        public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel) 
+        public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel, Thread programExecutionThread) 
         {
             this.operationViewModel = operationViewModel;
             this.ramViewModel = ramViewModel;
             this._listItems = _listItems;
+            this.executionThread = programExecutionThread;
             command = new M_Operators(ramViewModel);
-            programExecutionThread = new Thread(startProgram);
+            
 
             if (!(this._listItems.Count.Equals(null)))
             {
-                programExecutionThread.Start();
+                startProgram();
             }
             
         }
@@ -47,16 +49,19 @@ namespace Simulation.Model
             {
                 listItem = _listItems.ElementAt(programCounter);
 
+                if(operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true)
+                {
+                    executionThread.Suspend();
+                }
+
                 programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
                 executionCode = Convert.ToInt32(listItem.OpCode, 16);
                 
-
                 nextMachineCycle(listItem.OpCode);
                 Thread.Sleep(500);
 
                 programCounter = command.getProgramCounter();
                 operationViewModel.nextLine(programCounter);
-                               
             }
 
             

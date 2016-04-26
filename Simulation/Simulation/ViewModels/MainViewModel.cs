@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using System.Windows.Forms;
 using Simulation.Views;
 using Simulation.Model;
+using System.Threading;
 
 namespace Simulation.ViewModels
 {
@@ -89,18 +90,52 @@ namespace Simulation.ViewModels
             }
         }
 
+        private Thread programExecutionThread;
+        
+
+
+        public MainViewModel()
+        {
+            programExecutionThread = new Thread(startProgramThread);         
+            
+        }
+
+        
+
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
+            if(programExecutionThread.ThreadState == System.Threading.ThreadState.Running)
+            {
+                return;
+            }
+            else if (programExecutionThread.ThreadState == System.Threading.ThreadState.Unstarted)
+            {
+                programExecutionThread.Start();                
+            }
+            else if(programExecutionThread.ThreadState == System.Threading.ThreadState.Suspended)
+            {
+                programExecutionThread.Resume();
+            }
+            else
+            {
+                Debug.WriteLine((programExecutionThread.ThreadState).ToString());
+                
+            }
+
         }
+
+       
+
         public void btn_next()
         {
             Debug.WriteLine("Button läuft!");
+            programExecutionThread.Resume();
         }
         public void btn_pause()
         {
             Debug.WriteLine("Button läuft!");
+            programExecutionThread.Suspend();
         }
         public void btn_back()
         {
@@ -135,6 +170,13 @@ namespace Simulation.ViewModels
 
         private SfrViewModel _SFRView;
         private IOPinsViewModel _IOPinsView;
+
+        private void startProgramThread()
+        {
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView,programExecutionThread);
+
+           
+        }
 
     }
 }

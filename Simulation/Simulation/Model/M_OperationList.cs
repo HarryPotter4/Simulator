@@ -9,26 +9,25 @@ namespace Simulation.Model
 {
     class M_OperationList : Screen
 
-    {
-                
-        private bool _CheckboxIsSelected;
+    {                
+        private bool _Checkbox_IsSelected;
         private string _CheckBox_Breakpoint;
         private string _Text_Line;
         private string _Text_ProgramCounter;
         private string _Text_Operation;
         private string _Text_SourceCode;
 
-        public bool CheckboxIsSelected
+        public bool Checkbox_IsSelected
         {
             get
             {
-                return _CheckboxIsSelected;
+                return _Checkbox_IsSelected;
             }
 
             set
             {
-                _CheckboxIsSelected = value;
-                NotifyOfPropertyChange(() => CheckboxIsSelected);
+                _Checkbox_IsSelected = value;
+                NotifyOfPropertyChange(() => Checkbox_IsSelected);
             }
         }
         public string CheckBox_Breakpoint

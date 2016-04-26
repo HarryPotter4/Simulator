@@ -7,7 +7,7 @@
              mc:Ignorable="d"              
              >
     <Grid>
-        <DataGrid CanUserAddRows="False" VerticalAlignment="Top"   IsEnabled="True" AutoGenerateColumns="False" HorizontalAlignment="Left">
+        <DataGrid ItemsSource="{Binding DataGrid_SFRView}" CanUserAddRows="False" VerticalAlignment="Top"   IsEnabled="True" AutoGenerateColumns="False" HorizontalAlignment="Left">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Column_Description}"  Header="Register" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Column_0}" Header="0" IsReadOnly="True"/>
@@ -18,7 +18,7 @@
                 <DataGridTextColumn Binding="{Binding Column_5}" Header="5" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Column_6}" Header="6" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Column_7}" Header="7" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding Column_8}" Header="HEX " IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding Column_HEX}" Header="HEX " IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
