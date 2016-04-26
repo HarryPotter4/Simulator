@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Simulation.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="83.168" d:DesignWidth="212.872">
-    <Grid Height="83" VerticalAlignment="Top" HorizontalAlignment="Left" Width="213" Margin="0,0,-0.2,0">
+            >
+    <Grid  VerticalAlignment="Top" HorizontalAlignment="Left" >
 
-        <Label x:Name="label" Content="Port A" HorizontalAlignment="Left" Margin="11,11,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.37,0.667"/>
-        <Label x:Name="label1" Content="Port B" HorizontalAlignment="Left" Margin="14,48,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <Label x:Name="label" Content="Port A" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="15,10,0,0" />
+        <Label x:Name="label1" Content="Port B" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,51,0,-2.4" />
 
         <CheckBox x:Name="portA_pin7" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="61,15,0,0" RenderTransformOrigin="-0.541,-0.659" />
         <CheckBox x:Name="portA_pin6" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Width="18" Margin="79,15,0,0" RenderTransformOrigin="-0.541,-0.659" />

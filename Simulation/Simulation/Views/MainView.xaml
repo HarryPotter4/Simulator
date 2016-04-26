@@ -12,6 +12,10 @@
 
 
     <Grid Margin="0,0,-0.4,0.4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="561.6" />
+            <RowDefinition Height="Auto" MinHeight="148" />
+        </Grid.RowDefinitions>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="46" VerticalAlignment="Top" Width="1018">
             <MenuItem Header="FILE" StaysOpenOnClick="True" Height="45" Width="50" FontSize="16" FontWeight="Bold">
                 <MenuItem x:Name="menuItem_Open" Header="Open..." />
@@ -21,20 +25,20 @@
             <MenuItem FontWeight="Bold" Header="HELP" FontSize="16"/>
         </Menu>
 
-        
-        
-      <!--<controls:RamView x:Name="" Margin="35,146,641,278" />
-        <controls:OperationView x:Name="ControlField" Margin="449,148,26,280" />
-        <controls:IOPinsView Margin="501,542,295,119" />
-        <controls:SfrView Margin="34,504,638,113" />
--->
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="Vertical">
-            <ContentControl x:Name="RamView" Margin="50,90,529,249" BorderBrush="Azure"/>
-            <ContentControl x:Name="OperationView" Margin="504,150,50,250" BorderBrush="Black"/>
-        </StackPanel>
-        
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch" Orientation="Vertical">
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+        <Grid Margin="0,48,5,-34.8" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="450" Width="*"/>
+                <ColumnDefinition MinWidth="450" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl x:Name="RamView" Grid.Row="1" Grid.Column="0" />
+            <ContentControl x:Name="OperationView" Grid.Row="1" Grid.Column="1" BorderBrush="Black" />
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0.4,0,-0.2,0">
+
                 <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
                     <Button.Foreground>
                         <ImageBrush ImageSource="../Pictures/clock.png"/>
@@ -60,13 +64,9 @@
                 </Button>
 
             </StackPanel>
-            
-            
-            <ContentControl x:Name="SFRView" Margin="51,526,568,34"/>
-            <ContentControl x:Name="IOPinsView" Margin="505,531,51,30"/>
-        </StackPanel>
 
-
-
+            <ContentControl  x:Name="SFRView" Grid.Row="2" Grid.Column="0"  />
+            <ContentControl x:Name="IOPinsView" Grid.Row="2" Grid.Column="1"/>
+        </Grid>
     </Grid>
 </Window>
