@@ -10,7 +10,7 @@ namespace Simulation.ViewModels
 {
     class IOPinsViewModel : Screen
     {
-        private bool _Checkbox_PortA_Pin4;
+        
         private RamViewModel ramViewModel;
 
         public IOPinsViewModel(RamViewModel ramViewModel)
@@ -18,44 +18,35 @@ namespace Simulation.ViewModels
             this.ramViewModel = ramViewModel;
         }
 
-        public bool Checkbox_PortA_Pin4
+        private bool _Checkbox_PortA_Pin0;
+
+        public bool Checkbox_PortA_Pin0
         {
             get
             {
-                return _Checkbox_PortA_Pin4;
+                return _Checkbox_PortA_Pin0;
             }
 
             set
             {
-                _Checkbox_PortA_Pin4 = value;
-                ramViewModel.setBit(0, 5, 4, getIntValue(Checkbox_PortA_Pin4));  //geht nicht nicht
-                NotifyOfPropertyChange(() => Checkbox_PortA_Pin4);
-                MessageBox.Show("portA_pin4 property");
+                _Checkbox_PortA_Pin0 = value;
+                NotifyOfPropertyChange(() => Checkbox_PortA_Pin0);
             }
         }
-
-        private int getIntValue(bool boolValue )
+        
+        public void portA_pin0()
         {
-            if (boolValue)
-                return 1;
-            else if (!boolValue)
-                return 0;
-            else
-            {
-                throw new NotImplementedException();
-            }
+            MessageBox.Show("Hallo, value" + Checkbox_PortA_Pin0);
         }
 
-
-        public void isChecked_A_0()
+        public IOPinsViewModel getIOPinsViewModel()
         {
-            MessageBox.Show("portA_pin0 function");
-            
+            return this;
         }
 
-        public void isUnchecked_A_0()
+        public IOPinsViewModel getiopinsviewmodel()
         {
-            MessageBox.Show("Unchecked");
+            return this;
         }
     }
 }

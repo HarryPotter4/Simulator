@@ -95,7 +95,7 @@ namespace Simulation.Model
 
             int operationCode = (code & operationCodeMask) / Convert.ToInt32(Math.Pow(2, 8));
             int destinationsBit = (code & destinationBitMask) / Convert.ToInt32(Math.Pow(2, 7));
-            int fileRegister = (code & fileRegisterMask) / Convert.ToInt32(Math.Pow(2, 12));
+            int fileRegister = (code & fileRegisterMask);
 
             switch (operationCode)
             {

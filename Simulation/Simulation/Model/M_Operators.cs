@@ -391,7 +391,6 @@ namespace Simulation.Model
             ramViewModel.setByte(8, 3, 24);
             ramViewModel.setByte(8, 5, 32);
             ramViewModel.setByte(8, 6, 255);
-
         }
 
         private void isZero(int currentValue, int result)

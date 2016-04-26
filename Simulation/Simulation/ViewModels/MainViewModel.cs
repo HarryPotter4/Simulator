@@ -15,12 +15,11 @@ namespace Simulation.ViewModels
     {
         private L_FileExplorer _fileOpen;
         private List<M_FileListItem> _listItems;
-        private OperationViewModel operationViewModel;
-        private RamViewModel ramViewModel;
-        private SfrViewModel sfrViewModel;
         private M_ProgramExecution programExecution;
-        private IOPinsViewModel ioPinViewModel;
+
         
+        private SfrViewModel sfrViewModel;        
+        private IOPinsViewModel ioPinViewModel;       
 
         private string _windowTitle;
         public string Windowtitle
@@ -36,22 +35,64 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => Windowtitle);
             }
         }
-
-        private string _Listview_programStepper;
-        public string Listview_programStepper
+        
+        public RamViewModel RamView
         {
-            get{ return _Listview_programStepper; }
-            set{ _Listview_programStepper = value;
-                NotifyOfPropertyChange(() => Windowtitle);
+            get
+            {
+                return _RamViewObject;
             }
-        }   
 
-      
+            set
+            {
+                _RamViewObject = value;
+                NotifyOfPropertyChange(() => RamView);
+            }
+        }
+        public OperationViewModel OperationView
+        {
+            get
+            {
+                return _OperationViewModel;
+            }
+
+            set
+            {
+                _OperationViewModel = value;
+                NotifyOfPropertyChange(() => OperationView);
+            }
+        }
+        public IOPinsViewModel IOPinsView
+        {
+            get
+            {
+                return _IOPinsView;
+            }
+
+            set
+            {
+                _IOPinsView = value;
+                NotifyOfPropertyChange(() => IOPinsView);
+            }
+        }
+        public SfrViewModel SFRView
+        {
+            get
+            {
+                return _SFRView;
+            }
+
+            set
+            {
+                _SFRView = value;
+                NotifyOfPropertyChange(() => SFRView);
+            }
+        }
+
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            programExecution = new M_ProgramExecution(_listItems,ramViewModel,operationViewModel);
-
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
         }
         public void btn_next()
         {
@@ -72,70 +113,28 @@ namespace Simulation.ViewModels
             _fileOpen = new L_FileExplorer();
             _listItems = _fileOpen.ListItems;
 
-            operationViewModel = new OperationViewModel(_listItems);
-            operationViewModel = operationViewModel.getOperationViewModel();
+            OperationView = new OperationViewModel(_listItems);
+            OperationView = OperationView.getOperationViewModel();
 
-            OperationCode = new BindableCollection<OperationViewModel> { operationViewModel };
-            //  OperationCode = new BindableCollection<OperationViewModel> { new OperationViewModel(_listItems) };
 
-            ramViewModel = new RamViewModel();
-            ramViewModel = ramViewModel.getRamViewModel();
-            RamDisplay = new BindableCollection<RamViewModel> { ramViewModel };
+            RamView = new RamViewModel();
+            RamView = RamView.getRamViewModel();
 
-            ioPinViewModel = new IOPinsViewModel(ramViewModel);
+            SFRView = new SfrViewModel();
+            SFRView = SFRView.getSfrViewModel();
 
-            sfrViewModel = new SfrViewModel();
-            sfrViewModel = sfrViewModel.getsfrViewModel();
-            SFRDisplay = new BindableCollection<SfrViewModel> { sfrViewModel };
-                      
+
+            IOPinsView = new IOPinsViewModel(RamView);
+            IOPinsView = IOPinsView.getiopinsviewmodel();
+
 
         }
 
-        private BindableCollection<OperationViewModel> _operationCode;
-        public BindableCollection<OperationViewModel> OperationCode
-        {
-            get
-            {
-                return _operationCode;
-            }
+        private RamViewModel _RamViewObject;
+        private OperationViewModel _OperationViewModel;
 
-            set
-            {
-                _operationCode = value;
-                NotifyOfPropertyChange(() => OperationCode);
-            }
-        }
+        private SfrViewModel _SFRView;
+        private IOPinsViewModel _IOPinsView;
 
-        private BindableCollection<RamViewModel> _ramDisplay;
-        public BindableCollection<RamViewModel> RamDisplay
-        {
-            get
-            {
-                return _ramDisplay;
-            }
-
-            set
-            {
-                _ramDisplay = value;
-                NotifyOfPropertyChange(() => RamDisplay);
-            }
-        }
-
-        public BindableCollection<SfrViewModel> SFRDisplay
-        {
-            get
-            {
-                return _sFRDisplay;
-            }
-
-            set
-            {
-                _sFRDisplay = value;
-                NotifyOfPropertyChange(() => SFRDisplay);
-            }
-        }  
-        private BindableCollection<SfrViewModel> _sFRDisplay;
-
-        
     }
 }

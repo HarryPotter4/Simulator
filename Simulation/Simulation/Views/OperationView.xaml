@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Simulation.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" d:DesignWidth="539.2" 
              >
     <Grid Height="324" Width="538" >
-        <DataGrid ItemsSource="{Binding DataGrid_Operation}" SelectedItem="{Binding SelectItem}" SelectionUnit="FullRow" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="539"   Margin="0,0,0,0" IsEnabled="True" Height="324" RenderTransformOrigin="0,0" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" VerticalGridLinesBrush="White">            
+        <DataGrid ItemsSource="{Binding DataGrid_Operation}" SelectedItem="{Binding SelectItem}" SelectionUnit="FullRow" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="540"   Margin="-2,1,0,-1" IsEnabled="True" Height="324" RenderTransformOrigin="0,0" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" VerticalGridLinesBrush="White">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn  Binding="{Binding CheckBox_Breakpoint}"  Header="Breakpoint"/>
                 <DataGridTextColumn Binding="{Binding Text_Line}"   Header="Line" IsReadOnly="True"/>

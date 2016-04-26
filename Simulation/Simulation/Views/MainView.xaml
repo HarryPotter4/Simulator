@@ -4,9 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Simulation"
-        xmlns:cal="http://www.caliburnproject.org"
-        xmlns:controls="clr-namespace:Simulation.Views"
-        cal:Message.Attach="[Event MouseDoubleClick] = [Action RowSelect($dataContext)]"
+        
+        
         mc:Ignorable="d"
         Title="{Binding Windowtitle}" Height="780" Width="1024" MinWidth="760" MinHeight="780" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
 
@@ -22,34 +21,51 @@
             <MenuItem FontWeight="Bold" Header="HELP" FontSize="16"/>
         </Menu>
 
-        <ListBox x:Name="RamDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="30,95,0,0" VerticalAlignment="Top" Height="412" Width="440"/>
-        <ListBox x:Name="SFRDisplay" SelectionMode="Single" HorizontalAlignment="Left"  Margin="34,533,0,0" VerticalAlignment="Top" Height="184" Width="431"/>
+        
+        
+      <!--<controls:RamView x:Name="" Margin="35,146,641,278" />
+        <controls:OperationView x:Name="ControlField" Margin="449,148,26,280" />
+        <controls:IOPinsView Margin="501,542,295,119" />
+        <controls:SfrView Margin="34,504,638,113" />
+-->
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" Orientation="Vertical">
+            <ContentControl x:Name="RamView" Margin="50,90,529,249" BorderBrush="Azure"/>
+            <ContentControl x:Name="OperationView" Margin="504,150,50,250" BorderBrush="Black"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Stretch" Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
+                    <Button.Foreground>
+                        <ImageBrush ImageSource="../Pictures/clock.png"/>
+                    </Button.Foreground>
+                    <Button.Background>
+                        <ImageBrush ImageSource="../Pictures/clock.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btn_play" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../Pictures/icon-375.png" Stretch="Uniform"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btn_next" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../Pictures/play.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btn_pause" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" BorderBrush="White" Foreground="White">
+                    <Button.Background>
+                        <ImageBrush ImageSource="../Pictures/video.png"/>
+                    </Button.Background>
+                </Button>
 
-        <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" Margin="501,90,0,0" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
-            <Button.Foreground>
-                <ImageBrush ImageSource="../Pictures/clock.png"/>
-            </Button.Foreground>
-            <Button.Background>
-                <ImageBrush ImageSource="../Pictures/clock.png"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="btn_play" Content="" HorizontalAlignment="Left" Margin="546,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
-            <Button.Background>
-                <ImageBrush ImageSource="../Pictures/icon-375.png"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="btn_next" Content="" HorizontalAlignment="Left" Margin="636,90,0,0" VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">
-            <Button.Background>
-                <ImageBrush ImageSource="../Pictures/play.png"/>
-            </Button.Background>
-        </Button>
-        <Button x:Name="btn_pause" Content="" HorizontalAlignment="Left" Margin="591,90,0,0" VerticalAlignment="Top" Width="40" Height="40" BorderBrush="White" Foreground="White">
-            <Button.Background>
-                <ImageBrush ImageSource="../Pictures/video.png"/>
-            </Button.Background>
-        </Button>
-        <ListBox x:Name="OperationCode" SelectionMode="Single" HorizontalAlignment="Left"  Margin="498,135,0,0" VerticalAlignment="Top" Height="324" Width="495"/>
-        <controls:IOPinsView Margin="501,542,165,39" />
+            </StackPanel>
+            
+            
+            <ContentControl x:Name="SFRView" Margin="51,526,568,34"/>
+            <ContentControl x:Name="IOPinsView" Margin="505,531,51,30"/>
+        </StackPanel>
+
 
 
     </Grid>

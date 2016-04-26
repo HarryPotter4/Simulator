@@ -14,9 +14,11 @@ namespace Simulation.ViewModels
 
         }
 
-        internal SfrViewModel getsfrViewModel()
+        
+
+        internal SfrViewModel getSfrViewModel()
         {
             return this;
-        }       
+        }
     }
 }

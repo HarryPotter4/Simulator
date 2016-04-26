@@ -10,11 +10,7 @@ namespace Simulation.Model
     class M_OperationList : Screen
 
     {
-        public M_OperationList()
-        {
-
-        }
-        
+                
         private bool _CheckboxIsSelected;
         private string _CheckBox_Breakpoint;
         private string _Text_Line;
@@ -32,6 +28,7 @@ namespace Simulation.Model
             set
             {
                 _CheckboxIsSelected = value;
+                NotifyOfPropertyChange(() => CheckboxIsSelected);
             }
         }
         public string CheckBox_Breakpoint
@@ -57,6 +54,7 @@ namespace Simulation.Model
             set
             {
                 _Text_Line = value;
+                NotifyOfPropertyChange(() => Text_Line);
             }
         }
         public string Text_ProgramCounter
@@ -69,6 +67,7 @@ namespace Simulation.Model
             set
             {
                 _Text_ProgramCounter = value;
+                NotifyOfPropertyChange(() => Text_ProgramCounter);
             }
         }
         public string Text_Operation
@@ -81,6 +80,7 @@ namespace Simulation.Model
             set
             {
                 _Text_Operation = value;
+                NotifyOfPropertyChange(() => Text_Operation);
             }
         }
         public string Text_SourceCode
@@ -93,6 +93,7 @@ namespace Simulation.Model
             set
             {
                 _Text_SourceCode = value;
+                NotifyOfPropertyChange(() => Text_SourceCode);
             }
         }
         
