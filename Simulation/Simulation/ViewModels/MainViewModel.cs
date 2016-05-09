@@ -92,6 +92,7 @@ namespace Simulation.ViewModels
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
             currentState = programStates.execute;  
         }
          
@@ -106,11 +107,14 @@ namespace Simulation.ViewModels
             Debug.WriteLine("Button läuft!");
             currentState = programStates.wait;
         }
-        public void btn_back()
+        public void btn_reset()
         {
             Debug.WriteLine("Button läuft!");
-            if(OperationView != null)
-                _OperationViewModel.
+            if (OperationView != null)
+                programExecution.resetProgrammCounter();
+            initializeView();
+            currentState = programStates.wait;
+
         }
 
         public void menuItem_Open()
@@ -118,7 +122,11 @@ namespace Simulation.ViewModels
             Debug.WriteLine("Open läuft!");
             _fileOpen = new L_FileExplorer();
             _listItems = _fileOpen.ListItems;
+            initializeView();
+        }
 
+        private void initializeView()
+        {
             OperationView = new OperationViewModel(_listItems);
             OperationView = OperationView.getOperationViewModel();
 
@@ -132,8 +140,6 @@ namespace Simulation.ViewModels
 
             IOPinsView = new IOPinsViewModel(RamView);
             IOPinsView = IOPinsView.getiopinsviewmodel();
-
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
         }
 
         private RamViewModel _RamViewObject;

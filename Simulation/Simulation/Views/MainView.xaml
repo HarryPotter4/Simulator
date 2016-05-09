@@ -36,7 +36,7 @@
             <ContentControl x:Name="OperationView" Grid.Row="1" Grid.Column="1" BorderBrush="Black" />
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0.4,0,-0.2,0">
 
-                <Button x:Name="btn_back" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
+                <Button x:Name="btn_reset" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40"  Height="40" BorderBrush="White">
                     <Button.Foreground>
                         <ImageBrush ImageSource="../Pictures/clock.png"/>
                     </Button.Foreground>

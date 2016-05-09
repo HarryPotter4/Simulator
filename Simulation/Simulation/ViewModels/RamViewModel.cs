@@ -24,7 +24,7 @@ namespace Simulation.ViewModels
             initializeFields();
         }
 
-        private void initializeFields()
+        public void initializeFields()
         {
             for (int row = 0; row < 16; row++)
             {
