@@ -109,8 +109,10 @@ namespace Simulation.ViewModels
         public void btn_back()
         {
             Debug.WriteLine("Button läuft!");
-                        
+            if(OperationView != null)
+                _OperationViewModel.
         }
+
         public void menuItem_Open()
         {
             Debug.WriteLine("Open läuft!");

@@ -82,5 +82,7 @@ namespace Simulation.ViewModels
         {
             SelectItem = DataGrid_Operation.ElementAt(programCounter);                        
         } 
+
+       
     }   
 }

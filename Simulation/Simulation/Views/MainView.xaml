@@ -41,7 +41,7 @@
                         <ImageBrush ImageSource="../Pictures/clock.png"/>
                     </Button.Foreground>
                     <Button.Background>
-                        <ImageBrush ImageSource="../Pictures/clock.png"/>
+                        <ImageBrush ImageSource="/Simulation;component/Pictures/reset.png" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
                 <Button x:Name="btn_play" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Foreground="White" BorderBrush="White">

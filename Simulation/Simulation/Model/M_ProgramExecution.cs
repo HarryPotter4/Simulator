@@ -349,19 +349,10 @@ namespace Simulation.Model
             return Convert.ToInt32(bin, 2);
         }
 
-        private void getOperation()
+        public void resetProgrammCounter()
         {
-
+            programCounter = 0;
+            operationViewModel.nextLine(programCounter);
         }
-        private void getArgument()
-        {
-
-        }
-        private void getDestinationBit()
-        {
-
-        }
-
-
     }
 }
