@@ -18,10 +18,6 @@ namespace Simulation.ViewModels
         private List<M_FileListItem> _listItems;
         private M_ProgramExecution programExecution;
 
-        
-        private SfrViewModel sfrViewModel;        
-        private IOPinsViewModel ioPinViewModel;       
-
         private string _windowTitle;
         public string Windowtitle
         {
@@ -89,40 +85,12 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => SFRView);
             }
         }
-
-        private Thread programExecutionThread;
-        
-
-
-        public MainViewModel()
-        {
-            programExecutionThread = new Thread(startProgramThread);         
-            
-        }
-
-        
+             
 
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            if(programExecutionThread.ThreadState == System.Threading.ThreadState.Running)
-            {
-                return;
-            }
-            else if (programExecutionThread.ThreadState == System.Threading.ThreadState.Unstarted)
-            {
-                programExecutionThread.Start();                
-            }
-            else if(programExecutionThread.ThreadState == System.Threading.ThreadState.Suspended)
-            {
-                programExecutionThread.Resume();
-            }
-            else
-            {
-                Debug.WriteLine((programExecutionThread.ThreadState).ToString());
-                
-            }
-
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView, null);
         }
 
        
@@ -130,12 +98,10 @@ namespace Simulation.ViewModels
         public void btn_next()
         {
             Debug.WriteLine("Button läuft!");
-            programExecutionThread.Resume();
         }
         public void btn_pause()
         {
             Debug.WriteLine("Button läuft!");
-            programExecutionThread.Suspend();
         }
         public void btn_back()
         {
@@ -161,22 +127,13 @@ namespace Simulation.ViewModels
 
             IOPinsView = new IOPinsViewModel(RamView);
             IOPinsView = IOPinsView.getiopinsviewmodel();
-
-
         }
 
         private RamViewModel _RamViewObject;
         private OperationViewModel _OperationViewModel;
 
         private SfrViewModel _SFRView;
-        private IOPinsViewModel _IOPinsView;
-
-        private void startProgramThread()
-        {
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView,programExecutionThread);
-
-           
-        }
+        private IOPinsViewModel _IOPinsView;     
 
     }
 }
