@@ -30,7 +30,6 @@ namespace Simulation.ViewModels
                 DataGrid_Operation.Add(new M_OperationList
                 {
                     Checkbox_IsSelected = false,
-                    CheckBox_Breakpoint = "",
                     Text_Line = (line++).ToString(),
                     Text_Operation = item.OpCode,
                     Text_SourceCode = item.SourceCode,

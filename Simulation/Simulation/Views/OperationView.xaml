@@ -9,7 +9,7 @@
     <Grid>
         <DataGrid ItemsSource="{Binding DataGrid_Operation}" SelectedItem="{Binding SelectItem}" SelectionUnit="FullRow" HorizontalAlignment="Left"  VerticalAlignment="Top" IsEnabled="True" RenderTransformOrigin="0,0" AutoGenerateColumns="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" VerticalGridLinesBrush="White">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn  Selector.IsSelected="{Binding Checkbox_IsSelected}" Header="Breakpoint" />
+                <DataGridCheckBoxColumn  Binding="{Binding Checkbox_IsSelected}" Header="Breakpoint" />
                 <DataGridTextColumn Binding="{Binding Text_Line}"   Header="Line" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Text_ProgramCounter}" Header="Program Counter" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Text_Operation}" Header="Operation" IsReadOnly="True"/>

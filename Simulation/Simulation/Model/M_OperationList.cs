@@ -29,6 +29,8 @@ namespace Simulation.Model
             {
                 _Checkbox_IsSelected = value;
                 NotifyOfPropertyChange(() => Checkbox_IsSelected);
+                if(Checkbox_IsSelected == true)
+                    MessageBox.Show("Hallo Welt");
             }
         }
         
