@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Simulation.ViewModels;
+using Caliburn.Micro;
 
 namespace Simulation.Model
 
     
 {
-    class M_Operators
+    class M_Operators : Screen
     {       
         private int _W_Register;
         private List<int> stackProgramCounter;
@@ -42,6 +43,10 @@ namespace Simulation.Model
 
         private RamViewModel ramViewModel;
 
+        private IObservableCollection<M_SFRrow> SFRView;
+
+        
+
         public int W_Register
         {
             get
@@ -52,6 +57,8 @@ namespace Simulation.Model
             set
             {
                 _W_Register = value;
+                NotifyOfPropertyChange(() => W_Register);
+                SFRView.ElementAt(7).Column_HEX = W_Register.ToString(); 
             }
 
             
@@ -91,6 +98,8 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 11, _INTCON);                
                 ramViewModel.setByte(8, 11, _INTCON);
                 _INTCON = ramViewModel.getByte(0, 11);
+                NotifyOfPropertyChange(() => INTCON);
+                SFRView.ElementAt(6).Column_HEX = INTCON.ToString();
             }
         }
         public int PCLATH
@@ -106,6 +115,8 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 10, _PCLATH);
                 ramViewModel.setByte(0, 10, _PCLATH);
                 _PCLATH = ramViewModel.getByte(0, 10);
+                NotifyOfPropertyChange(() => PCLATH);
+                SFRView.ElementAt(10).Column_HEX = PCLATH.ToString();
             }
         }
         public int EEADR
@@ -148,6 +159,8 @@ namespace Simulation.Model
                 _PORTB = value;
                 ramViewModel.setByte(0, 6, _PORTB);
                 _PORTB = ramViewModel.getByte(0, 6);
+                NotifyOfPropertyChange(() => PORTB);
+                SFRView.ElementAt(3).Column_HEX = PORTB.ToString();
             }
         }
         public int PORTA
@@ -162,6 +175,8 @@ namespace Simulation.Model
                 _PORTA = value;
                 ramViewModel.setByte(0, 5, _PORTA);
                 _PORTA = ramViewModel.getByte(0, 5);
+                NotifyOfPropertyChange(() => PORTA);
+                SFRView.ElementAt(1).Column_HEX = PORTA.ToString();
             }
         }
         public int FSR
@@ -177,6 +192,8 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 4, _FSR);
                 ramViewModel.setByte(8, 4, _FSR);
                 _FSR = ramViewModel.getByte(0, 4);
+                NotifyOfPropertyChange(() => FSR);
+                SFRView.ElementAt(8).Column_HEX = FSR.ToString();
             }
         }
         public int STATUS
@@ -192,6 +209,8 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 3, _STATUS);
                 ramViewModel.setByte(8, 3, _STATUS);
                 _STATUS = ramViewModel.getByte(0, 3);
+                NotifyOfPropertyChange(() => STATUS);
+                SFRView.ElementAt(2).Column_HEX = STATUS.ToString();
             }
         } 
         public int PCL
@@ -207,6 +226,8 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 2, _PCL);
                 ramViewModel.setByte(8, 2, _PCL);
                 _PCL = ramViewModel.getByte(0, 2);
+                NotifyOfPropertyChange(() => PCL);
+                SFRView.ElementAt(9).Column_HEX = PCL.ToString();
             }
         }
         public int EECON2
@@ -249,6 +270,8 @@ namespace Simulation.Model
                 _TRISB = value;
                 ramViewModel.setByte(8, 6, _TRISB);
                 _TRISB = ramViewModel.getByte(8, 6);
+                NotifyOfPropertyChange(() => TRISB);
+                SFRView.ElementAt(2).Column_HEX = TRISB.ToString();
             }
         }
         public int TRISA
@@ -263,6 +286,8 @@ namespace Simulation.Model
                 _TRISA = value;
                 ramViewModel.setByte(8, 5, _TRISA);
                 _TRISA = ramViewModel.getByte(8, 5);
+                NotifyOfPropertyChange(() => TRISA);
+                SFRView.ElementAt(0).Column_HEX = TRISA.ToString();
             }
         }
         public int OPTION_REGISTER
@@ -277,6 +302,8 @@ namespace Simulation.Model
                 _OPTION_REGISTER = value;
                 ramViewModel.setByte(8, 1, _OPTION_REGISTER);
                 _OPTION_REGISTER = ramViewModel.getByte(8, 1);
+                NotifyOfPropertyChange(() => OPTION_REGISTER);
+                SFRView.ElementAt(5).Column_HEX = OPTION_REGISTER.ToString();
             }
         }
         public int ProgramCounter
@@ -382,6 +409,7 @@ namespace Simulation.Model
             this.ramViewModel = ramViewModel;
             stackProgramCounter = new List<int>();
             initRam();
+            SFRView = ViewModels.MainViewModel.sfrView;
         }
 
         private void initRam()

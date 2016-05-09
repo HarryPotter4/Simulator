@@ -17,6 +17,7 @@ namespace Simulation.ViewModels
         private L_FileExplorer _fileOpen;
         private List<M_FileListItem> _listItems;
         private M_ProgramExecution programExecution;
+        public static IObservableCollection<M_SFRrow> sfrView;
 
         private string _windowTitle;
         public string Windowtitle
@@ -136,7 +137,7 @@ namespace Simulation.ViewModels
 
             SFRView = new SfrViewModel();
             SFRView = SFRView.getSfrViewModel();
-
+            sfrView = SFRView.DataGrid_SFRView;
 
             IOPinsView = new IOPinsViewModel(RamView);
             IOPinsView = IOPinsView.getiopinsviewmodel();

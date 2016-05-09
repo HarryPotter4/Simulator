@@ -11,10 +11,12 @@ namespace Simulation.ViewModels
     class SfrViewModel : Screen
     {
         private string[] sfrNames = {"TRIS A","PORT A","TRIS B","PORT B","STATUS","OPTION","INTCON","W_Reg","FSR","PCL","PC LATH"};
+        
 
         public SfrViewModel()
         {
             DataGrid_SFRView = new BindableCollection<M_SFRrow>();
+            
 
             initalizeView();
         }
