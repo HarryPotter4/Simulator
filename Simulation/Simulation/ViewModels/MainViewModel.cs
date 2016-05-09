@@ -85,28 +85,31 @@ namespace Simulation.ViewModels
                 NotifyOfPropertyChange(() => SFRView);
             }
         }
-             
+
+        public static programStates currentState;     
+        public enum programStates {unstarted,execute,busy,wait,oneCycle,finish};
 
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
+            currentState = programStates.execute;  
         }
-
-       
+         
 
         public void btn_next()
         {
             Debug.WriteLine("Button läuft!");
+            currentState = programStates.oneCycle;
         }
         public void btn_pause()
         {
             Debug.WriteLine("Button läuft!");
+            currentState = programStates.wait;
         }
         public void btn_back()
         {
             Debug.WriteLine("Button läuft!");
-            
+                        
         }
         public void menuItem_Open()
         {
@@ -127,6 +130,8 @@ namespace Simulation.ViewModels
 
             IOPinsView = new IOPinsViewModel(RamView);
             IOPinsView = IOPinsView.getiopinsviewmodel();
+
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
         }
 
         private RamViewModel _RamViewObject;

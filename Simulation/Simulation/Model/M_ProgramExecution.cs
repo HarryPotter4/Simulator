@@ -19,22 +19,20 @@ namespace Simulation.Model
         private int executionCode;
         private OperationViewModel operationViewModel;
         
-        
+
 
         public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel) 
         {
             this.operationViewModel = operationViewModel;
             this.ramViewModel = ramViewModel;
-            this._listItems = _listItems;
-            
+            this._listItems = _listItems;            
             command = new M_Operators(ramViewModel);
-            
+            Thread thread = new Thread(startProgram);
 
             if (!(this._listItems.Count.Equals(null)))
             {
-                startProgram();
+                thread.Start();
             }
-            
         }
 
         
@@ -43,25 +41,56 @@ namespace Simulation.Model
         {
             M_FileListItem listItem;
 
+            
 
             programCounter = 0;
             for (programCounter = 0; programCounter < Convert.ToInt32(_listItems.Count );)
             {
-                listItem = _listItems.ElementAt(programCounter);
-                
-                programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
-                executionCode = Convert.ToInt32(listItem.OpCode, 16);
-                
-                nextMachineCycle(listItem.OpCode);
-                Thread.Sleep(500);
+                if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.unstarted)
+                    continue;
+                else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.execute)
+                {
+                    if(operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true)
+                    {
+                        ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.wait;
+                        continue;
+                    }
+                        
+                    listItem = machineCycle();
+                    continue;
+                }
+                else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.wait)
+                    continue;
+                else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.oneCycle)
+                {
+                    listItem = machineCycle();
+                    ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.wait;
+                    continue;
+                }
+                else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.finish)
+                    return;                    
+                else
+                    throw new NotImplementedException();              
 
-                programCounter = command.getProgramCounter();
-                operationViewModel.nextLine(programCounter);
+                
             }
 
-            
+
         }
 
+        private M_FileListItem machineCycle()
+        {
+            M_FileListItem listItem = _listItems.ElementAt(programCounter);
+            programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
+            executionCode = Convert.ToInt32(listItem.OpCode, 16);
+
+            nextMachineCycle(listItem.OpCode);
+            Thread.Sleep(500);
+
+            programCounter = command.getProgramCounter();
+            operationViewModel.nextLine(programCounter);
+            return listItem;
+        }
 
         private void nextMachineCycle(string opCode)
         {
