@@ -90,7 +90,7 @@ namespace Simulation.ViewModels
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView, null);
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
         }
 
        

@@ -16,7 +16,7 @@ namespace Simulation.ViewModels
         public OperationViewModel(List<M_FileListItem> _listItems)
         {
             this._listItems = _listItems;
-            _dataGrid_Operation = new BindableCollection<M_OperationList>();
+            DataGrid_Operation = new BindableCollection<M_OperationList>();
 
             initOperationView();
         }
@@ -27,7 +27,7 @@ namespace Simulation.ViewModels
 
             foreach (M_FileListItem item in _listItems)
             {
-                _dataGrid_Operation.Add(new M_OperationList
+                DataGrid_Operation.Add(new M_OperationList
                 {
                     Checkbox_IsSelected = false,
                     CheckBox_Breakpoint = "",
@@ -76,7 +76,7 @@ namespace Simulation.ViewModels
         }
         public IObservableCollection<M_OperationList> getOperationsList()
         {
-            return _dataGrid_Operation;
+            return DataGrid_Operation;
         }
   
         public void nextLine(int programCounter)

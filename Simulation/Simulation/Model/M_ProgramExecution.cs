@@ -48,9 +48,7 @@ namespace Simulation.Model
             for (programCounter = 0; programCounter < Convert.ToInt32(_listItems.Count );)
             {
                 listItem = _listItems.ElementAt(programCounter);
-
-                if(listItem.)
-
+                
                 programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
                 executionCode = Convert.ToInt32(listItem.OpCode, 16);
                 

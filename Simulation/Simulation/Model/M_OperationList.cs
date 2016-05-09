@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Simulation.Model
 {
@@ -30,19 +31,7 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => Checkbox_IsSelected);
             }
         }
-        public string CheckBox_Breakpoint
-        {
-            get
-            {
-                return _CheckBox_Breakpoint;
-            }
-
-            set
-            {
-                _CheckBox_Breakpoint = value;
-                NotifyOfPropertyChange(() =>  CheckBox_Breakpoint);
-            }
-        }
+        
         public string Text_Line
         {
             get
