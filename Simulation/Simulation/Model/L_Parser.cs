@@ -33,8 +33,7 @@ namespace Simulation.Model
         {
             StreamReader file = new StreamReader(pathName);
             listItems = new List<M_FileListItem>();      
-            ParseDocument(file); 
-            
+            ParseDocument(file);             
         }
         
         private void ParseDocument(StreamReader file)

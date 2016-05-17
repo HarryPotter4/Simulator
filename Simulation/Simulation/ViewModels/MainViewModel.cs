@@ -93,7 +93,6 @@ namespace Simulation.ViewModels
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
             currentState = programStates.execute;  
         }
          
@@ -139,8 +138,11 @@ namespace Simulation.ViewModels
             SFRView = SFRView.getSfrViewModel();
             sfrView = SFRView.DataGrid_SFRView;
 
-            IOPinsView = new IOPinsViewModel(RamView);
+            IOPinsView = new IOPinsViewModel(RamView,SFRView);
             IOPinsView = IOPinsView.getiopinsviewmodel();
+
+
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
         }
 
         private RamViewModel _RamViewObject;

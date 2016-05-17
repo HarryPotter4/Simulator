@@ -25,7 +25,7 @@
         <Grid Margin="0,48,5,-34.8" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="400"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>

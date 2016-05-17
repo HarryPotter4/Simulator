@@ -12,10 +12,14 @@ namespace Simulation.ViewModels
     {
         
         private RamViewModel ramViewModel;
+        private SfrViewModel sfrData;
+        private int portB;
+        private int portA;
 
-        public IOPinsViewModel(RamViewModel ramViewModel)
+        public IOPinsViewModel(RamViewModel ramViewModel,SfrViewModel sfr)
         {
             this.ramViewModel = ramViewModel;
+            this.sfrData = sfr;
         }
 
         private bool _Checkbox_PortA_Pin0;
@@ -48,11 +52,13 @@ namespace Simulation.ViewModels
                 if(Checkbox_PortA_Pin0)
                 {
                     ramViewModel.setBit(0, 5, 0, 1);
+                   
                 }                
                 else if(!Checkbox_PortA_Pin0)
                 {
                     ramViewModel.setBit(0, 5, 0, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(1).Column_HEX = ramViewModel.getByte(0, 5).ToString();
             }
         }
         public bool Checkbox_PortA_Pin1
@@ -74,6 +80,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 5, 1, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(1).Column_HEX = ramViewModel.getByte(0, 5).ToString();
             }
         }
         public bool Checkbox_PortA_Pin2
@@ -95,6 +102,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 5, 2, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(1).Column_HEX = ramViewModel.getByte(0, 5).ToString();
             }
         }
         public bool Checkbox_PortA_Pin3
@@ -116,6 +124,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 5, 3, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(1).Column_HEX = ramViewModel.getByte(0, 5).ToString();
             }
         }
         public bool Checkbox_PortA_Pin4
@@ -129,6 +138,7 @@ namespace Simulation.ViewModels
             {
                 _Checkbox_PortA_Pin4 = value;
                 NotifyOfPropertyChange(() => Checkbox_PortA_Pin4);
+                
                 if (Checkbox_PortA_Pin4)
                 {
                     ramViewModel.setBit(0, 5, 4, 1);
@@ -137,6 +147,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 5, 4, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(1).Column_HEX = ramViewModel.getByte(0, 5).ToString();
             }
         }
 
@@ -159,6 +170,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 0, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin1
@@ -180,6 +192,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 1, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin2
@@ -201,6 +214,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 2, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin3
@@ -222,6 +236,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 3, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin4
@@ -243,6 +258,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 4, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin5
@@ -264,6 +280,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 5, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin6
@@ -287,6 +304,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 6, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public bool Checkbox_PortB_Pin7
@@ -309,6 +327,7 @@ namespace Simulation.ViewModels
                 {
                     ramViewModel.setBit(0, 6, 7, 0);
                 }
+                sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
 

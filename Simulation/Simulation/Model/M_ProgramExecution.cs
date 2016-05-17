@@ -63,7 +63,10 @@ namespace Simulation.Model
                     continue;
                 else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.oneCycle)
                 {
-                    listItem = machineCycle();
+                    if(_listItems.Count >= programCounter)
+                    {                    
+                        listItem = machineCycle();
+                    }
                     ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.wait;
                     continue;
                 }
@@ -82,7 +85,9 @@ namespace Simulation.Model
 
         private M_FileListItem machineCycle()
         {
+            
             M_FileListItem listItem = _listItems.ElementAt(programCounter);
+            
             programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
             executionCode = Convert.ToInt32(listItem.OpCode, 16);
 

@@ -23,8 +23,7 @@ namespace Simulation.Model
             set
             {
                 _Column_Description = value;
-                NotifyOfPropertyChange(() => Column_Description );
-                
+                NotifyOfPropertyChange(() => Column_Description );                
             }
         }
 
@@ -41,6 +40,7 @@ namespace Simulation.Model
             {
                 _Column_HEX = value;
                 NotifyOfPropertyChange(() => Column_HEX);
+                
             }
         }
     }
