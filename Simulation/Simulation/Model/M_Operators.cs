@@ -58,6 +58,13 @@ namespace Simulation.Model
             {
                 _W_Register = value;
                 NotifyOfPropertyChange(() => W_Register);
+
+                if (_W_Register < 0 && _W_Register > -256)
+                    _W_Register = _W_Register + 256;
+                else if (_W_Register > 255 && _W_Register < 512)
+                    _W_Register = _W_Register - 256;
+                
+
                 SFRView.ElementAt(7).Column_HEX = W_Register.ToString(); 
             }
 
@@ -189,10 +196,10 @@ namespace Simulation.Model
             set
             {
                 _FSR = value;
+                NotifyOfPropertyChange(() => FSR);
                 ramViewModel.setByte(0, 4, _FSR);
                 ramViewModel.setByte(8, 4, _FSR);
-                _FSR = ramViewModel.getByte(0, 4);
-                NotifyOfPropertyChange(() => FSR);
+                _FSR = ramViewModel.getByte(0, 4);                
                 SFRView.ElementAt(8).Column_HEX = ramViewModel.getByte(8, 4).ToString();
             }
         }
@@ -332,6 +339,7 @@ namespace Simulation.Model
                 _CarryBit = value;
                 ramViewModel.setBit(0, 3, 0, _CarryBit);
                 ramViewModel.setBit(8, 3, 0, _CarryBit);
+                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int DigitCarryBit
@@ -346,6 +354,7 @@ namespace Simulation.Model
                 _DigitCarryBit = value;
                 ramViewModel.setBit(0, 3, 1,_DigitCarryBit);
                 ramViewModel.setBit(8, 3, 1, _DigitCarryBit);
+                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int ZeroFlag
@@ -360,6 +369,7 @@ namespace Simulation.Model
                 _ZeroFlag = value;
                 ramViewModel.setBit(0, 3, 2, _ZeroFlag);
                 ramViewModel.setBit(8, 3, 2, _ZeroFlag);
+                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int TimeOutBit
@@ -374,6 +384,7 @@ namespace Simulation.Model
                 _TimeOutBit = value;
                 ramViewModel.setBit(0, 3, 4, _TimeOutBit);
                 ramViewModel.setBit(8, 3, 4, _TimeOutBit);
+                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int PowerDownBit
@@ -388,6 +399,7 @@ namespace Simulation.Model
                 _PowerDownBit = value;
                 ramViewModel.setBit(0, 3, 3, _PowerDownBit);
                 ramViewModel.setBit(8, 3, 3, _PowerDownBit);
+                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int RP0
@@ -402,6 +414,7 @@ namespace Simulation.Model
                 _RP0 = value;
                 ramViewModel.setBit(0, 3, 5, _RP0);
                 ramViewModel.setBit(8, 3, 5, _RP0);
+                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
 
@@ -462,6 +475,8 @@ namespace Simulation.Model
             int result = ramValue - W_Register;
             
             isZero(ramValue, result);
+            isCarryBorrow(ramValue, result);
+            isDigitCarryBorrow(ramValue, result);
 
             if ( destinationsBit == 1)
             {               
@@ -487,8 +502,12 @@ namespace Simulation.Model
 
             isZero(currentValue, currentValue - 1);
 
-            
-            ramViewModel.setByte(row, column, currentValue - 1);
+            if (destinationsBit == 1)
+                ramViewModel.setByte(row, column, currentValue - 1);
+            else if (destinationsBit == 0)
+                W_Register = currentValue - 1;
+            else
+                throw new NotImplementedException(); 
 
             ProgramCounter++;
         }
@@ -659,7 +678,7 @@ namespace Simulation.Model
             int currentValue = ramViewModel.getByte(row, column);
             int result = 0;
 
-            isZero(currentValue, result);
+            isZero(1,0);
 
             ramViewModel.setByte(row, column, result);
             ProgramCounter++;
@@ -671,6 +690,8 @@ namespace Simulation.Model
             int result = 0;
 
             isZero(currentValue, result);
+
+            W_Register = 0;
 
             ProgramCounter++;
         }
@@ -728,11 +749,13 @@ namespace Simulation.Model
             int currentValue = ramViewModel.getByte(row, column);
             int result = currentValue / 2;
 
-            isZero(currentValue, result);
-
-            ramViewModel.setByte(row, column, result);
-
-            ProgramCounter++;
+            isCarryBorrow(currentValue, result);
+            if (destinationsBit == 0)
+                W_Register = result;
+            else if (destinationsBit == 1)
+                ramViewModel.setByte(row, column, result);
+            else
+                throw new NotImplementedException(); ProgramCounter++;
         }
 
         internal void rlf(int destinationsBit, int fileRegister)
@@ -743,9 +766,13 @@ namespace Simulation.Model
             int currentValue = ramViewModel.getByte(row, column);
             int result = currentValue * 2;
 
-            isZero(currentValue, result);
-
-            ramViewModel.setByte(row, column, result);
+            isCarryBorrow(currentValue, result);
+            if (destinationsBit == 0)
+                W_Register = result;
+            else if (destinationsBit == 1)
+                ramViewModel.setByte(row, column, result);
+            else
+                throw new NotImplementedException();
 
             ProgramCounter++;
         }
@@ -850,7 +877,7 @@ namespace Simulation.Model
             
 
             W_Register = constValue;
-            ProgramCounter = stackProgramCounter.Last();
+            ProgramCounter = stackProgramCounter.Last() + 1;
             stackProgramCounter.Remove(stackProgramCounter.Last());
 
         }
@@ -960,7 +987,7 @@ namespace Simulation.Model
         internal void retIEF()
         {
             
-            ProgramCounter = stackProgramCounter.Last();
+            ProgramCounter = stackProgramCounter.Last() + 1 ;
             stackProgramCounter.Remove(stackProgramCounter.Last());
         }
 
@@ -991,7 +1018,7 @@ namespace Simulation.Model
         internal void reTurn()
         {
             //throw new NotImplementedException();
-            ProgramCounter = stackProgramCounter.Last();
+            ProgramCounter = stackProgramCounter.Last() + 1;
             stackProgramCounter.Remove(stackProgramCounter.Last());
         }
 
