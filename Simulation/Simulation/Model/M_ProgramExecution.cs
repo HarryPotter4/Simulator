@@ -50,12 +50,12 @@ namespace Simulation.Model
                     continue;
                 else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.execute)
                 {
-                    if(operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true)
+                    if (operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true)
                     {
                         ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.wait;
                         continue;
                     }
-                        
+
                     listItem = machineCycle();
                     continue;
                 }
@@ -68,8 +68,10 @@ namespace Simulation.Model
                     continue;
                 }
                 else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.finish)
-                    return;                    
+                    return;
                 else
+                    if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.execute)
+                        return;
                     throw new NotImplementedException();              
 
                 

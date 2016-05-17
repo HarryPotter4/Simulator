@@ -10,8 +10,8 @@
 
     <Grid Margin="0,0,-0.4,0.4">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="561.6" />
-            <RowDefinition Height="Auto" MinHeight="148" />
+            <RowDefinition Height="561.6" MinHeight="561.6" />
+            <RowDefinition Height="148" MinHeight="148" />
         </Grid.RowDefinitions>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="46" VerticalAlignment="Top" Width="1018">
             <MenuItem Header="FILE" StaysOpenOnClick="True" Height="45" Width="50" FontSize="16" FontWeight="Bold">

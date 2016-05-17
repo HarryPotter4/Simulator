@@ -27,15 +27,7 @@ namespace Simulation.ViewModels
             {
                 DataGrid_SFRView.Add(new M_SFRrow()
                 {
-                    Column_Description = sfrNames[index],
-                    Column_0 = "0",
-                    Column_1 = "0",
-                    Column_2 = "0",
-                    Column_3 = "0",
-                    Column_4 = "0",
-                    Column_5 = "0",
-                    Column_6 = "0",
-                    Column_7 = "0",
+                    Column_Description = sfrNames[index],                    
                     Column_HEX = "0"
                 });
             }
