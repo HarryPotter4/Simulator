@@ -14,6 +14,7 @@ namespace Simulation.ViewModels
 {
     class RamViewModel : Screen
     {
+        
        public RamViewModel()
         {
             DataGrid_RamView = new BindableCollection<M_RamRow>();
@@ -22,6 +23,17 @@ namespace Simulation.ViewModels
 
 
             initializeFields();
+        }
+
+        public RamViewModel(SfrViewModel sFRView)
+        {
+            DataGrid_RamView = new BindableCollection<M_RamRow>();
+            //_ramArray = new string[16,16];
+            //map_List_To_RamArray();
+
+
+            initializeFields();
+            this.SfrView = sFRView;
         }
 
         public void initializeFields()
@@ -154,10 +166,21 @@ namespace Simulation.ViewModels
         }
         public int getBit(int row, int column, int bit)
         {
-            throw new NotImplementedException();           
+            int byteValue = getByte(row, column);
+
+            int result = Convert.ToInt32(Math.Pow(2, bit));
+            result = byteValue & result;
+            if (result > 0)
+                return 1;
+            else if (result == 0)
+                return 0;
+            else
+                throw new NotFiniteNumberException();
         }
 
         private IObservableCollection<M_RamRow> _dataGrid_RamView;
+        private SfrViewModel sfrView;
+
         public IObservableCollection<M_RamRow> DataGrid_RamView
         {
             get
@@ -184,7 +207,21 @@ namespace Simulation.ViewModels
                 _RowHeaderValue = value;
                 NotifyOfPropertyChange(() => RowHeaderValue);
             }
-        }       
+        }
+
+        internal SfrViewModel SfrView
+        {
+            get
+            {
+                return sfrView;
+            }
+
+            set
+            {
+                sfrView = value;
+            }
+        }
+
         public RamViewModel getRamViewModel()
         {
             return this;

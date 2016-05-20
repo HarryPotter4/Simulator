@@ -130,13 +130,14 @@ namespace Simulation.ViewModels
             OperationView = new OperationViewModel(_listItems);
             OperationView = OperationView.getOperationViewModel();
 
-
-            RamView = new RamViewModel();
-            RamView = RamView.getRamViewModel();
-
             SFRView = new SfrViewModel();
             SFRView = SFRView.getSfrViewModel();
             sfrView = SFRView.DataGrid_SFRView;
+
+            RamView = new RamViewModel(SFRView);
+            RamView = RamView.getRamViewModel();
+
+            
 
             IOPinsView = new IOPinsViewModel(RamView,SFRView);
             IOPinsView = IOPinsView.getiopinsviewmodel();

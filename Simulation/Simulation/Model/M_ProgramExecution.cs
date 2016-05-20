@@ -18,6 +18,7 @@ namespace Simulation.Model
         private int programCounter;
         private int executionCode;
         private OperationViewModel operationViewModel;
+        private int prescaler = 0;
         
 
 
@@ -40,10 +41,8 @@ namespace Simulation.Model
         private void startProgram()
         {
             M_FileListItem listItem;
-
-            
-
             programCounter = 0;
+
             for (programCounter = 0; programCounter < Convert.ToInt32(_listItems.Count );)
             {
                 if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.unstarted)
@@ -75,9 +74,7 @@ namespace Simulation.Model
                 else
                     if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.execute)
                         return;
-                    throw new NotImplementedException();              
-
-                
+                    throw new NotImplementedException(); 
             }
 
 
@@ -88,15 +85,78 @@ namespace Simulation.Model
             
             M_FileListItem listItem = _listItems.ElementAt(programCounter);
             
-            programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
+           // programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
             executionCode = Convert.ToInt32(listItem.OpCode, 16);
 
             nextMachineCycle(listItem.OpCode);
             Thread.Sleep(500);
 
+            
+            operationViewModel.nextLine(programCounter);            
+            incTMRO();
+
             programCounter = command.getProgramCounter();
-            operationViewModel.nextLine(programCounter);
+            setPCL();
+
+            updateSFR();
+
             return listItem;
+        }
+
+        private void incTMRO()
+        {
+            if(command.PrescallerAssignmentBit == 1)
+            {
+                command.TMR0++;
+                prescaler = 0;
+            }
+            else if(command.PrescallerAssignmentBit ==0)
+            {
+                 if(prescaler >= command.Prescaler)
+                {
+                    command.TMR0++;
+                    prescaler = 0;
+                }
+                else if(prescaler < command.Prescaler) { prescaler++; }
+                else{ throw new NotImplementedException();}
+            }
+            else { throw new NotImplementedException(); }
+
+            if(command.TMR0 == 255)
+            {
+               command.T0IF = 1;
+                if(command.T0IE == 1 && command.GIE == 1)
+                {
+                    command.StackProgramCounter.Add(programCounter);
+                    command.ProgramCounter = 4;                    
+                }
+            }
+            
+
+
+        }
+        private void setPCL()
+        {
+            ramViewModel.setByte(0, 2, programCounter);
+        }
+
+        private void updateSFR()
+        {
+            var bank0 = ramViewModel.DataGrid_RamView.ElementAt(0);
+            var bank1 = ramViewModel.DataGrid_RamView.ElementAt(8);
+            var sfrView = ramViewModel.SfrView.DataGrid_SFRView;
+
+            sfrView.ElementAt(0).Column_HEX = bank1.Column_5;           //TRISA
+            sfrView.ElementAt(1).Column_HEX = bank0.Column_5;           // PORT A
+            sfrView.ElementAt(2).Column_HEX = bank1.Column_6;           //TRISB
+            sfrView.ElementAt(3).Column_HEX = bank0.Column_6;           // PORTB
+            sfrView.ElementAt(4).Column_HEX = bank0.Column_3;           //STATUS
+            sfrView.ElementAt(5).Column_HEX = bank1.Column_1;           //OPTION
+            sfrView.ElementAt(6).Column_HEX = bank0.Column_11;          //INTCON
+            sfrView.ElementAt(8).Column_HEX = bank0.Column_4;           //FSR
+            sfrView.ElementAt(9).Column_HEX = bank0.Column_2;           // PCL
+            sfrView.ElementAt(10).Column_HEX = bank0.Column_10;         // PCLATH
+            command.RP0 = ramViewModel.getBit(0, 3, 5);
         }
 
         private void nextMachineCycle(string opCode)

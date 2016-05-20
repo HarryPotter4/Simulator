@@ -13,8 +13,8 @@ namespace Simulation.Model
     class M_Operators : Screen
     {       
         private int _W_Register;
-        private List<int> stackProgramCounter;
-              
+        private List<int> _stackProgramCounter;
+        private bool _IsBank0selected = true;
         private int _TMR0;
         private int _PCL;
         private int _STATUS;
@@ -40,6 +40,17 @@ namespace Simulation.Model
         private int _TimeOutBit;
         private int _PowerDownBit;
         private int _RP0;
+
+        #region Option Register bits
+        private int _Prescaler;
+        private int _PrescallerAssignmentBit;
+        private int _ClockSource;
+        #endregion
+        #region Interrupt Configuratio Register
+        private int _GIE;
+        private int _T0IE;
+        private int _T0IF;
+        #endregion
 
         private RamViewModel ramViewModel;
 
@@ -82,6 +93,15 @@ namespace Simulation.Model
             set
             {
                 _TMR0 = value;
+                if(_TMR0 == 256)
+                {
+                    _TMR0 = 0;
+                    isZero(1, 0);
+
+
+                }
+
+
                 ramViewModel.setByte(0, 0, TMR0);
                 _TMR0 = ramViewModel.getByte(0, 0);
             }
@@ -107,6 +127,10 @@ namespace Simulation.Model
                 ramViewModel.setByte(8, 11, _INTCON);
                 _INTCON = ramViewModel.getByte(0, 11);
                 SFRView.ElementAt(6).Column_HEX = ramViewModel.getByte(8, 11).ToString();
+
+                GIE = INTCON & 128;
+                T0IE = INTCON & 32;
+                T0IF = INTCON & 4;
             }
         }
         public int PCLATH
@@ -217,6 +241,7 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 3, _STATUS);
                 ramViewModel.setByte(8, 3, _STATUS);
                 _STATUS = ramViewModel.getByte(0, 3);
+                
                 SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         } 
@@ -313,6 +338,11 @@ namespace Simulation.Model
                 ramViewModel.setByte(8, 1, _OPTION_REGISTER);
                 _OPTION_REGISTER = ramViewModel.getByte(8, 1);
                 SFRView.ElementAt(5).Column_HEX = ramViewModel.getByte(8,1).ToString();
+
+                Prescaler =Convert.ToInt32(Math.Pow(2,( OPTION_REGISTER & 7) +1 ));
+                PrescallerAssignmentBit = OPTION_REGISTER & 8;
+                ClockSource = OPTION_REGISTER & 16;
+
             }
         }
         public int ProgramCounter
@@ -412,17 +442,124 @@ namespace Simulation.Model
             set
             {
                 _RP0 = value;
+                NotifyOfPropertyChange(() => RP0); 
                 ramViewModel.setBit(0, 3, 5, _RP0);
                 ramViewModel.setBit(8, 3, 5, _RP0);
                 SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
 
+        
+
+
+        public bool IsBank0selected
+        {
+            get
+            {
+                return _IsBank0selected;
+            }
+
+            set
+            {
+                _IsBank0selected = value;
+            }
+        }
+
+        public int Prescaler
+        {
+            get
+            {
+                return _Prescaler;
+            }
+
+            set
+            {
+                _Prescaler = value;
+            }
+        }
+
+        public int PrescallerAssignmentBit
+        {
+            get
+            {
+                return _PrescallerAssignmentBit;
+            }
+
+            set
+            {
+                _PrescallerAssignmentBit = value;
+            }
+        }
+
+        public int ClockSource
+        {
+            get
+            {
+                return _ClockSource;
+            }
+
+            set
+            {
+                _ClockSource = value;
+            }
+        }
+
+        public int GIE
+        {
+            get
+            {
+                return _GIE;
+            }
+
+            set
+            {
+                _GIE = value;
+            }
+        }
+
+        public int T0IE
+        {
+            get
+            {
+                return _T0IE;
+            }
+
+            set
+            {
+                _T0IE = value;
+            }
+        }
+
+        public int T0IF
+        {
+            get
+            {
+                return _T0IF;
+            }
+
+            set
+            {
+                _T0IF = value;
+            }
+        }
+
+        public List<int> StackProgramCounter
+        {
+            get
+            {
+                return _stackProgramCounter;
+            }
+
+            set
+            {
+                _stackProgramCounter = value;
+            }
+        }
 
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
-            stackProgramCounter = new List<int>();
+            StackProgramCounter = new List<int>();
             
             SFRView = ViewModels.MainViewModel.sfrView;
             initRam();
@@ -442,152 +579,122 @@ namespace Simulation.Model
             SFRView.ElementAt(2).Column_HEX = "255";
         }
 
-        private void isZero(int currentValue, int result)
+        private void isZero(int ramValue, int result)
         {
-            if (currentValue > 0 && result == 0)
+            if (ramValue > 0 && result == 0)
             {
                 ZeroFlag = 1;
             }
         }
-        private void isCarryBorrow(int currentValue, int result)
+        private void isCarryBorrow(int ramValue, int result)
         {
             if (result > 255)
             {
                 CarryBit = 1;
             }
         }
-        private void isDigitCarryBorrow(int currentValue, int result)
+        private void isDigitCarryBorrow(int ramValue, int result)
         {
-            if (currentValue < 16 && result > 16)
+            if (ramValue < 16 && result > 16)
             {
                 DigitCarryBit = 1;
             }
         }
         
+        
 
         internal void subwf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;            
-
-            int  ramValue = ramViewModel.getByte(row, column);
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int result = ramValue - W_Register;
-            
+
             isZero(ramValue, result);
             isCarryBorrow(ramValue, result);
             isDigitCarryBorrow(ramValue, result);
 
-            if ( destinationsBit == 1)
-            {               
-                ramViewModel.setByte(row, column, result );
-            }
-            else if(destinationsBit == 0)
+            SaveInDestination(destinationsBit, row, column, result);
+            ProgramCounter++;
+
+        }
+
+        private void getRowColumn(int fileRegister, out int row, out int column, out int ramValue)
+        {
+            row = Convert.ToInt32(fileRegister / 16);
+            column = fileRegister % 16;
+            ramValue = ramViewModel.getByte(row, column);
+        }
+
+        private void SaveInDestination(int destinationsBit, int row, int column, int result)
+        {
+            if (destinationsBit == 1)
             {
-                W_Register =  result;
+                if(RP0 == 0)
+                    ramViewModel.setByte(row, column, result);
+                if(RP0 == 1)
+                    ramViewModel.setByte(row + 8, column, result);
+            }
+            else if (destinationsBit == 0)
+            {
+                W_Register = result;
             }
             else
             {
                 throw new NotImplementedException();
             }
-            ProgramCounter++;
-            
-        }        
+        }
 
         internal void decf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
-            int currentValue = ramViewModel.getByte(row, column);
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            isZero(currentValue, currentValue - 1);
+            isZero(ramValue, ramValue - 1);
 
-            if (destinationsBit == 1)
-                ramViewModel.setByte(row, column, currentValue - 1);
-            else if (destinationsBit == 0)
-                W_Register = currentValue - 1;
-            else
-                throw new NotImplementedException(); 
-
+            SaveInDestination(destinationsBit, row, column, ramValue - 1);
+            
             ProgramCounter++;
         }
 
         internal void iOrWf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
-            var currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue | W_Register;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            isZero(currentValue, result);
+            int result = ramValue | W_Register;
 
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            isZero(ramValue, result);
+
+            SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
         }
 
         internal void andWf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
+            
+            int result = W_Register & ramValue;
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = W_Register & currentValue;
+            isZero(ramValue, result);
+            isDigitCarryBorrow(ramValue, result);
+            isCarryBorrow(ramValue, result);
 
-            isZero(currentValue, result);
-            isDigitCarryBorrow(currentValue, result);
-            isCarryBorrow(currentValue, result);
-
-
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
         }
 
         internal void xorWF(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = W_Register ^ currentValue;
+            int result = W_Register ^ ramValue;
 
-            isZero(currentValue, result);
-
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            isZero(ramValue, result);
+            SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
 
 
@@ -595,87 +702,50 @@ namespace Simulation.Model
 
         internal void addWf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = W_Register + currentValue;
+            int result = W_Register + ramValue;
 
-            isZero(currentValue, result);
-            isCarryBorrow(currentValue, result);
-            isDigitCarryBorrow(currentValue, result);
-
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            isZero(ramValue, result);
+            isCarryBorrow(ramValue, result);
+            isDigitCarryBorrow(ramValue, result);
+            SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
         }
 
         internal void movF(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue;
+            int result = ramValue;
 
-            isZero(currentValue, result);
+            isZero(ramValue, result);
 
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
         }
 
         internal void compF(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = ~currentValue;
 
-            isZero(currentValue, result);
+            int result = ~ramValue;
 
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            isZero(ramValue, result);
+
+            SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
         }
 
         internal void clearF(int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
             int result = 0;
 
             isZero(1,0);
@@ -686,10 +756,10 @@ namespace Simulation.Model
 
         internal void clearW()
         {    
-            int currentValue = W_Register;
+            int ramValue = W_Register;
             int result = 0;
 
-            isZero(currentValue, result);
+            isZero(ramValue, result);
 
             W_Register = 0;
 
@@ -698,13 +768,12 @@ namespace Simulation.Model
 
         internal void incF(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue + 1;
+            int result = ramValue + 1;
 
-            isZero(currentValue, result);
+            isZero(ramValue, result);
 
             ramViewModel.setByte(row, column, result);
 
@@ -713,13 +782,12 @@ namespace Simulation.Model
 
         internal void decfsz(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue - 1;
+            int result = ramValue - 1;
 
-            if (currentValue == 0)
+            if (ramValue == 0)
             {
                 ProgramCounter++;
                 ProgramCounter++;
@@ -743,76 +811,51 @@ namespace Simulation.Model
 
         internal void rrf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue / 2;
+            int result = ramValue / 2;
 
-            isCarryBorrow(currentValue, result);
-            if (destinationsBit == 0)
-                W_Register = result;
-            else if (destinationsBit == 1)
-                ramViewModel.setByte(row, column, result);
-            else
-                throw new NotImplementedException(); ProgramCounter++;
+            isCarryBorrow(ramValue, result);
+            SaveInDestination(destinationsBit, row, column, result);
+
+            ProgramCounter++;
         }
 
         internal void rlf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue * 2;
+            int result = ramValue* 2;
 
-            isCarryBorrow(currentValue, result);
-            if (destinationsBit == 0)
-                W_Register = result;
-            else if (destinationsBit == 1)
-                ramViewModel.setByte(row, column, result);
-            else
-                throw new NotImplementedException();
+            isCarryBorrow(ramValue, result);
+            SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
         }
 
         internal void swapf(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int currentValue = ramViewModel.getByte(row, column);
-
-            int temp = currentValue / 16;           //Bitstelle  4-7 um 2^4 (4.Stellen) nach rechts schieben
-            int result= currentValue * 16 | temp;   // Bitstelle 0-3 um 2^4 (4.Stellen) nach links verschieben und verknüpfen
+            int temp = ramValue/ 16;           //Bitstelle  4-7 um 2^4 (4.Stellen) nach rechts schieben
+            int result= ramValue * 16 | temp;   // Bitstelle 0-3 um 2^4 (4.Stellen) nach links verschieben und verknüpfen
 
 
-            if (destinationsBit == 1)
-            {
-                ramViewModel.setByte(row, column, result);
-            }
-            else if (destinationsBit == 0)
-            {
-                W_Register = result;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
         }
 
         internal void incfsz(int destinationsBit, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
-
-            int currentValue = ramViewModel.getByte(row, column);
-            int result = currentValue + 1;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
+            int result = ramValue + 1;
            
-            if(currentValue == 0)
+            if(ramValue == 0)
             {
                 ProgramCounter++;
                 ProgramCounter++;
@@ -837,10 +880,10 @@ namespace Simulation.Model
 
         internal void movWF(int v, int fileRegister)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            ramViewModel.setByte(row, column, W_Register);
+            SaveInDestination(1, row, column, W_Register);
 
             ProgramCounter++;
         }
@@ -868,7 +911,7 @@ namespace Simulation.Model
         {
             //throw new NotImplementedException();
 
-            stackProgramCounter.Add(ProgramCounter);
+            StackProgramCounter.Add(ProgramCounter);
             ProgramCounter = constValue;
         }
 
@@ -877,8 +920,8 @@ namespace Simulation.Model
             
 
             W_Register = constValue;
-            ProgramCounter = stackProgramCounter.Last() + 1;
-            stackProgramCounter.Remove(stackProgramCounter.Last());
+            ProgramCounter = StackProgramCounter.Last() + 1;
+            StackProgramCounter.Remove(StackProgramCounter.Last());
 
         }
 
@@ -944,8 +987,8 @@ namespace Simulation.Model
 
         internal void bcf(int fileRegister, int selectedBit)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int mask = 0;
 
@@ -973,8 +1016,8 @@ namespace Simulation.Model
 
         internal void bsf(int fileRegister, int selectedBit)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int mask = Convert.ToInt32(Math.Pow(2,selectedBit));
                       
@@ -987,14 +1030,14 @@ namespace Simulation.Model
         internal void retIEF()
         {
             
-            ProgramCounter = stackProgramCounter.Last() + 1 ;
-            stackProgramCounter.Remove(stackProgramCounter.Last());
+            ProgramCounter = StackProgramCounter.Last() + 1 ;
+            StackProgramCounter.Remove(StackProgramCounter.Last());
         }
 
         internal void btfsc(int fileRegister, int selectedBit)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int result = ramViewModel.getByte(row, column) & Convert.ToInt32(Math.Pow(2, selectedBit));
 
@@ -1018,14 +1061,14 @@ namespace Simulation.Model
         internal void reTurn()
         {
             //throw new NotImplementedException();
-            ProgramCounter = stackProgramCounter.Last() + 1;
-            stackProgramCounter.Remove(stackProgramCounter.Last());
+            ProgramCounter = StackProgramCounter.Last() + 1;
+            StackProgramCounter.Remove(StackProgramCounter.Last());
         }
 
         internal void btfss(int fileRegister, int selectedBit)
         {
-            int row = Convert.ToInt32(fileRegister / 16);
-            int column = fileRegister % 16;
+            int row, column, ramValue;
+            getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int result = (ramViewModel.getByte(row, column) & Convert.ToInt32(Math.Pow(2, selectedBit))) / Convert.ToInt32(Math.Pow(2, selectedBit));
 
