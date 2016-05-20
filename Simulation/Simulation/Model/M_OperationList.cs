@@ -12,7 +12,6 @@ namespace Simulation.Model
 
     {                
         private bool _Checkbox_IsSelected;
-        private string _CheckBox_Breakpoint;
         private string _Text_Line;
         private string _Text_ProgramCounter;
         private string _Text_Operation;

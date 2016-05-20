@@ -78,11 +78,9 @@ namespace Simulation.ViewModels
             return DataGrid_Operation;
         }
   
-        public void nextLine(int programCounter)
+        public void selectLine(int programCounter)
         {
             SelectItem = DataGrid_Operation.ElementAt(programCounter);                        
-        } 
-
-       
+        }        
     }   
 }

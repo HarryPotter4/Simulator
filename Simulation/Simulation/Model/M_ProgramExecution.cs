@@ -92,7 +92,7 @@ namespace Simulation.Model
             Thread.Sleep(500);
 
             
-            operationViewModel.nextLine(programCounter);            
+            operationViewModel.selectLine(programCounter);            
             incTMRO();
 
             programCounter = command.getProgramCounter();
@@ -153,6 +153,7 @@ namespace Simulation.Model
             sfrView.ElementAt(4).Column_HEX = bank0.Column_3;           //STATUS
             sfrView.ElementAt(5).Column_HEX = bank1.Column_1;           //OPTION
             sfrView.ElementAt(6).Column_HEX = bank0.Column_11;          //INTCON
+            sfrView.ElementAt(7).Column_HEX = ramViewModel.W_Register.ToString();  // W_Register
             sfrView.ElementAt(8).Column_HEX = bank0.Column_4;           //FSR
             sfrView.ElementAt(9).Column_HEX = bank0.Column_2;           // PCL
             sfrView.ElementAt(10).Column_HEX = bank0.Column_10;         // PCLATH
@@ -419,7 +420,7 @@ namespace Simulation.Model
         public void resetProgrammCounter()
         {
             programCounter = 0;
-            operationViewModel.nextLine(programCounter);
+            operationViewModel.selectLine(programCounter);
         }
     }
 }

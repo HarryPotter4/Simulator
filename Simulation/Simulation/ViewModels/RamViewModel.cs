@@ -17,23 +17,17 @@ namespace Simulation.ViewModels
         
        public RamViewModel()
         {
-            DataGrid_RamView = new BindableCollection<M_RamRow>();
-            //_ramArray = new string[16,16];
-            //map_List_To_RamArray();
-
-
+            DataGrid_RamView = new BindableCollection<M_RamRow>();    
             initializeFields();
         }
+
+        private SfrViewModel _SfrView;
 
         public RamViewModel(SfrViewModel sFRView)
         {
             DataGrid_RamView = new BindableCollection<M_RamRow>();
-            //_ramArray = new string[16,16];
-            //map_List_To_RamArray();
-
-
-            initializeFields();
             this.SfrView = sFRView;
+            initializeFields();
         }
 
         public void initializeFields()
@@ -67,6 +61,7 @@ namespace Simulation.ViewModels
         }
 
         private string _RowHeaderValue;
+        private int _W_Register;
 
         public void setByte(int row, int column, int value)
         {
@@ -178,9 +173,7 @@ namespace Simulation.ViewModels
                 throw new NotFiniteNumberException();
         }
 
-        private IObservableCollection<M_RamRow> _dataGrid_RamView;
-        private SfrViewModel sfrView;
-
+        private IObservableCollection<M_RamRow> _dataGrid_RamView;     
         public IObservableCollection<M_RamRow> DataGrid_RamView
         {
             get
@@ -209,16 +202,29 @@ namespace Simulation.ViewModels
             }
         }
 
-        internal SfrViewModel SfrView
+        public int W_Register
         {
             get
             {
-                return sfrView;
+                return _W_Register;
             }
 
             set
             {
-                sfrView = value;
+                _W_Register = value;
+            }
+        }
+
+        internal SfrViewModel SfrView
+        {
+            get
+            {
+                return _SfrView;
+            }
+
+            set
+            {
+                _SfrView = value;
             }
         }
 

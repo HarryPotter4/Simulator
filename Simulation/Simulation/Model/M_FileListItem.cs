@@ -24,7 +24,6 @@ namespace Simulation.Model
                 sourceCode = value;
             }
         }
-
         public string ProgramCounter
         {
             get
@@ -37,7 +36,6 @@ namespace Simulation.Model
                 programCounter = value;
             }
         }
-
         public string OpCode
         {
             get
@@ -50,13 +48,6 @@ namespace Simulation.Model
                 opCode = value;
             }
         }
-
-        /// <summary>
-        /// Add argument 1 to object which is about program counter
-        /// Add argument 2 to object which is about the operation with parameters.
-        /// </summary>
-
-        
 
         public M_FileListItem(string arg1, string arg2, string sourceCode) 
         {

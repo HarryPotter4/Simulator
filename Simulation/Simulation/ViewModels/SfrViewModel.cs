@@ -16,11 +16,8 @@ namespace Simulation.ViewModels
         public SfrViewModel()
         {
             DataGrid_SFRView = new BindableCollection<M_SFRrow>();
-            
-
             initalizeView();
         }
-
         private void initalizeView()
         {
             for (int index = 0; index < sfrNames.Length; index++)

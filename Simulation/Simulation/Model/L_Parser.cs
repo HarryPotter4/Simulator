@@ -9,8 +9,7 @@ using System.Windows;
 namespace Simulation.Model
 {
     class L_Parser
-    {
-        
+    {        
         public List<M_FileListItem> listItems;
         private string argPC;
         private string argOPcode;
@@ -28,7 +27,6 @@ namespace Simulation.Model
                 listItems = value;
             }
         }
-
         public L_Parser(string pathName)
         {
             StreamReader file = new StreamReader(pathName);
@@ -49,7 +47,6 @@ namespace Simulation.Model
                 }
             }
         }
-
         private bool isRelevantLine(string line)
         {
             if (isProgramCounterArg(line) && isOpCode(line) && isSourccode(line))
@@ -57,7 +54,6 @@ namespace Simulation.Model
             else
                 return false;
         }
-
         private bool isSourccode(string line)
         {
             sourceCode = "";
@@ -71,7 +67,6 @@ namespace Simulation.Model
 
             return true;
         }
-
         private bool isProgramCounterArg(string line)
         {
             argPC = "";
@@ -89,7 +84,6 @@ namespace Simulation.Model
             }
             return true;            
         }
-
         private static char isCharConvertable(char element)
         {
             char rowElement;
@@ -98,19 +92,16 @@ namespace Simulation.Model
 
             return rowElement;
         }
-
         private static bool isPCArg(int element)
         {
             return element < 4;
         }
-
         private static bool isHexNumber(char rowElement)
         {
             bool queryForNumbers = (rowElement <= '9' && rowElement >= '0');
             bool queryForLetters = (rowElement <= 'F' && rowElement >= 'A');
             return (queryForNumbers || queryForLetters);
         }
-
         private bool isOpCode(string line)
         {
             argOPcode = "";

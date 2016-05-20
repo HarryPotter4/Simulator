@@ -54,9 +54,6 @@ namespace Simulation.Model
 
         private RamViewModel ramViewModel;
 
-        private IObservableCollection<M_SFRrow> SFRView;
-        
-        
 
         public int W_Register
         {
@@ -74,9 +71,7 @@ namespace Simulation.Model
                     _W_Register = _W_Register + 256;
                 else if (_W_Register > 255 && _W_Register < 512)
                     _W_Register = _W_Register - 256;
-                
-
-                SFRView.ElementAt(7).Column_HEX = W_Register.ToString(); 
+                ramViewModel.W_Register = W_Register;
             }
 
             
@@ -126,7 +121,6 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 11, _INTCON);                
                 ramViewModel.setByte(8, 11, _INTCON);
                 _INTCON = ramViewModel.getByte(0, 11);
-                SFRView.ElementAt(6).Column_HEX = ramViewModel.getByte(8, 11).ToString();
 
                 GIE = INTCON & 128;
                 T0IE = INTCON & 32;
@@ -147,7 +141,6 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 10, _PCLATH);
                 ramViewModel.setByte(0, 10, _PCLATH);
                 _PCLATH = ramViewModel.getByte(0, 10);
-                SFRView.ElementAt(10).Column_HEX = ramViewModel.getByte(8,10).ToString();
             }
         }
         public int EEADR
@@ -191,7 +184,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => PORTB);
                 ramViewModel.setByte(0, 6, _PORTB);
                 _PORTB = ramViewModel.getByte(0, 6);
-                SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
         public int PORTA
@@ -207,7 +199,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => PORTA);
                 ramViewModel.setByte(0, 5, _PORTA);
                 _PORTA = ramViewModel.getByte(0, 5);                
-                SFRView.ElementAt(1).Column_HEX = ramViewModel.getByte(0, 5).ToString();
             }
         }
         public int FSR
@@ -223,8 +214,7 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => FSR);
                 ramViewModel.setByte(0, 4, _FSR);
                 ramViewModel.setByte(8, 4, _FSR);
-                _FSR = ramViewModel.getByte(0, 4);                
-                SFRView.ElementAt(8).Column_HEX = ramViewModel.getByte(8, 4).ToString();
+                _FSR = ramViewModel.getByte(0, 4);         
             }
         }
         public int STATUS
@@ -241,8 +231,6 @@ namespace Simulation.Model
                 ramViewModel.setByte(0, 3, _STATUS);
                 ramViewModel.setByte(8, 3, _STATUS);
                 _STATUS = ramViewModel.getByte(0, 3);
-                
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         } 
         public int PCL
@@ -258,8 +246,7 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => PCL);
                 ramViewModel.setByte(0, 2, _PCL);
                 ramViewModel.setByte(8, 2, _PCL);
-                _PCL = ramViewModel.getByte(0, 2);                
-                SFRView.ElementAt(9).Column_HEX = ramViewModel.getByte(8, 2).ToString();
+                _PCL = ramViewModel.getByte(0, 2);       
             }
         }
         public int EECON2
@@ -303,8 +290,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => TRISB);
                 ramViewModel.setByte(8, 6, _TRISB);
                 _TRISB = ramViewModel.getByte(8, 6);
-                SFRView.ElementAt(2).Column_HEX = ramViewModel.getByte(8, 6).ToString();
-               
             }
         }
         public int TRISA
@@ -319,9 +304,7 @@ namespace Simulation.Model
                 _TRISA = value;
                 NotifyOfPropertyChange(() => TRISA);
                 ramViewModel.setByte(8, 5, _TRISA);
-                _TRISA = ramViewModel.getByte(8, 5);
-                
-                SFRView.ElementAt(0).Column_HEX = ramViewModel.getByte(8,5).ToString();
+                _TRISA = ramViewModel.getByte(8, 5);                
             }
         }
         public int OPTION_REGISTER
@@ -337,7 +320,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => OPTION_REGISTER);
                 ramViewModel.setByte(8, 1, _OPTION_REGISTER);
                 _OPTION_REGISTER = ramViewModel.getByte(8, 1);
-                SFRView.ElementAt(5).Column_HEX = ramViewModel.getByte(8,1).ToString();
 
                 Prescaler =Convert.ToInt32(Math.Pow(2,( OPTION_REGISTER & 7) +1 ));
                 PrescallerAssignmentBit = OPTION_REGISTER & 8;
@@ -369,7 +351,6 @@ namespace Simulation.Model
                 _CarryBit = value;
                 ramViewModel.setBit(0, 3, 0, _CarryBit);
                 ramViewModel.setBit(8, 3, 0, _CarryBit);
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int DigitCarryBit
@@ -384,7 +365,6 @@ namespace Simulation.Model
                 _DigitCarryBit = value;
                 ramViewModel.setBit(0, 3, 1,_DigitCarryBit);
                 ramViewModel.setBit(8, 3, 1, _DigitCarryBit);
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int ZeroFlag
@@ -399,7 +379,6 @@ namespace Simulation.Model
                 _ZeroFlag = value;
                 ramViewModel.setBit(0, 3, 2, _ZeroFlag);
                 ramViewModel.setBit(8, 3, 2, _ZeroFlag);
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int TimeOutBit
@@ -414,7 +393,6 @@ namespace Simulation.Model
                 _TimeOutBit = value;
                 ramViewModel.setBit(0, 3, 4, _TimeOutBit);
                 ramViewModel.setBit(8, 3, 4, _TimeOutBit);
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int PowerDownBit
@@ -429,7 +407,6 @@ namespace Simulation.Model
                 _PowerDownBit = value;
                 ramViewModel.setBit(0, 3, 3, _PowerDownBit);
                 ramViewModel.setBit(8, 3, 3, _PowerDownBit);
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
         public int RP0
@@ -445,7 +422,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => RP0); 
                 ramViewModel.setBit(0, 3, 5, _RP0);
                 ramViewModel.setBit(8, 3, 5, _RP0);
-                SFRView.ElementAt(4).Column_HEX = ramViewModel.getByte(0, 3).ToString();
             }
         }
 
@@ -464,7 +440,6 @@ namespace Simulation.Model
                 _IsBank0selected = value;
             }
         }
-
         public int Prescaler
         {
             get
@@ -477,7 +452,6 @@ namespace Simulation.Model
                 _Prescaler = value;
             }
         }
-
         public int PrescallerAssignmentBit
         {
             get
@@ -490,7 +464,6 @@ namespace Simulation.Model
                 _PrescallerAssignmentBit = value;
             }
         }
-
         public int ClockSource
         {
             get
@@ -516,7 +489,6 @@ namespace Simulation.Model
                 _GIE = value;
             }
         }
-
         public int T0IE
         {
             get
@@ -529,7 +501,6 @@ namespace Simulation.Model
                 _T0IE = value;
             }
         }
-
         public int T0IF
         {
             get
@@ -559,24 +530,18 @@ namespace Simulation.Model
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
-            StackProgramCounter = new List<int>();
-            
-            SFRView = ViewModels.MainViewModel.sfrView;
+            StackProgramCounter = new List<int>();            
             initRam();
         }
 
         private void initRam()
         {
             ramViewModel.setByte(0, 3, 24);
-            SFRView.ElementAt(4).Column_HEX = "24";
             ramViewModel.setByte(8, 1, 255);
-            SFRView.ElementAt(5).Column_HEX = "255";
             ramViewModel.setByte(8, 3, 24);
             
             ramViewModel.setByte(8, 5, 32);
-            SFRView.ElementAt(0).Column_HEX = "32";
             ramViewModel.setByte(8, 6, 255);
-            SFRView.ElementAt(2).Column_HEX = "255";
         }
 
         private void isZero(int ramValue, int result)

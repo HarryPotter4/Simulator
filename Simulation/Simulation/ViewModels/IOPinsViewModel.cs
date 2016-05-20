@@ -13,8 +13,6 @@ namespace Simulation.ViewModels
         
         private RamViewModel ramViewModel;
         private SfrViewModel sfrData;
-        private int portB;
-        private int portA;
 
         public IOPinsViewModel(RamViewModel ramViewModel,SfrViewModel sfr)
         {

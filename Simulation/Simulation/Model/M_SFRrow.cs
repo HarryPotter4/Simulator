@@ -9,10 +9,8 @@ namespace Simulation.Model
 {
     class M_SFRrow : Screen
     {
-        private string _Column_Description;
-       
+        private string _Column_Description;       
         private string _Column_HEX;
-
         public string Column_Description
         {
             get
@@ -26,9 +24,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => Column_Description );                
             }
         }
-
-       
-
         public string Column_HEX
         {
             get
