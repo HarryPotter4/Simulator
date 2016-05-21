@@ -110,9 +110,16 @@ namespace Simulation.ViewModels
         public void btn_reset()
         {
             Debug.WriteLine("Button läuft!");
+            SFRView         = null;
+            IOPinsView      = null;
+            RamView         = null;
+            OperationView   = null;
+                        
+
             if (OperationView != null)
                 programExecution.resetProgrammCounter();
             initializeView();
+            
             currentState = programStates.wait;
 
         }
@@ -124,7 +131,6 @@ namespace Simulation.ViewModels
             _listItems = _fileOpen.ListItems;
             initializeView();
         }
-
         private void initializeView()
         {
             OperationView = new OperationViewModel(_listItems);

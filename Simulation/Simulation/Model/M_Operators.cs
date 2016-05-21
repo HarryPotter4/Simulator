@@ -54,6 +54,7 @@ namespace Simulation.Model
 
         private RamViewModel ramViewModel;
 
+        private int prescalerTemp;
 
         public int W_Register
         {
@@ -88,17 +89,16 @@ namespace Simulation.Model
             set
             {
                 _TMR0 = value;
-                if(_TMR0 == 256)
+                if(_TMR0 > 255)
                 {
-                    _TMR0 = 0;
-                    isZero(1, 0);
-
-
-                }
-
-
-                ramViewModel.setByte(0, 0, TMR0);
-                _TMR0 = ramViewModel.getByte(0, 0);
+                    T0IF = 1;
+                    if (T0IE == 1 && GIE == 1)
+                    {
+                        StackProgramCounter.Add(ProgramCounter);
+                        ProgramCounter = 4;
+                    }
+                }                
+                ramViewModel.setByte(0, 1, _TMR0);
             }
         }
 
@@ -230,7 +230,6 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => STATUS);
                 ramViewModel.setByte(0, 3, _STATUS);
                 ramViewModel.setByte(8, 3, _STATUS);
-                _STATUS = ramViewModel.getByte(0, 3);
             }
         } 
         public int PCL
@@ -319,12 +318,11 @@ namespace Simulation.Model
                 _OPTION_REGISTER = value;
                 NotifyOfPropertyChange(() => OPTION_REGISTER);
                 ramViewModel.setByte(8, 1, _OPTION_REGISTER);
-                _OPTION_REGISTER = ramViewModel.getByte(8, 1);
+                
 
                 Prescaler =Convert.ToInt32(Math.Pow(2,( OPTION_REGISTER & 7) +1 ));
                 PrescallerAssignmentBit = OPTION_REGISTER & 8;
                 ClockSource = OPTION_REGISTER & 16;
-
             }
         }
         public int ProgramCounter
@@ -462,6 +460,11 @@ namespace Simulation.Model
             set
             {
                 _PrescallerAssignmentBit = value;
+                if (_PrescallerAssignmentBit > 0)
+                    _PrescallerAssignmentBit = 1;
+                else if (_PrescallerAssignmentBit == 0)
+                    return;
+                else { throw new NotImplementedException(); }
             }
         }
         public int ClockSource
@@ -474,6 +477,11 @@ namespace Simulation.Model
             set
             {
                 _ClockSource = value;
+                if (_ClockSource > 0)
+                    _ClockSource = 1;
+                else if (_ClockSource == 0)
+                    return;
+                else { throw new NotImplementedException(); }
             }
         }
 
@@ -487,6 +495,11 @@ namespace Simulation.Model
             set
             {
                 _GIE = value;
+                if (_GIE > 0)
+                    _GIE = 1;
+                else if (_GIE == 0)
+                    return;
+                else { throw new NotImplementedException(); }
             }
         }
         public int T0IE
@@ -499,6 +512,11 @@ namespace Simulation.Model
             set
             {
                 _T0IE = value;
+                if (_T0IE > 0)
+                    _T0IE = 1;
+                else if (_T0IE == 0)
+                    return;
+                else { throw new NotImplementedException(); }
             }
         }
         public int T0IF
@@ -511,6 +529,11 @@ namespace Simulation.Model
             set
             {
                 _T0IF = value;
+                if (_T0IF > 0)
+                    _T0IF = 1;
+                else if (_T0IF == 0)
+                    return;
+                else { throw new NotImplementedException(); }
             }
         }
 
@@ -527,6 +550,19 @@ namespace Simulation.Model
             }
         }
 
+        public int PrescalerTemp
+        {
+            get
+            {
+                return prescalerTemp;
+            }
+
+            set
+            {
+                prescalerTemp = value;
+            }
+        }
+
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
@@ -536,12 +572,11 @@ namespace Simulation.Model
 
         private void initRam()
         {
-            ramViewModel.setByte(0, 3, 24);
-            ramViewModel.setByte(8, 1, 255);
-            ramViewModel.setByte(8, 3, 24);
+            STATUS = 24;
+            OPTION_REGISTER = 255;
+            TRISA = 32;
+            TRISB = 255;
             
-            ramViewModel.setByte(8, 5, 32);
-            ramViewModel.setByte(8, 6, 255);
         }
 
         private void isZero(int ramValue, int result)

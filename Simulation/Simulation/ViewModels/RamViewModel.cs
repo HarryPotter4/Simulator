@@ -126,7 +126,7 @@ namespace Simulation.ViewModels
             else if (bitValue == 0)
             {
                  
-                value = getByte(row,column) ^ Convert.ToInt32(Math.Pow(2, bit)); 
+                value = getByte(row,column) & (255 - Convert.ToInt32(Math.Pow(2, bit))); 
             }
             else
             {

@@ -26,8 +26,10 @@ namespace Simulation.Model
         {
             this.operationViewModel = operationViewModel;
             this.ramViewModel = ramViewModel;
-            this._listItems = _listItems;            
+            this._listItems = _listItems;
+             
             command = new M_Operators(ramViewModel);
+            updateSFR();
             Thread thread = new Thread(startProgram);
 
             if (!(this._listItems.Count.Equals(null)))
@@ -82,59 +84,71 @@ namespace Simulation.Model
 
         private M_FileListItem machineCycle()
         {
-            
-            M_FileListItem listItem = _listItems.ElementAt(programCounter);
-            
-           // programCounter = Convert.ToInt32(listItem.ProgramCounter, 16);
-            executionCode = Convert.ToInt32(listItem.OpCode, 16);
-
-            nextMachineCycle(listItem.OpCode);
-            Thread.Sleep(500);
-
-            
-            operationViewModel.selectLine(programCounter);            
+            operationViewModel.selectLine(programCounter);
+            M_FileListItem listItem = _listItems.ElementAt(programCounter);            
             incTMRO();
-
-            programCounter = command.getProgramCounter();
             setPCL();
 
+            nextMachineCycle(listItem.OpCode);
+            Thread.Sleep(200);
+
+            updateBackend();            
             updateSFR();
+
+            programCounter = command.getProgramCounter();
 
             return listItem;
         }
 
+        private void updateBackend()
+        {
+            command.OPTION_REGISTER = ramViewModel.getByte(8, 1);
+            command.STATUS = ramViewModel.getByte(0, 3);
+            command.INTCON = ramViewModel.getByte(0, 11);
+            command.TRISA = ramViewModel.getByte(8, 5);
+            command.TRISB = ramViewModel.getByte(8, 6);
+            
+        }
+
+        private int oldPrescaler = 128;
+
+
         private void incTMRO()
         {
-            if(command.PrescallerAssignmentBit == 1)
+            if(oldPrescaler != command.Prescaler)
             {
+                command.PrescalerTemp = 0;
+                oldPrescaler = command.Prescaler;
+            }
+
+
+            command.TMR0 = ramViewModel.getByte(0, 1);
+
+            if (command.PrescallerAssignmentBit == 1)
+            {
+              /*  if (prescaler < (command.Prescaler/2)) { prescaler++; }
+                else if (prescaler >= (command.Prescaler / 2))
+                {
+                    // Watchdog
+                    prescaler = 0;
+                }
+                else { throw new NotImplementedException(); }
+                */
                 command.TMR0++;
-                prescaler = 0;
             }
             else if(command.PrescallerAssignmentBit ==0)
             {
-                 if(prescaler >= command.Prescaler)
+                 if(command.PrescalerTemp + 1  == command.Prescaler)
                 {
-                    command.TMR0++;
-                    prescaler = 0;
+                    command.TMR0 = command.TMR0 + 1;
+                    command.PrescalerTemp = 0;
                 }
-                else if(prescaler < command.Prescaler) { prescaler++; }
+                else if(command.PrescalerTemp < command.Prescaler) { command.PrescalerTemp++; }
                 else{ throw new NotImplementedException();}
             }
-            else { throw new NotImplementedException(); }
-
-            if(command.TMR0 == 255)
-            {
-               command.T0IF = 1;
-                if(command.T0IE == 1 && command.GIE == 1)
-                {
-                    command.StackProgramCounter.Add(programCounter);
-                    command.ProgramCounter = 4;                    
-                }
-            }
-            
-
-
+            else { throw new NotImplementedException(); }             
         }
+
         private void setPCL()
         {
             ramViewModel.setByte(0, 2, programCounter);
