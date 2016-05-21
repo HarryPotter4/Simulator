@@ -328,6 +328,7 @@ namespace Simulation.ViewModels
                 sfrData.DataGrid_SFRView.ElementAt(3).Column_HEX = ramViewModel.getByte(0, 6).ToString();
             }
         }
+        
 
         public IOPinsViewModel getIOPinsViewModel()
         {

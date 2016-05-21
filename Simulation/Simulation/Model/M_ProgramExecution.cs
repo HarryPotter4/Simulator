@@ -91,9 +91,16 @@ namespace Simulation.Model
             operationViewModel.selectLine(programCounter);
             M_FileListItem listItem = _listItems.ElementAt(programCounter);
 
-            isExternInterrupt();
+            
                         
             nextMachineCycle(listItem.OpCode);
+
+            if(isExternInterrupt())
+            {
+                command.StackProgramCounter.Add(programCounter);
+                command.ProgramCounter = 4;
+            }
+
 
             incTMRO();
             setPCL();
@@ -110,10 +117,45 @@ namespace Simulation.Model
 
         private bool isExternInterrupt()
         {
-
-            if(command.PORTB == 12)
+            if ((command.TRISB & 1) == 1 && command.OldPortB != command.PORTB && command.INTE == 1)
+            {
+                command.INTF = 1;
+                if (command.INTEDG == 1 && command.OldPortB == 0)
+                {
+                    command.OldPortB = command.PORTB;
                     return true;
-            return true;
+                }
+                else if (command.INTEDG == 0 && command.OldPortB == 1)
+                {
+                    command.OldPortB = command.PORTB;
+                    return true;
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            //Interrupt an Pin  4 -7 von Port B
+            else if (command.TRISB > 15 && ((command.OldPortB & 240) != (command.PORTB & 240)) && command.RBIE == 1)
+            {
+                command.RBIF = 1;
+                if (command.INTEDG == 1 && command.OldPortB == 0)
+                {
+                    command.OldPortB = command.PORTB;
+                    return true;
+                }
+                else if (command.INTEDG == 0 && command.OldPortB == 1)
+                {
+                    command.OldPortB = command.PORTB;
+                    return true;
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            return false;
         }
 
         private void updateBackend()

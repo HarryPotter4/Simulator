@@ -107,9 +107,7 @@ namespace Simulation.ViewModels
         {
             Debug.WriteLine("Button läuft!");
             currentState = programStates.execute;  
-        }
-         
-
+        }      
         public void btn_next()
         {
             Debug.WriteLine("Button läuft!");
@@ -143,6 +141,11 @@ namespace Simulation.ViewModels
             Debug.WriteLine("Open läuft!");
             _fileOpen = new L_FileExplorer();
             _listItems = _fileOpen.ListItems;
+            if(programExecution != null)
+            {
+                Thread = programExecution.getThread;
+                Thread.Abort();
+            }
             initializeView();
         }
         private void initializeView()

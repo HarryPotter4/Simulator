@@ -34,23 +34,37 @@ namespace Simulation.Model
        
         
         private int _ProgramCounter;
+
+        #region Status Register
+
+        
         private int _CarryBit;
         private int _DigitCarryBit;
         private int _ZeroFlag;
         private int _TimeOutBit;
         private int _PowerDownBit;
         private int _RP0;
-
+        #endregion
         #region Option Register bits
         private int _Prescaler;
         private int _PrescallerAssignmentBit;
         private int _ClockSource;
+        private int _INTEDG;
+        private int _RBPU;
         #endregion
         #region Interrupt Configuratio Register
         private int _GIE;
         private int _T0IE;
         private int _T0IF;
+        private int _INTE;
+        private int _RBIE;
+        private int _INTF;
+        private int _RBIF;
         #endregion
+
+
+
+        private int _oldPortB;
 
         private RamViewModel ramViewModel;
 
@@ -124,7 +138,11 @@ namespace Simulation.Model
 
                 GIE = INTCON & 128;
                 T0IE = INTCON & 32;
+                INTE = INTCON & 16;
+                RBIE = INTCON & 8;
                 T0IF = INTCON & 4;
+                INTF = INTCON & 2;
+                RBIF = INTCON & 1;
             }
         }
         public int PCLATH
@@ -322,7 +340,9 @@ namespace Simulation.Model
 
                 Prescaler =Convert.ToInt32(Math.Pow(2,( OPTION_REGISTER & 7) +1 ));
                 PrescallerAssignmentBit = OPTION_REGISTER & 8;
-                ClockSource = OPTION_REGISTER & 16;
+                ClockSource             = OPTION_REGISTER & 16;
+                INTEDG = OPTION_REGISTER & 64;
+                RBPU = OPTION_REGISTER & 128;
             }
         }
         public int ProgramCounter
@@ -481,6 +501,42 @@ namespace Simulation.Model
                 else { throw new NotImplementedException(); }
             }
         }
+        public int INTEDG
+        {
+            get
+            {
+                return _INTEDG;
+            }
+
+            set
+            {
+                _INTEDG = value;
+                if (_INTEDG > 0) { _INTEDG = 1; }
+                else if (_INTEDG == 0) { _INTEDG = 0; }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+        public int RBPU
+        {
+            get
+            {
+                return _RBPU;
+            }
+
+            set
+            {
+                _RBPU = value;
+                if (_RBPU > 0) { _RBPU = 1; }
+                else if (_RBPU == 0) { _RBPU = 0; }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
 
         public int GIE
         {
@@ -530,6 +586,81 @@ namespace Simulation.Model
 
             }
         }
+        public int RBIF
+        {
+            get
+            {
+                return _RBIF;
+            }
+
+            set
+            {
+                _RBIF = value;
+                if (_RBIF > 0) { _RBIF = 1; }
+                else if (_RBIF == 0) { _RBIF = 0; }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        public int INTF
+        {
+            get
+            {
+                return _INTF;
+            }
+
+            set
+            {
+                _INTF = value;
+                if (_INTF > 0) { _INTF = 1; }
+                else if (_INTF == 0) { _INTF = 0; }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        public int RBIE
+        {
+            get
+            {
+                return _RBIE;
+            }
+
+            set
+            {
+                _RBIE = value;
+                if (_RBIE > 0) { _RBIE = 1; }
+                else if (_RBIE == 0) { _RBIE = 0; }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        public int INTE
+        {
+            get
+            {
+                return _INTE;
+            }
+
+            set
+            {
+                _INTE = value;
+                if (_INTE > 0) { _INTE = 1; }
+                else if (_INTE == 0) { _INTE = 0; }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
 
         public List<int> StackProgramCounter
         {
@@ -557,11 +688,27 @@ namespace Simulation.Model
             }
         }
 
+        public int OldPortB
+        {
+            get
+            {
+                return _oldPortB;
+            }
+
+            set
+            {
+                _oldPortB = value;
+            }
+        }
+
+        
+
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
-            StackProgramCounter = new List<int>();            
+            StackProgramCounter = new List<int>();                  
             initRam();
+            OldPortB = PORTB;
         }
 
         private void initRam()
