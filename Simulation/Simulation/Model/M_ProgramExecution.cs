@@ -19,7 +19,7 @@ namespace Simulation.Model
         private int executionCode;
         private OperationViewModel operationViewModel;
         private int prescaler = 0;
-        
+        private Thread thread;
 
 
         public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel) 
@@ -30,7 +30,8 @@ namespace Simulation.Model
              
             command = new M_Operators(ramViewModel);
             updateSFR();
-            Thread thread = new Thread(startProgram);
+            
+            thread = new Thread(startProgram);
 
             if (!(this._listItems.Count.Equals(null)))
             {
@@ -38,7 +39,10 @@ namespace Simulation.Model
             }
         }
 
-        
+        public Thread getThread()
+        {
+            return this.thread;
+        }
 
         private void startProgram()
         {
@@ -85,12 +89,16 @@ namespace Simulation.Model
         private M_FileListItem machineCycle()
         {
             operationViewModel.selectLine(programCounter);
-            M_FileListItem listItem = _listItems.ElementAt(programCounter);            
+            M_FileListItem listItem = _listItems.ElementAt(programCounter);
+
+            isExternInterrupt();
+                        
+            nextMachineCycle(listItem.OpCode);
+
             incTMRO();
             setPCL();
 
-            nextMachineCycle(listItem.OpCode);
-            Thread.Sleep(200);
+            Thread.Sleep(10);
 
             updateBackend();            
             updateSFR();
@@ -100,14 +108,21 @@ namespace Simulation.Model
             return listItem;
         }
 
+        private bool isExternInterrupt()
+        {
+
+            if(command.PORTB == 12)
+                    return true;
+            return true;
+        }
+
         private void updateBackend()
         {
             command.OPTION_REGISTER = ramViewModel.getByte(8, 1);
             command.STATUS = ramViewModel.getByte(0, 3);
             command.INTCON = ramViewModel.getByte(0, 11);
             command.TRISA = ramViewModel.getByte(8, 5);
-            command.TRISB = ramViewModel.getByte(8, 6);
-            
+            command.TRISB = ramViewModel.getByte(8, 6);            
         }
 
         private int oldPrescaler = 128;
@@ -138,7 +153,7 @@ namespace Simulation.Model
             }
             else if(command.PrescallerAssignmentBit ==0)
             {
-                 if(command.PrescalerTemp + 1  == command.Prescaler)
+                if(command.PrescalerTemp + 1  == command.Prescaler)
                 {
                     command.TMR0 = command.TMR0 + 1;
                     command.PrescalerTemp = 0;
@@ -146,7 +161,11 @@ namespace Simulation.Model
                 else if(command.PrescalerTemp < command.Prescaler) { command.PrescalerTemp++; }
                 else{ throw new NotImplementedException();}
             }
-            else { throw new NotImplementedException(); }             
+            else { throw new NotImplementedException(); }   
+            
+            
+            
+                      
         }
 
         private void setPCL()

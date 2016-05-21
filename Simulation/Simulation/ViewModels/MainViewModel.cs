@@ -87,6 +87,19 @@ namespace Simulation.ViewModels
             }
         }
 
+        public Thread Thread
+        {
+            get
+            {
+                return _Thread;
+            }
+
+            set
+            {
+                _Thread = value;
+            }
+        }
+
         public static programStates currentState;     
         public enum programStates {unstarted,execute,busy,wait,oneCycle,finish};
 
@@ -110,10 +123,11 @@ namespace Simulation.ViewModels
         public void btn_reset()
         {
             Debug.WriteLine("Button läuft!");
-            SFRView         = null;
-            IOPinsView      = null;
-            RamView         = null;
-            OperationView   = null;
+            if(programExecution != null)
+            {
+                Thread = programExecution.getThread();
+                Thread.Abort();
+            }
                         
 
             if (OperationView != null)
@@ -148,12 +162,14 @@ namespace Simulation.ViewModels
             IOPinsView = new IOPinsViewModel(RamView,SFRView);
             IOPinsView = IOPinsView.getiopinsviewmodel();
 
-
             programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
         }
 
         private RamViewModel _RamViewObject;
         private OperationViewModel _OperationViewModel;
+
+        private Thread _Thread;
+
 
         private SfrViewModel _SFRView;
         private IOPinsViewModel _IOPinsView;     

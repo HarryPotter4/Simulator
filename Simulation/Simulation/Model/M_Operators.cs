@@ -88,16 +88,15 @@ namespace Simulation.Model
 
             set
             {
-                _TMR0 = value;
-                if(_TMR0 > 255)
+                _TMR0 = value;                
+                    
+                if (T0IE == 1 && GIE == 1 && _TMR0 == 256)
                 {
-                    T0IF = 1;
-                    if (T0IE == 1 && GIE == 1)
-                    {
-                        StackProgramCounter.Add(ProgramCounter);
-                        ProgramCounter = 4;
-                    }
-                }                
+                    INTCON = INTCON | 4;
+                    StackProgramCounter.Add(ProgramCounter);
+                    ProgramCounter = 4;
+                }
+                             
                 ramViewModel.setByte(0, 1, _TMR0);
             }
         }
@@ -118,6 +117,7 @@ namespace Simulation.Model
             {
                 _INTCON = value;
                 NotifyOfPropertyChange(() => INTCON);
+
                 ramViewModel.setByte(0, 11, _INTCON);                
                 ramViewModel.setByte(8, 11, _INTCON);
                 _INTCON = ramViewModel.getByte(0, 11);
@@ -423,9 +423,6 @@ namespace Simulation.Model
             }
         }
 
-        
-
-
         public bool IsBank0selected
         {
             get
@@ -495,10 +492,8 @@ namespace Simulation.Model
             set
             {
                 _GIE = value;
-                if (_GIE > 0)
-                    _GIE = 1;
-                else if (_GIE == 0)
-                    return;
+                if      (_GIE > 0)  { _GIE = 1; }                    
+                else if (_GIE == 0) { _GIE = 0; }                    
                 else { throw new NotImplementedException(); }
             }
         }
@@ -512,10 +507,8 @@ namespace Simulation.Model
             set
             {
                 _T0IE = value;
-                if (_T0IE > 0)
-                    _T0IE = 1;
-                else if (_T0IE == 0)
-                    return;
+                if      (_T0IE > 0)  { _T0IE = 1; }
+                else if (_T0IE == 0) { _T0IE = 0; }
                 else { throw new NotImplementedException(); }
             }
         }
@@ -529,11 +522,12 @@ namespace Simulation.Model
             set
             {
                 _T0IF = value;
-                if (_T0IF > 0)
-                    _T0IF = 1;
-                else if (_T0IF == 0)
-                    return;
-                else { throw new NotImplementedException(); }
+                if      (_T0IF > 0)     { _T0IF = 1; }                    
+                else if (_T0IF == 0)    { _T0IF = 0; }                    
+                else                    { throw new NotImplementedException(); }
+
+                
+
             }
         }
 
