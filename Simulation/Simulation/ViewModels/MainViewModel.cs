@@ -143,7 +143,7 @@ namespace Simulation.ViewModels
             _listItems = _fileOpen.ListItems;
             if(programExecution != null)
             {
-                Thread = programExecution.getThread;
+                Thread = programExecution.getThread();
                 Thread.Abort();
             }
             initializeView();

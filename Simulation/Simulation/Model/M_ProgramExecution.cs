@@ -57,8 +57,8 @@ namespace Simulation.Model
                 {
                     if (operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true)
                     {
-                        ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.wait;
-                        continue;
+                        ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.oneCycle;
+                        continue;                      
                     }
 
                     listItem = machineCycle();
@@ -117,16 +117,27 @@ namespace Simulation.Model
 
         private bool isExternInterrupt()
         {
+            command.PORTA = ramViewModel.getByte(0, 5);
+            command.PORTB = ramViewModel.getByte(0, 6);
+
             if ((command.TRISB & 1) == 1 && command.OldPortB != command.PORTB && command.INTE == 1)
             {
-                command.INTF = 1;
+                
                 if (command.INTEDG == 1 && command.OldPortB == 0)
                 {
+                    command.INTCON = command.INTCON | 2;
                     command.OldPortB = command.PORTB;
                     return true;
                 }
+                else if(command.INTEDG == 1 && command.OldPortB == 1) {
+                    command.OldPortB = command.PORTB;
+                    return false; }
+                else if (command.INTEDG == 0 && command.OldPortB == 0) {
+                    command.OldPortB = command.PORTB;
+                    return false; }
                 else if (command.INTEDG == 0 && command.OldPortB == 1)
                 {
+                    command.INTCON = command.INTCON | 2;
                     command.OldPortB = command.PORTB;
                     return true;
                 }
@@ -139,16 +150,28 @@ namespace Simulation.Model
             //Interrupt an Pin  4 -7 von Port B
             else if (command.TRISB > 15 && ((command.OldPortB & 240) != (command.PORTB & 240)) && command.RBIE == 1)
             {
-                command.RBIF = 1;
+                
                 if (command.INTEDG == 1 && command.OldPortB == 0)
                 {
+                    command.INTCON = command.INTCON | 1;
                     command.OldPortB = command.PORTB;
                     return true;
                 }
-                else if (command.INTEDG == 0 && command.OldPortB == 1)
+                else if (command.INTEDG == 0 && command.OldPortB > 15)
                 {
+                    command.INTCON = command.INTCON | 1;
                     command.OldPortB = command.PORTB;
                     return true;
+                }
+                else if(command.INTEDG == 1 && command.OldPortB > 15)
+                {
+                    command.OldPortB = command.PORTB;
+                    return false;
+                }
+                else if(command.INTEDG == 0 && command.OldPortB == 0)
+                {
+                    command.OldPortB = command.PORTB;
+                    return false;
                 }
                 else
                 {
