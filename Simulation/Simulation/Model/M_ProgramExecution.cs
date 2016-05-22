@@ -222,7 +222,8 @@ namespace Simulation.Model
 
 
         private void incTMRO()
-        {
+        {     
+            // Falls der Wert geändert wurde, soll der Wert zurückgesetzt werden
             if(oldPrescaler != command.Prescaler)
             {
                 command.PrescalerTemp = 0;
@@ -232,10 +233,17 @@ namespace Simulation.Model
 
             command.TMR0 = ramViewModel.getByte(0, 1);
 
+            // falls WDT, dann ist der Prescaler 1:1
             if (command.PrescallerAssignmentBit == 1)
-            {              
+            {
+                if(command.loc)
+
+                command.TMR0 = command.LocalMachineCycle % 255;                   
+
                 command.TMR0++;
-            }
+                            
+                                
+            }// Falls TimerModul, dann erhöhe Timer sobald Prescaler voll ist
             else if(command.PrescallerAssignmentBit ==0)
             {
                 if(command.PrescalerTemp + 1  == command.Prescaler)

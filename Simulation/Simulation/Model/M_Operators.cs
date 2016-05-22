@@ -35,6 +35,8 @@ namespace Simulation.Model
         
         private int _ProgramCounter;
 
+        private int _localMachineCycle;
+
         #region Status Register
 
         
@@ -754,6 +756,19 @@ namespace Simulation.Model
             }
         }
 
+        public int LocalMachineCycle
+        {
+            get
+            {
+                return _localMachineCycle;
+            }
+
+            set
+            {
+                _localMachineCycle = value;
+            }
+        }
+
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
@@ -762,6 +777,7 @@ namespace Simulation.Model
             OldPortB = PORTB;
             WatchdogTimer = 0;
             MachineCycle = 0;
+            LocalMachineCycle = 0
         }
 
         private void initRam()
@@ -1242,7 +1258,11 @@ namespace Simulation.Model
 
         internal void clrwdt()
         {
-            throw new NotImplementedException();
+            WatchdogTimer = 0;
+            TimeOutBit = 1;
+            PowerDownBit = 1;
+
+            STATUS = STATUS | 24;
 
             ProgramCounter++;
             MachineCycle++;
@@ -1337,7 +1357,14 @@ namespace Simulation.Model
         }
 
         internal void sleep()
-        {               
+        {
+            TimeOutBit = 1;
+            PowerDownBit = 0;
+            _STATUS = 247 & PowerDownBit;
+            STATUS = STATUS | 16;        
+                 
+            //unveränderter Programmcounter
+
             MachineCycle++;
         }
     }
