@@ -101,6 +101,13 @@ namespace Simulation.Model
                 command.ProgramCounter = 4;
             }
 
+            if(isWatchdogTriggered())
+            {
+                command.ProgramCounter = 0;
+                command.WatchdogTimer = 0;
+            }
+
+
 
             incTMRO();
             setPCL();
@@ -113,6 +120,27 @@ namespace Simulation.Model
             programCounter = command.getProgramCounter();
 
             return listItem;
+        }
+
+        private bool isWatchdogTriggered()
+        {
+            if(command.PrescallerAssignmentBit == 0) {
+                command.WatchdogTimer = 0;
+                return false;
+            }
+            else if(command.PrescallerAssignmentBit == 1)
+            {
+                if (prescaler < (command.Prescaler/2)) { prescaler++; }
+                else if (prescaler >= (command.Prescaler / 2))
+                {                    
+                    prescaler = 0;
+                    command.WatchdogTimer++;                    
+                }
+                else { throw new NotImplementedException(); }
+            }
+
+            if(command.WatchdogTimer == 256) { return true; }
+            return false;
         }
 
         private bool isExternInterrupt()
@@ -205,15 +233,7 @@ namespace Simulation.Model
             command.TMR0 = ramViewModel.getByte(0, 1);
 
             if (command.PrescallerAssignmentBit == 1)
-            {
-              /*  if (prescaler < (command.Prescaler/2)) { prescaler++; }
-                else if (prescaler >= (command.Prescaler / 2))
-                {
-                    // Watchdog
-                    prescaler = 0;
-                }
-                else { throw new NotImplementedException(); }
-                */
+            {              
                 command.TMR0++;
             }
             else if(command.PrescallerAssignmentBit ==0)
