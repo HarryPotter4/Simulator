@@ -65,6 +65,10 @@ namespace Simulation.Model
 
 
         private int _oldPortB;
+        private int _machineCycle;
+        private int _relativWatchdogCycle;
+        private int _WatchdogTimer;
+
 
         private RamViewModel ramViewModel;
 
@@ -701,7 +705,54 @@ namespace Simulation.Model
             }
         }
 
-        
+        public int MachineCycle
+        {
+            get
+            {
+                return MachineCycle1;
+            }
+
+            set
+            {
+                MachineCycle1 = value;
+            }
+        }
+        public int WatchdogTimer
+        {
+            get
+            {
+                return _WatchdogTimer;
+            }
+
+            set
+            {
+                _WatchdogTimer = value;
+            }
+        }
+        public int RelativWatchdogCycle
+        {
+            get
+            {
+                return _relativWatchdogCycle;
+            }
+
+            set
+            {
+                _relativWatchdogCycle = value;
+            }
+        }
+        public int MachineCycle1
+        {
+            get
+            {
+                return _machineCycle;
+            }
+
+            set
+            {
+                _machineCycle = value;
+            }
+        }
 
         public M_Operators(RamViewModel ramViewModel)
         {
