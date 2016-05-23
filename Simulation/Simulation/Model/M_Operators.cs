@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Simulation.ViewModels;
 using Caliburn.Micro;
+using System.Windows.Forms;
 
 namespace Simulation.Model
 
     
 {
-    class M_Operators : Screen
+    class M_Operators : Caliburn.Micro.Screen
     {       
         private int _W_Register;
         private List<int> _stackProgramCounter;
@@ -31,6 +32,7 @@ namespace Simulation.Model
         private int _TRISB;
         private int _EECON1;
         private int _EECON2;
+        private int _INDF;
        
         
         private int _ProgramCounter;
@@ -163,8 +165,7 @@ namespace Simulation.Model
                 _PCLATH = value;
                 NotifyOfPropertyChange(() => PCLATH);
                 ramViewModel.setByte(0, 10, _PCLATH);
-                ramViewModel.setByte(0, 10, _PCLATH);
-                _PCLATH = ramViewModel.getByte(0, 10);
+                ramViewModel.setByte(8, 10, _PCLATH);
             }
         }
         public int EEADR
@@ -237,8 +238,7 @@ namespace Simulation.Model
                 _FSR = value;
                 NotifyOfPropertyChange(() => FSR);
                 ramViewModel.setByte(0, 4, _FSR);
-                ramViewModel.setByte(8, 4, _FSR);
-                _FSR = ramViewModel.getByte(0, 4);         
+                ramViewModel.setByte(8, 4, _FSR);      
             }
         }
         public int STATUS
@@ -269,7 +269,8 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => PCL);
                 ramViewModel.setByte(0, 2, _PCL);
                 ramViewModel.setByte(8, 2, _PCL);
-                _PCL = ramViewModel.getByte(0, 2);       
+                _PCL = ramViewModel.getByte(0, 2);
+               // ProgramCounter = (7936 & ProgramCounter)  | (255 & _PCL));       
             }
         }
         public int EECON2
@@ -361,6 +362,7 @@ namespace Simulation.Model
             set
             {
                 _ProgramCounter = value;
+             //   ProgramCounter = PCLATH | PC
             }
         }
         public int CarryBit
@@ -470,7 +472,13 @@ namespace Simulation.Model
 
             set
             {
+                if(_Prescaler != value)
+                {
+                    PrescalerTemp = 0;
+                }
+
                 _Prescaler = value;
+
             }
         }
         public int PrescallerAssignmentBit
@@ -482,6 +490,10 @@ namespace Simulation.Model
 
             set
             {
+                if(_PrescallerAssignmentBit != value)
+                {
+                    PrescalerTemp = 0;
+                }
                 _PrescallerAssignmentBit = value;
                 if (_PrescallerAssignmentBit > 0)
                     _PrescallerAssignmentBit = 1;
@@ -707,18 +719,7 @@ namespace Simulation.Model
             }
         }
 
-        public int MachineCycle
-        {
-            get
-            {
-                return MachineCycle1;
-            }
-
-            set
-            {
-                MachineCycle1 = value;
-            }
-        }
+        
         public int WatchdogTimer
         {
             get
@@ -729,8 +730,23 @@ namespace Simulation.Model
             set
             {
                 _WatchdogTimer = value;
+                if(_WatchdogTimer == 256)
+                {
+                    if(PowerDownBit == 0)
+                    {
+                        _WatchdogTimer = 0;
+                        STATUS = STATUS | 8;                        
+                        ProgramCounter++;
+                    }
+                    if(TimeOutBit == 1)
+                    {
+                        STATUS = STATUS & 240;
+                        ProgramCounter = 0;
+                    }
+                }
             }
         }
+
         public int RelativWatchdogCycle
         {
             get
@@ -743,7 +759,7 @@ namespace Simulation.Model
                 _relativWatchdogCycle = value;
             }
         }
-        public int MachineCycle1
+        public int MachineCycle
         {
             get
             {
@@ -753,6 +769,34 @@ namespace Simulation.Model
             set
             {
                 _machineCycle = value;
+                if (PrescallerAssignmentBit == 0)
+                {
+                    TMR0++;
+
+                    if (PrescalerTemp == Prescaler / 2)
+                    {
+                        WatchdogTimer++;
+                        PrescalerTemp = 0;
+                    }
+                    else if (PrescalerTemp < Prescaler / 2)
+                    {
+                        PrescalerTemp++;
+                    }
+                }
+                else if (PrescallerAssignmentBit == 1)
+                {
+                    WatchdogTimer++;
+                    if(PrescalerTemp == Prescaler)
+                    {
+                        TMR0++;
+                        PrescalerTemp = 0;
+                    }
+                    else if( prescalerTemp < Prescaler)
+                    {
+                        PrescalerTemp++;
+                    }
+                }
+
             }
         }
 
@@ -769,6 +813,26 @@ namespace Simulation.Model
             }
         }
 
+        public int INDF
+        {
+            get
+            {
+                return _INDF;
+            }
+
+            set
+            {
+                _INDF = value;
+                NotifyOfPropertyChange(() => INDF);
+                int row, column, ramValue;
+                getRowColumn(FSR, out row, out column, out ramValue);
+
+                
+                ramViewModel.setByte(row, column, value);
+                ramViewModel.setByte(row, column, value);
+            }
+        }
+
         public M_Operators(RamViewModel ramViewModel)
         {
             this.ramViewModel = ramViewModel;
@@ -777,7 +841,7 @@ namespace Simulation.Model
             OldPortB = PORTB;
             WatchdogTimer = 0;
             MachineCycle = 0;
-            LocalMachineCycle = 0
+            LocalMachineCycle = 0;
         }
 
         private void initRam()
@@ -919,6 +983,13 @@ namespace Simulation.Model
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int result = W_Register + ramValue;
+
+            if(row == 0 || row == 8 && (column == 2))
+            {
+                PCL = result;
+                ramViewModel.setByte(row, column, PCL);
+                ProgramCounter = (PCLATH*256) | PCL;
+            }
 
             isZero(ramValue, result);
             isCarryBorrow(ramValue, result);
@@ -1116,8 +1187,14 @@ namespace Simulation.Model
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            SaveInDestination(1, row, column, W_Register);
-
+            if((row == 0 || row == 8) && (column == 0))
+            {
+                INDF = W_Register;
+            }
+            else
+            {            
+                SaveInDestination(1, row, column, W_Register);
+            }
             ProgramCounter++;
             MachineCycle++;
         }
@@ -1138,18 +1215,23 @@ namespace Simulation.Model
 
         internal void goTo(int constValue)
         {
+            ProgramCounter = constValue;
+
             MachineCycle++;
             MachineCycle++;
 
-            ProgramCounter = constValue;
+            
         }
 
         internal void call(int constValue)
-        {
-            //throw new NotImplementedException();
-
+        {            
             StackProgramCounter.Add(ProgramCounter);
-            ProgramCounter = constValue;
+            ProgramCounter = PCLATH * 8 | constValue;
+
+            if(constValue > 255 && PCLATH == 0)
+            {
+                MessageBox.Show("Fehler: Progamm ändern");
+            }
 
             MachineCycle++;
             MachineCycle++;
@@ -1162,6 +1244,8 @@ namespace Simulation.Model
             W_Register = constValue;
             ProgramCounter = StackProgramCounter.Last() + 1;
             StackProgramCounter.Remove(StackProgramCounter.Last());
+
+            PCLATH = 0;
 
             MachineCycle++;
             MachineCycle++;
@@ -1324,6 +1408,8 @@ namespace Simulation.Model
             //throw new NotImplementedException();
             ProgramCounter = StackProgramCounter.Last() + 1;
             StackProgramCounter.Remove(StackProgramCounter.Last());
+
+            PCLATH = 0;
 
             MachineCycle++;
             MachineCycle++;

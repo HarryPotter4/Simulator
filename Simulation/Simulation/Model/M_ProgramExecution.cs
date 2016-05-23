@@ -100,17 +100,9 @@ namespace Simulation.Model
                 command.StackProgramCounter.Add(programCounter);
                 command.ProgramCounter = 4;
             }
+            
 
-            if(isWatchdogTriggered())
-            {
-                command.ProgramCounter = 0;
-                command.WatchdogTimer = 0;
-            }
-
-
-
-            incTMRO();
-            setPCL();
+            
 
             Thread.Sleep(10);
 
@@ -118,30 +110,10 @@ namespace Simulation.Model
             updateSFR();
 
             programCounter = command.getProgramCounter();
+            setPCL();
 
             return listItem;
-        }
-
-        private bool isWatchdogTriggered()
-        {
-            if(command.PrescallerAssignmentBit == 0) {
-                command.WatchdogTimer = 0;
-                return false;
-            }
-            else if(command.PrescallerAssignmentBit == 1)
-            {
-                if (prescaler < (command.Prescaler/2)) { prescaler++; }
-                else if (prescaler >= (command.Prescaler / 2))
-                {                    
-                    prescaler = 0;
-                    command.WatchdogTimer++;                    
-                }
-                else { throw new NotImplementedException(); }
-            }
-
-            if(command.WatchdogTimer == 256) { return true; }
-            return false;
-        }
+        }        
 
         private bool isExternInterrupt()
         {
@@ -215,52 +187,12 @@ namespace Simulation.Model
             command.STATUS = ramViewModel.getByte(0, 3);
             command.INTCON = ramViewModel.getByte(0, 11);
             command.TRISA = ramViewModel.getByte(8, 5);
-            command.TRISB = ramViewModel.getByte(8, 6);            
+            command.TRISB = ramViewModel.getByte(8, 6);
+            command.FSR = ramViewModel.getByte(0, 4);
+            command.PCLATH = ramViewModel.getByte(0, 10);
+                        
         }
-
-        private int oldPrescaler = 128;
-
-
-        private void incTMRO()
-        {     
-            // Falls der Wert geändert wurde, soll der Wert zurückgesetzt werden
-            if(oldPrescaler != command.Prescaler)
-            {
-                command.PrescalerTemp = 0;
-                oldPrescaler = command.Prescaler;
-            }
-
-
-            command.TMR0 = ramViewModel.getByte(0, 1);
-
-            // falls WDT, dann ist der Prescaler 1:1
-            if (command.PrescallerAssignmentBit == 1)
-            {
-                if(command.loc)
-
-                command.TMR0 = command.LocalMachineCycle % 255;                   
-
-                command.TMR0++;
-                            
-                                
-            }// Falls TimerModul, dann erhöhe Timer sobald Prescaler voll ist
-            else if(command.PrescallerAssignmentBit ==0)
-            {
-                if(command.PrescalerTemp + 1  == command.Prescaler)
-                {
-                    command.TMR0 = command.TMR0 + 1;
-                    command.PrescalerTemp = 0;
-                }
-                else if(command.PrescalerTemp < command.Prescaler) { command.PrescalerTemp++; }
-                else{ throw new NotImplementedException();}
-            }
-            else { throw new NotImplementedException(); }   
-            
-            
-            
-                      
-        }
-
+        
         private void setPCL()
         {
             ramViewModel.setByte(0, 2, programCounter);
@@ -431,11 +363,11 @@ namespace Simulation.Model
             }
             else if (operationCode == 2)
             {
-                if((code & controlCode) == 1)
+                if((controlCode) == 1)
                 {
                     command.goTo(constValue);
                 }
-                else if((code & controlCode) == 0)
+                else if((controlCode) == 0)
                 {
                     command.call(constValue);
                 }
