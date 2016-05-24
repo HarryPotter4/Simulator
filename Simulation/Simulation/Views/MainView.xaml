@@ -62,8 +62,21 @@
 
             </StackPanel>
 
-            <ContentControl  x:Name="SFRView" Grid.Row="2" Grid.Column="0"  />
-            <ContentControl x:Name="IOPinsView" Grid.Row="2" Grid.Column="1"/>
+            <Grid Grid.Row="2" Grid.Column="0" Height="280">
+                <Grid>
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width=".25*"/>
+                        <ColumnDefinition Width=".25*"/>
+                        <ColumnDefinition Width=".50*"/>
+                    </Grid.ColumnDefinitions>
+                    <ContentControl x:Name="SFRView" Grid.Column="0"/>
+                    <ContentControl x:Name="StackView"  Grid.Column="1"/>
+                    <ContentControl x:Name="QuarzfrequenzView" Grid.Column="2"/>
+                </Grid>
+            </Grid>
+             
+            
+             <ContentControl x:Name="IOPinsView" Grid.Row="2" Grid.Column="1"/>
         </Grid>
     </Grid>
 </Window>

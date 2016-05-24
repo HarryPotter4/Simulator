@@ -100,18 +100,62 @@ namespace Simulation.ViewModels
             }
         }
 
+        public StackViewModel StackView
+        {
+            get
+            {
+                return _stackView;
+            }
+
+            set
+            {
+                _stackView = value;
+                NotifyOfPropertyChange(() => StackView);
+            }
+        }
+
+        public QuarzfrequenzViewModel QuarzfrequenzView
+        {
+            get
+            {
+                return _quarzView;
+            }
+
+            set
+            {
+                _quarzView = value;
+                NotifyOfPropertyChange(() => QuarzfrequenzView);
+            }
+        }
+
         public static programStates currentState;     
         public enum programStates {unstarted,execute,busy,wait,oneCycle,finish};
 
         public void btn_play()
         {
             Debug.WriteLine("Button läuft!");
-            currentState = programStates.execute;  
+            
+
+            if(QuarzfrequenzView.CurrentFrequenz != null )
+            {
+                QuarzfrequenzView.IsEnabled = false;
+                currentState = programStates.execute;
+                return;
+            }
+            MessageBox.Show("Select Quarzfrequenz");
+
         }      
         public void btn_next()
         {
             Debug.WriteLine("Button läuft!");
-            currentState = programStates.oneCycle;
+
+            if (QuarzfrequenzView.CurrentFrequenz != null)
+            {
+                QuarzfrequenzView.IsEnabled = false;
+                currentState = programStates.oneCycle;
+                return;
+            }
+            MessageBox.Show("Select Quarzfrequenz");
         }
         public void btn_pause()
         {
@@ -158,15 +202,24 @@ namespace Simulation.ViewModels
             sfrView = SFRView.DataGrid_SFRView;
 
             RamView = new RamViewModel(SFRView);
-            RamView = RamView.getRamViewModel();
-
-            
+            RamView = RamView.getRamViewModel();            
 
             IOPinsView = new IOPinsViewModel(RamView,SFRView);
             IOPinsView = IOPinsView.getiopinsviewmodel();
 
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView);
+            QuarzfrequenzView = new QuarzfrequenzViewModel();
+            QuarzfrequenzView = QuarzfrequenzView.getQuarzFrequenzModel();
+            QuarzfrequenzView.IsEnabled = true;
+
+            StackView = new StackViewModel();
+            StackView = StackView.getStackViewModel();
+
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView,StackView,QuarzfrequenzView);
         }
+        private QuarzfrequenzViewModel _quarzView;
+        private StackViewModel _stackView;
+
+
 
         private RamViewModel _RamViewObject;
         private OperationViewModel _OperationViewModel;

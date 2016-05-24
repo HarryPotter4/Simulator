@@ -20,15 +20,19 @@ namespace Simulation.Model
         private OperationViewModel operationViewModel;
         private int prescaler = 0;
         private Thread thread;
+        private StackViewModel stackviewModel;
+        private QuarzfrequenzViewModel quarzViewModel;
 
 
-        public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel) 
+        public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel,StackViewModel stackv, QuarzfrequenzViewModel quarzV) 
         {
             this.operationViewModel = operationViewModel;
             this.ramViewModel = ramViewModel;
             this._listItems = _listItems;
+            this.quarzViewModel = quarzV;
+            this.stackviewModel = stackv;
              
-            command = new M_Operators(ramViewModel);
+            command = new M_Operators(ramViewModel,quarzViewModel,stackv);
             updateSFR();
             
             thread = new Thread(startProgram);

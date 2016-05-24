@@ -81,20 +81,29 @@
     <Compile Include="Model\M_SFRrow.cs" />
     <Compile Include="ViewModelHelper.cs" />
     <Compile Include="ViewModels\IOPinsViewModel.cs" />
+    <Compile Include="Model\M_Stack.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
+    <Compile Include="ViewModels\QuarzfrequenzViewModel.cs" />
     <Compile Include="ViewModels\RamViewModel.cs" />
     <Compile Include="ViewModels\SfrViewModel.cs" />
+    <Compile Include="ViewModels\StackViewModel.cs" />
     <Compile Include="Views\IOPinsView.xaml.cs">
       <DependentUpon>IOPinsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OperationView.xaml.cs">
       <DependentUpon>OperationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\QuarzfrequenzView.xaml.cs">
+      <DependentUpon>QuarzfrequenzView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RamView.xaml.cs">
       <DependentUpon>RamView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SfrView.xaml.cs">
       <DependentUpon>SfrView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StackView.xaml.cs">
+      <DependentUpon>StackView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\IOPinsView.xaml">
       <SubType>Designer</SubType>
@@ -121,11 +130,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\QuarzfrequenzView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RamView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SfrView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StackView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

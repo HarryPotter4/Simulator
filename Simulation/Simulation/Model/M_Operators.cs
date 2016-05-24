@@ -77,6 +77,8 @@ namespace Simulation.Model
         private RamViewModel ramViewModel;
 
         private int prescalerTemp;
+        private QuarzfrequenzViewModel quarzViewModel;
+        private StackViewModel _stackv;
 
         public int W_Register
         {
@@ -690,6 +692,24 @@ namespace Simulation.Model
             set
             {
                 _stackProgramCounter = value;
+
+                if(StackProgramCounter.Count > 8)
+                {
+                    MessageBox.Show("Der Stack ist voll");
+                    return;
+                }
+
+                for (int index = 8, stackIndex = 0; index > 1; index--, stackIndex++)
+                {
+                    int tempStack;
+
+                    if(StackProgramCounter.Count > stackIndex) {
+                        tempStack = StackProgramCounter.ElementAt(stackIndex);
+                    }
+                    else { tempStack = 0; }
+                    _stackv.DataGrid_StackView.ElementAt(index).Column_Value = tempStack.ToString();
+                }
+
             }
         }
 
@@ -769,7 +789,7 @@ namespace Simulation.Model
             set
             {
                 _machineCycle = value;
-                if (PrescallerAssignmentBit == 0)
+                if (PrescallerAssignmentBit == 1) //Assign to WDT
                 {
                     TMR0++;
 
@@ -783,7 +803,7 @@ namespace Simulation.Model
                         PrescalerTemp++;
                     }
                 }
-                else if (PrescallerAssignmentBit == 1)
+                else if (PrescallerAssignmentBit == 0)  //Assign to Timer
                 {
                     WatchdogTimer++;
                     if(PrescalerTemp == Prescaler)
@@ -796,7 +816,15 @@ namespace Simulation.Model
                         PrescalerTemp++;
                     }
                 }
-
+                if(quarzViewModel.CurrentFrequenz != null)
+                {
+                    string[] tempString = quarzViewModel.CurrentFrequenz.Split(':');
+                    string tempstring2 = tempString[1];
+                    double tempFrequenz = Convert.ToDouble(tempstring2);
+                    
+                    double tempTime = 0.0 + Convert.ToDouble(quarzViewModel.Laufzeit);
+                    quarzViewModel.Laufzeit = (tempTime + (1 / tempFrequenz)).ToString();
+                }
             }
         }
 
@@ -833,16 +861,21 @@ namespace Simulation.Model
             }
         }
 
-        public M_Operators(RamViewModel ramViewModel)
+        public M_Operators(RamViewModel ramViewModel, QuarzfrequenzViewModel quarzViewModel, StackViewModel stackv)
         {
+            this.quarzViewModel = quarzViewModel;
+            this._stackv = stackv;
             this.ramViewModel = ramViewModel;
-            StackProgramCounter = new List<int>();                  
+            StackProgramCounter = new List<int>();
             initRam();
             OldPortB = PORTB;
             WatchdogTimer = 0;
             MachineCycle = 0;
             LocalMachineCycle = 0;
-        }
+            
+        }      
+            
+        
 
         private void initRam()
         {
@@ -984,7 +1017,7 @@ namespace Simulation.Model
 
             int result = W_Register + ramValue;
 
-            if(row == 0 || row == 8 && (column == 2))
+            if((row == 0 || row == 8 ) && (column == 2))
             {
                 PCL = result;
                 ramViewModel.setByte(row, column, PCL);
@@ -1224,8 +1257,11 @@ namespace Simulation.Model
         }
 
         internal void call(int constValue)
-        {            
+        {
+            
             StackProgramCounter.Add(ProgramCounter);
+            StackProgramCounter = StackProgramCounter;
+
             ProgramCounter = PCLATH * 8 | constValue;
 
             if(constValue > 255 && PCLATH == 0)
@@ -1244,6 +1280,8 @@ namespace Simulation.Model
             W_Register = constValue;
             ProgramCounter = StackProgramCounter.Last() + 1;
             StackProgramCounter.Remove(StackProgramCounter.Last());
+            StackProgramCounter = StackProgramCounter;
+
 
             PCLATH = 0;
 
@@ -1372,6 +1410,8 @@ namespace Simulation.Model
             ProgramCounter = StackProgramCounter.Last() + 1 ;
             StackProgramCounter.Remove(StackProgramCounter.Last());
 
+            StackProgramCounter = StackProgramCounter;
+
             MachineCycle++;
             MachineCycle++;
         }
@@ -1406,8 +1446,12 @@ namespace Simulation.Model
         internal void reTurn()
         {
             //throw new NotImplementedException();
+            
+
             ProgramCounter = StackProgramCounter.Last() + 1;
             StackProgramCounter.Remove(StackProgramCounter.Last());
+
+            StackProgramCounter = StackProgramCounter;
 
             PCLATH = 0;
 

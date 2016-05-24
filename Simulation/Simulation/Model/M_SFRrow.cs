@@ -34,8 +34,7 @@ namespace Simulation.Model
             set
             {
                 _Column_HEX = value;
-                NotifyOfPropertyChange(() => Column_HEX);
-                
+                NotifyOfPropertyChange(() => Column_HEX);                
             }
         }
     }
