@@ -7,6 +7,7 @@ using Simulation.ViewModels;
 using Caliburn.Micro;
 using System.Windows;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Simulation.Model
 {
@@ -16,9 +17,7 @@ namespace Simulation.Model
         private M_Operators command;
         private RamViewModel ramViewModel;
         private int programCounter;
-        private int executionCode;
-        private OperationViewModel operationViewModel;
-        private int prescaler = 0;
+        private OperationViewModel operationViewModel;        
         private Thread thread;
         private StackViewModel stackviewModel;
         private QuarzfrequenzViewModel quarzViewModel;
@@ -92,21 +91,19 @@ namespace Simulation.Model
 
         private M_FileListItem machineCycle()
         {
+            setPCL();
             operationViewModel.selectLine(programCounter);
             M_FileListItem listItem = _listItems.ElementAt(programCounter);
 
-            
-                        
             nextMachineCycle(listItem.OpCode);
+
+            Debug.WriteLine(programCounter + ". Machine Cycle");
 
             if(isExternInterrupt())
             {
                 command.StackProgramCounter.Add(programCounter);
                 command.ProgramCounter = 4;
             }
-            
-
-            
 
             Thread.Sleep(10);
 
@@ -114,8 +111,6 @@ namespace Simulation.Model
             updateSFR();
 
             programCounter = command.getProgramCounter();
-            setPCL();
-
             return listItem;
         }        
 
@@ -184,7 +179,6 @@ namespace Simulation.Model
             }
             return false;
         }
-
         private void updateBackend()
         {
             command.OPTION_REGISTER = ramViewModel.getByte(8, 1);

@@ -11,7 +11,7 @@ namespace Simulation.ViewModels
     {
         public QuarzfrequenzViewModel()
         {
-            
+            InitSelection = true;
             Laufzeit = "0".ToString();            
         }
 
@@ -19,7 +19,8 @@ namespace Simulation.ViewModels
         private string _CurrentFrequenz;
         private bool _IsEnabled;
         private string _QuarzfrequenzView;
-        
+        private bool _InitSelection;
+
 
         public string CurrentFrequenz
         {
@@ -72,6 +73,20 @@ namespace Simulation.ViewModels
             {
                 _QuarzfrequenzView = value;
                 NotifyOfPropertyChange(() => QuarzfrequenzView);
+            }
+        }
+
+        public bool InitSelection
+        {
+            get
+            {
+                return _InitSelection;
+            }
+
+            set
+            {
+                _InitSelection = value;
+                NotifyOfPropertyChange(() => InitSelection);
             }
         }
 

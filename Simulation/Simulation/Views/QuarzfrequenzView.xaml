@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="218.332" Height="95.279">
     <Grid Background="White" Margin="0,0,8.4,10.8">
         <ComboBox IsEditable="False" SelectedItem="{Binding CurrentFrequenz}" IsEnabled="{Binding IsEnabled}" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="154">
-            <ComboBoxItem Content="32768" IsSelected="True"/>
+            <ComboBoxItem Content="32768" IsSelected="{Binding InitSelection}"/>
             <ComboBoxItem Content="500000"/>
             <ComboBoxItem Content="1000000"/>
             <ComboBoxItem Content="2000000"/>

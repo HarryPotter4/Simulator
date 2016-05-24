@@ -643,7 +643,6 @@ namespace Simulation.Model
                 }
             }
         }
-
         public int RBIE
         {
             get
@@ -662,7 +661,6 @@ namespace Simulation.Model
                 }
             }
         }
-
         public int INTE
         {
             get
@@ -788,6 +786,7 @@ namespace Simulation.Model
 
             set
             {
+                if(value == 0) { return; }
                 _machineCycle = value;
                 if (PrescallerAssignmentBit == 1) //Assign to WDT
                 {
@@ -871,8 +870,6 @@ namespace Simulation.Model
             OldPortB = PORTB;
             WatchdogTimer = 0;
             MachineCycle = 0;
-            LocalMachineCycle = 0;
-            
         }      
             
         
@@ -892,19 +889,37 @@ namespace Simulation.Model
             {
                 ZeroFlag = 1;
             }
+            else if(result != 0)
+            {
+                ZeroFlag = 0;
+            }
         }
-        private void isCarryBorrow(int ramValue, int result)
+        private bool isCarryBorrow(int ramValue, int result)
         {
             if (result > 255)
             {
                 CarryBit = 1;
+                return true;
             }
+            else if(result<=255)
+            {
+                CarryBit = 0;
+                return false;
+            }
+            throw new NotImplementedException();
+            
         }
-        private void isDigitCarryBorrow(int ramValue, int result)
+        private bool isDigitCarryBorrow(int oldValue, int newValue)
         {
-            if (ramValue < 16 && result > 16)
+            if (oldValue < 16 && newValue >= 16)
             {
                 DigitCarryBit = 1;
+                return true;
+            }
+            else
+            {
+                DigitCarryBit = 0;
+                return false;
             }
         }
         
@@ -918,7 +933,8 @@ namespace Simulation.Model
             int result = ramValue - W_Register;
 
             isZero(ramValue, result);
-            isCarryBorrow(ramValue, result);
+            if (result >= 0) { CarryBit = 1; }
+            else if (result < 0) { CarryBit = 0; }
             isDigitCarryBorrow(ramValue, result);
 
             SaveInDestination(destinationsBit, row, column, result);
@@ -1145,7 +1161,13 @@ namespace Simulation.Model
 
             int result = ramValue / 2;
 
+            if (CarryBit == 1)
+            {
+                result = result * 128;
+            }
+
             isCarryBorrow(ramValue, result);
+            
             SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
@@ -1159,7 +1181,13 @@ namespace Simulation.Model
 
             int result = ramValue* 2;
 
+            if(CarryBit == 1)
+            {
+                result++;
+            }
+
             isCarryBorrow(ramValue, result);
+
             SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
@@ -1332,7 +1360,10 @@ namespace Simulation.Model
             int result = constValue - W_Register;
 
             isZero(W_Register, result);
-            isCarryBorrow(W_Register, result);
+
+            if(result >= 0)     { CarryBit = 1;  }
+            else if(result < 0) { CarryBit = 0; }
+            
             isDigitCarryBorrow(W_Register, result);
 
             W_Register = result;

@@ -37,7 +37,7 @@ namespace Simulation.ViewModels
                 });
             }
 
-            SelectItem = DataGrid_Operation.ElementAt(0);
+            //SelectItem = DataGrid_Operation.ElementAt(0);
         }
 
         private IObservableCollection<M_OperationList> _dataGrid_Operation;
