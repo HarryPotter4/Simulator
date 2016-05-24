@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Simulation.ViewModels;
 using Caliburn.Micro;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Simulation.Model
 
@@ -391,8 +392,13 @@ namespace Simulation.Model
             set
             {
                 _DigitCarryBit = value;
-                ramViewModel.setBit(0, 3, 1,_DigitCarryBit);
+
+                int mask = STATUS & (253 | _DigitCarryBit);
+                ramViewModel.setBit(0, 3, 1, _DigitCarryBit);
                 ramViewModel.setBit(8, 3, 1, _DigitCarryBit);
+
+                Debug.WriteLine("Statusregister: " + ramViewModel.getByte(0, 3));
+
             }
         }
         public int ZeroFlag
@@ -885,7 +891,7 @@ namespace Simulation.Model
 
         private void isZero(int ramValue, int result)
         {
-            if (ramValue > 0 && result == 0)
+            if (result == 0)
             {
                 ZeroFlag = 1;
             }
@@ -896,7 +902,7 @@ namespace Simulation.Model
         }
         private bool isCarryBorrow(int ramValue, int result)
         {
-            if (result > 255)
+            if (result > 255 || (ramValue == 0 && result > 0 && result < 256))
             {
                 CarryBit = 1;
                 return true;
@@ -911,7 +917,7 @@ namespace Simulation.Model
         }
         private bool isDigitCarryBorrow(int oldValue, int newValue)
         {
-            if (oldValue < 16 && newValue >= 16)
+            if (oldValue < 16 && newValue >= 16 && oldValue > 0)
             {
                 DigitCarryBit = 1;
                 return true;
@@ -932,10 +938,11 @@ namespace Simulation.Model
 
             int result = ramValue - W_Register;
 
-            isZero(ramValue, result);
-            if (result >= 0) { CarryBit = 1; }
-            else if (result < 0) { CarryBit = 0; }
-            isDigitCarryBorrow(ramValue, result);
+            isZero(W_Register, result);
+            isCarryBorrow(W_Register, result);
+
+            if (result > 31 && W_Register < 32) { DigitCarryBit = 1; }
+            else { DigitCarryBit = 0; }
 
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
@@ -1161,13 +1168,18 @@ namespace Simulation.Model
 
             int result = ramValue / 2;
 
+            Debug.WriteLine("Result: " + result + "\t Ramvalue: " + ramValue + "\t W_Register: " + W_Register +"Carrybit: "+ CarryBit);
+
             if (CarryBit == 1)
             {
                 result = result * 128;
             }
 
-            isCarryBorrow(ramValue, result);
+            //isCarryBorrow
+            if((ramValue & 1) == 1) { CarryBit = 1; }
+            else if((ramValue & 1) == 0 ) { CarryBit = 0; } 
             
+                        
             SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
@@ -1179,14 +1191,15 @@ namespace Simulation.Model
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
-            int result = ramValue* 2;
+            int result = ramValue * 2;
 
             if(CarryBit == 1)
             {
                 result++;
             }
 
-            isCarryBorrow(ramValue, result);
+            if(isCarryBorrow(ramValue, result)) { Debug.WriteLine("Carry is Borrow"); }
+            else { Debug.WriteLine("Carry is not borrow"); }
 
             SaveInDestination(destinationsBit, row, column, result);
 
@@ -1364,8 +1377,9 @@ namespace Simulation.Model
             if(result >= 0)     { CarryBit = 1;  }
             else if(result < 0) { CarryBit = 0; }
             
-            isDigitCarryBorrow(W_Register, result);
-
+            if(result > 31 && W_Register < 32) { DigitCarryBit = 1; }
+            else { DigitCarryBit = 0; }
+            
             W_Register = result;
 
             ProgramCounter++;

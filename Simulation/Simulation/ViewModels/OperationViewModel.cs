@@ -76,8 +76,7 @@ namespace Simulation.ViewModels
         public IObservableCollection<M_OperationList> getOperationsList()
         {
             return DataGrid_Operation;
-        }
-  
+        }  
         public void selectLine(int programCounter)
         {
             SelectItem = DataGrid_Operation.ElementAt(programCounter);                        
