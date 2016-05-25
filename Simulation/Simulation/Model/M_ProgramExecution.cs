@@ -188,6 +188,7 @@ namespace Simulation.Model
             command.TRISB = ramViewModel.getByte(8, 6);
             command.FSR = ramViewModel.getByte(0, 4);
             command.PCLATH = ramViewModel.getByte(0, 10);
+            command.TMR0 = ramViewModel.getByte(0, 1);
                         
         }
         

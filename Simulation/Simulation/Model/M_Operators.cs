@@ -121,7 +121,11 @@ namespace Simulation.Model
                     StackProgramCounter.Add(ProgramCounter);
                     ProgramCounter = 4;
                 }
-                             
+                if(TMR0 == 256)
+                {
+                    ZeroFlag = 1;
+                }             
+
                 ramViewModel.setByte(0, 1, _TMR0);
             }
         }
@@ -257,6 +261,8 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => STATUS);
                 ramViewModel.setByte(0, 3, _STATUS);
                 ramViewModel.setByte(8, 3, _STATUS);
+                _PowerDownBit = ramViewModel.getByte(0, 3) & 8;
+                _TimeOutBit = ramViewModel.getByte(0, 3) & 16;
             }
         } 
         public int PCL
@@ -850,7 +856,10 @@ namespace Simulation.Model
         {
             get
             {
-                return _INDF;
+                int row, column, ramValue, fileRegister;
+                fileRegister = ramViewModel.getByte(0, 4);
+                getRowColumn(fileRegister, out row, out column, out ramValue);
+                return ramViewModel.getByte(row, column);
             }
 
             set
@@ -876,6 +885,8 @@ namespace Simulation.Model
             OldPortB = PORTB;
             WatchdogTimer = 0;
             MachineCycle = 0;
+            PowerDownBit = 1;
+            TimeOutBit = 1;
         }      
             
         
@@ -1037,6 +1048,11 @@ namespace Simulation.Model
         {
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
+
+            if(row == 0 && column == 0)
+            {
+                ramValue = INDF;
+            }
 
             int result = W_Register + ramValue;
 

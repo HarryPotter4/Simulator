@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Simulation.Views"
-             mc:Ignorable="d" d:DesignWidth="218.332" Height="95.279">
-    <Grid Background="White" Margin="0,0,8.4,10.8">
+             mc:Ignorable="d">
+    <Grid Background="White" Height="71" Width="192" HorizontalAlignment="Left" VerticalAlignment="Top">
         <ComboBox IsEditable="False" SelectedItem="{Binding CurrentFrequenz}" IsEnabled="{Binding IsEnabled}" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="154">
             <ComboBoxItem Content="32768" IsSelected="{Binding InitSelection}"/>
             <ComboBoxItem Content="500000"/>
@@ -38,8 +38,9 @@
             <ComboBoxItem Content="40000000"/>
             <ComboBoxItem Content="80000000"/>
         </ComboBox>
-        <Label x:Name="label" Content="{Binding Laufzeit}" HorizontalAlignment="Left" Margin="11,38,0,0" VerticalAlignment="Top" Height="22" Width="151"/>
-        <Label x:Name="label1" Content="s" HorizontalAlignment="Left" Margin="167,37,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="{Binding Laufzeit}" HorizontalAlignment="Right" Margin="0,30,31,0" VerticalAlignment="Top" Height="30" Width="151"/>
+        <Label x:Name="label1" Content="s" HorizontalContentAlignment="Right" Margin="161,35,6,0" VerticalAlignment="Top" Height="25"/>
+        <Label x:Name="label1_Copy" Content="Hz" HorizontalAlignment="Left" Margin="164,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.542,-0.711"/>
 
     </Grid>
 </UserControl>
