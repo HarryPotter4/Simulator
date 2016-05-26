@@ -17,9 +17,8 @@
             <MenuItem Header="FILE" StaysOpenOnClick="True" Height="45" Width="50" FontSize="16" FontWeight="Bold">
                 <MenuItem x:Name="menuItem_Open" Header="Open..." />
             </MenuItem>
-            <MenuItem FontWeight="Bold" Header="EDIT" FontSize="16"/>
-            <MenuItem FontWeight="Bold" Header="DEBUG" FontSize="16"/>
-            <MenuItem FontWeight="Bold" Header="HELP" FontSize="16"/>
+            
+            <MenuItem FontWeight="Bold" Header="HELP" x:Name="menuItem_Help" FontSize="16"/>
         </Menu>
 
         <Grid Margin="0,48,5,-34.8" Grid.RowSpan="2">

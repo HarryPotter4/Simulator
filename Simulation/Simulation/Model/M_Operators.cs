@@ -826,6 +826,7 @@ namespace Simulation.Model
                     else if( prescalerTemp < Prescaler)
                     {
                         PrescalerTemp++;
+                        Debug.WriteLine("Prescaler Temp: " + PrescalerTemp);
                     }
                 }
                 if(quarzViewModel.CurrentFrequenz != null)

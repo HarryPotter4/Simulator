@@ -192,6 +192,19 @@ namespace Simulation.ViewModels
             }
             initializeView();
         }
+
+        public void menuItem_Help()
+        {
+            try
+            {
+                using (Process.Start(@"C:\Users\Marius Becherer\Downloads\datenbank-vorlesung-script.pdf"));
+            }
+            catch (Exception e)
+            {                
+                throw;
+            }
+        }
+
         private void initializeView()
         {
             OperationView = new OperationViewModel(_listItems);

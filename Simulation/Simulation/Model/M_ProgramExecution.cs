@@ -99,7 +99,7 @@ namespace Simulation.Model
 
             nextoperationCycle(listItem.OpCode);
 
-            Debug.WriteLine(programCounter + ". Machine Cycle");
+           
 
             if(isExternInterrupt())
             {
