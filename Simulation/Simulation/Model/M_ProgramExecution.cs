@@ -58,13 +58,13 @@ namespace Simulation.Model
                     continue;
                 else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.execute)
                 {
-                    if (operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true)
+                    if (operationViewModel.DataGrid_Operation.ElementAt(programCounter).Checkbox_IsSelected == true) // Breakpoint ?
                     {
                         ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.oneCycle;
                         continue;                      
                     }
 
-                    listItem = machineCycle();
+                    listItem = operationCycle();
                     continue;
                 }
                 else if (ViewModels.MainViewModel.currentState == ViewModels.MainViewModel.programStates.wait)
@@ -73,7 +73,7 @@ namespace Simulation.Model
                 {
                     if(_listItems.Count >= programCounter)
                     {                    
-                        listItem = machineCycle();
+                        listItem = operationCycle();
                     }
                     ViewModels.MainViewModel.currentState = ViewModels.MainViewModel.programStates.wait;
                     continue;
@@ -89,13 +89,15 @@ namespace Simulation.Model
 
         }
 
-        private M_FileListItem machineCycle()
+        private M_FileListItem operationCycle()
         {
             setPCL();
-            operationViewModel.selectLine(programCounter);
-            M_FileListItem listItem = _listItems.ElementAt(programCounter);
+            operationViewModel.selectLine(programCounter);      // Update der Ansich "Operation View"
 
-            nextMachineCycle(listItem.OpCode);
+
+            M_FileListItem listItem = _listItems.ElementAt(programCounter);     // Hole aktuellen Befehl per PC
+
+            nextoperationCycle(listItem.OpCode);
 
             Debug.WriteLine(programCounter + ". Machine Cycle");
 
@@ -105,7 +107,7 @@ namespace Simulation.Model
                 command.ProgramCounter = 4;
             }
 
-            Thread.Sleep(10);
+       //     Thread.Sleep(10);
 
             updateBackend();            
             updateSFR();
@@ -181,6 +183,11 @@ namespace Simulation.Model
         }
         private void updateBackend()
         {
+            if ((command.OPTION_REGISTER & 8) != (ramViewModel.getByte(8, 1) & 8))
+            {
+                command.PrescalerTemp = 0;
+            }
+
             command.OPTION_REGISTER = ramViewModel.getByte(8, 1);
             command.STATUS = ramViewModel.getByte(0, 3);
             command.INTCON = ramViewModel.getByte(0, 11);
@@ -189,7 +196,6 @@ namespace Simulation.Model
             command.FSR = ramViewModel.getByte(0, 4);
             command.PCLATH = ramViewModel.getByte(0, 10);
             command.TMR0 = ramViewModel.getByte(0, 1);
-                        
         }
         
         private void setPCL()
@@ -217,7 +223,7 @@ namespace Simulation.Model
             command.RP0 = ramViewModel.getBit(0, 3, 5);
         }
 
-        private void nextMachineCycle(string opCode)
+        private void nextoperationCycle(string opCode)
         {
             int code = Convert.ToInt32(opCode,16);
 

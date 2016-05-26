@@ -352,8 +352,8 @@ namespace Simulation.Model
                 _OPTION_REGISTER = value;
                 NotifyOfPropertyChange(() => OPTION_REGISTER);
                 ramViewModel.setByte(8, 1, _OPTION_REGISTER);
-                
 
+                
                 Prescaler =Convert.ToInt32(Math.Pow(2,( OPTION_REGISTER & 7) +1 ));
                 PrescallerAssignmentBit = OPTION_REGISTER & 8;
                 ClockSource             = OPTION_REGISTER & 16;
@@ -371,7 +371,6 @@ namespace Simulation.Model
             set
             {
                 _ProgramCounter = value;
-             //   ProgramCounter = PCLATH | PC
             }
         }
         public int CarryBit
@@ -798,8 +797,10 @@ namespace Simulation.Model
 
             set
             {
-                if(value == 0) { return; }
+                if(value == 0) { return; } 
                 _machineCycle = value;
+                                
+
                 if (PrescallerAssignmentBit == 1) //Assign to WDT
                 {
                     TMR0++;
@@ -1110,6 +1111,16 @@ namespace Simulation.Model
             isZero(1,0);
 
             ramViewModel.setByte(row, column, result);
+
+            if(row == 0 && column == 1)
+            {
+                TMR0 = 0;
+                ProgramCounter++;
+                _machineCycle++;
+                return;
+            }
+
+
             ProgramCounter++;
             MachineCycle++;
         }
@@ -1284,7 +1295,8 @@ namespace Simulation.Model
             else
             {            
                 SaveInDestination(1, row, column, W_Register);
-            }
+            }           
+
             ProgramCounter++;
             MachineCycle++;
         }
@@ -1526,6 +1538,13 @@ namespace Simulation.Model
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int result = (ramViewModel.getByte(row, column) & Convert.ToInt32(Math.Pow(2, selectedBit))) / Convert.ToInt32(Math.Pow(2, selectedBit));
+
+
+            if(row == 0 && column == 1 && PrescallerAssignmentBit == 1) // Falls TMR0 Register überprüft wird: TMR0 hat einen höheren Werte, da Machinenzyklus
+            {
+                result = ((ramViewModel.getByte(row, column) + 1 ) & Convert.ToInt32(Math.Pow(2, selectedBit)))  / Convert.ToInt32(Math.Pow(2, selectedBit));
+            }
+           
 
             if (result == 0 )
             {
