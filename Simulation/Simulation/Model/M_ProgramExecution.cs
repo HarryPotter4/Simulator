@@ -21,7 +21,7 @@ namespace Simulation.Model
         private Thread thread;
         private StackViewModel stackviewModel;
         private QuarzfrequenzViewModel quarzViewModel;
-
+        private MainViewModel mainview;
 
         public M_ProgramExecution(List<M_FileListItem> _listItems, RamViewModel ramViewModel,OperationViewModel operationViewModel,StackViewModel stackv, QuarzfrequenzViewModel quarzV) 
         {
@@ -30,6 +30,7 @@ namespace Simulation.Model
             this._listItems = _listItems;
             this.quarzViewModel = quarzV;
             this.stackviewModel = stackv;
+            
              
             command = new M_Operators(ramViewModel,quarzViewModel,stackv);
             updateSFR();
@@ -93,38 +94,60 @@ namespace Simulation.Model
         {
             setPCL();
             operationViewModel.selectLine(programCounter);      // Update der Ansich "Operation View"
-
-
             M_FileListItem listItem = _listItems.ElementAt(programCounter);     // Hole aktuellen Befehl per PC
-
             nextoperationCycle(listItem.OpCode);
-
-           
+            
+            if(isTimerInterrupt())
+            {
+                Debug.WriteLine("Timer interrupt occures");
+            }
 
             if(isExternInterrupt())
             {
                 command.StackProgramCounter.Add(programCounter);
                 command.ProgramCounter = 4;
             }
+            if (isWatchdog()) { command.STATUS = command.STATUS & 240; }
 
-       //     Thread.Sleep(10);
-
-            updateBackend();            
+            updateBackend();
             updateSFR();
-
             programCounter = command.getProgramCounter();
+            
             return listItem;
-        }        
+        }
+
+        private bool isWatchdog()
+        {
+            if((command.STATUS & 16 )== 0)  //Time out bit gesetzt?
+            {
+                command.ProgramCounter = 0;
+                return true;
+            }
+            return false;
+        }
+
+        private bool isTimerInterrupt()
+        {
+            if (command.T0IE == 1 && command.GIE == 1 && command.TMR0 > 255)
+            {
+                command.INTCON = command.INTCON | 4;        // Set 4th Bit for timer overflow
+                command.StackProgramCounter.Add(command.ProgramCounter);
+                command.ProgramCounter = 4;
+                command.TMR0 = 0;
+                return true;
+            }
+            return false;
+        }
 
         private bool isExternInterrupt()
         {
             command.PORTA = ramViewModel.getByte(0, 5);
             command.PORTB = ramViewModel.getByte(0, 6);
 
-            if ((command.TRISB & 1) == 1 && command.OldPortB != command.PORTB && command.INTE == 1)
+            if ((command.TRISB & 1) == 1 && command.OldPortB != command.PORTB && command.INTE == 1 && command.GIE == 1) // RB0 
             {
                 
-                if (command.INTEDG == 1 && command.OldPortB == 0)
+                if (command.INTEDG == 1 && command.OldPortB == 0)       // Rising edge 
                 {
                     command.INTCON = command.INTCON | 2;
                     command.OldPortB = command.PORTB;
@@ -136,7 +159,7 @@ namespace Simulation.Model
                 else if (command.INTEDG == 0 && command.OldPortB == 0) {
                     command.OldPortB = command.PORTB;
                     return false; }
-                else if (command.INTEDG == 0 && command.OldPortB == 1)
+                else if (command.INTEDG == 0 && command.OldPortB == 1)          // Falling edge
                 {
                     command.INTCON = command.INTCON | 2;
                     command.OldPortB = command.PORTB;
@@ -152,13 +175,13 @@ namespace Simulation.Model
             else if (command.TRISB > 15 && ((command.OldPortB & 240) != (command.PORTB & 240)) && command.RBIE == 1)
             {
                 
-                if (command.INTEDG == 1 && command.OldPortB == 0)
+                if (command.INTEDG == 1 && command.OldPortB == 0)           // rising edge
                 {
                     command.INTCON = command.INTCON | 1;
                     command.OldPortB = command.PORTB;
                     return true;
                 }
-                else if (command.INTEDG == 0 && command.OldPortB > 15)
+                else if (command.INTEDG == 0 && command.OldPortB > 15)      // falling edge
                 {
                     command.INTCON = command.INTCON | 1;
                     command.OldPortB = command.PORTB;
@@ -187,7 +210,6 @@ namespace Simulation.Model
             {
                 command.PrescalerTemp = 0;
             }
-
             command.OPTION_REGISTER = ramViewModel.getByte(8, 1);
             command.STATUS = ramViewModel.getByte(0, 3);
             command.INTCON = ramViewModel.getByte(0, 11);
@@ -195,7 +217,8 @@ namespace Simulation.Model
             command.TRISB = ramViewModel.getByte(8, 6);
             command.FSR = ramViewModel.getByte(0, 4);
             command.PCLATH = ramViewModel.getByte(0, 10);
-            command.TMR0 = ramViewModel.getByte(0, 1);
+            
+            if(command.TMR0 > 255) { command.TMR0 = 0; }
         }
         
         private void setPCL()
@@ -312,7 +335,6 @@ namespace Simulation.Model
                 case 15:
                     command.incfsz(destinationsBit, fileRegister);
                     break;
-
                 default:
                     Console.WriteLine("Error in switch of byte-orientated file register; value of operationCode: " + operationCode);
                     break;
