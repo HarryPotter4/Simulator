@@ -197,7 +197,7 @@ namespace Simulation.ViewModels
         {
             try
             {
-                using (Process.Start(@"C:\Users\Marius Becherer\Downloads\datenbank-vorlesung-script.pdf"));
+                using (Process.Start(@".\doku.pdf"));
             }
             catch (Exception e)
             {                
