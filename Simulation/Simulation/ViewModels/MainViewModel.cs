@@ -192,6 +192,19 @@ namespace Simulation.ViewModels
             }
             initializeView();
         }
+
+        public void menuItem_Help()
+        {
+            try
+            {
+                using (Process.Start(@"C:\Users\Marius Becherer\Downloads\datenbank-vorlesung-script.pdf"));
+            }
+            catch (Exception e)
+            {                
+                throw;
+            }
+        }
+
         private void initializeView()
         {
             OperationView = new OperationViewModel(_listItems);
@@ -214,7 +227,12 @@ namespace Simulation.ViewModels
             StackView = new StackViewModel();
             StackView = StackView.getStackViewModel();
 
-            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView,StackView,QuarzfrequenzView);
+            programExecution = new M_ProgramExecution(_listItems, RamView, OperationView, StackView, QuarzfrequenzView);
+            
+            if(currentState == programStates.finish)
+            {
+                btn_reset();
+            }
         }
         private QuarzfrequenzViewModel _quarzView;
         private StackViewModel _stackView;

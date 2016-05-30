@@ -113,17 +113,17 @@ namespace Simulation.Model
 
             set
             {
-                _TMR0 = value;                
-                    
-                if (T0IE == 1 && GIE == 1 && _TMR0 == 256)
+                if((_TMR0 == 255 && value == 0) || !(_TMR0 + 1 == value))   // Falls Überlauf oder wenn Wert verändert wird
                 {
-                    INTCON = INTCON | 4;
-                    StackProgramCounter.Add(ProgramCounter);
-                    ProgramCounter = 4;
+                    PrescalerTemp = 0;
                 }
+                _TMR0 = value;
+                
+               
                 if(TMR0 == 256)
                 {
                     ZeroFlag = 1;
+                    
                 }             
 
                 ramViewModel.setByte(0, 1, _TMR0);
@@ -353,7 +353,8 @@ namespace Simulation.Model
                 NotifyOfPropertyChange(() => OPTION_REGISTER);
                 ramViewModel.setByte(8, 1, _OPTION_REGISTER);
 
-                
+
+               
                 Prescaler =Convert.ToInt32(Math.Pow(2,( OPTION_REGISTER & 7) +1 ));
                 PrescallerAssignmentBit = OPTION_REGISTER & 8;
                 ClockSource             = OPTION_REGISTER & 16;
@@ -485,13 +486,7 @@ namespace Simulation.Model
 
             set
             {
-                if(_Prescaler != value)
-                {
-                    PrescalerTemp = 0;
-                }
-
                 _Prescaler = value;
-
             }
         }
         public int PrescallerAssignmentBit
@@ -503,7 +498,7 @@ namespace Simulation.Model
 
             set
             {
-                if(_PrescallerAssignmentBit != value)
+                if(_PrescallerAssignmentBit != value/8 )
                 {
                     PrescalerTemp = 0;
                 }
@@ -759,35 +754,28 @@ namespace Simulation.Model
             set
             {
                 _WatchdogTimer = value;
-                if(_WatchdogTimer == 256)
+                // MessageBox.Show("WatchdogTimer: " + WatchdogTimer);
+               // Debug.WriteLine("Watchdog count! " + WatchdogTimer );
+                if (_WatchdogTimer == 256)
                 {
+                    
                     if(PowerDownBit == 0)
                     {
                         _WatchdogTimer = 0;
                         STATUS = STATUS | 8;                        
                         ProgramCounter++;
+                            return;
                     }
-                    if(TimeOutBit == 1)
-                    {
-                        STATUS = STATUS & 240;
-                        ProgramCounter = 0;
-                    }
+                    STATUS = STATUS & 240;
+                    ProgramCounter = 0;
+                    Debug.WriteLine("Watchdog occures!");
+                    _WatchdogTimer = 0;
+
+
                 }
             }
         }
-
-        public int RelativWatchdogCycle
-        {
-            get
-            {
-                return _relativWatchdogCycle;
-            }
-
-            set
-            {
-                _relativWatchdogCycle = value;
-            }
-        }
+    
         public int MachineCycle
         {
             get
@@ -818,15 +806,16 @@ namespace Simulation.Model
                 else if (PrescallerAssignmentBit == 0)  //Assign to Timer
                 {
                     WatchdogTimer++;
-                    if(PrescalerTemp == Prescaler)
+                    if (prescalerTemp < Prescaler)
+                    {
+                        PrescalerTemp++;
+                    }
+                    if (PrescalerTemp == Prescaler)
                     {
                         TMR0++;
                         PrescalerTemp = 0;
                     }
-                    else if( prescalerTemp < Prescaler)
-                    {
-                        PrescalerTemp++;
-                    }
+                    
                 }
                 if(quarzViewModel.CurrentFrequenz != null)
                 {
@@ -945,6 +934,7 @@ namespace Simulation.Model
 
         internal void subwf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -958,7 +948,7 @@ namespace Simulation.Model
 
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         private void getRowColumn(int fileRegister, out int row, out int column, out int ramValue)
@@ -989,6 +979,7 @@ namespace Simulation.Model
 
         internal void decf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -997,11 +988,12 @@ namespace Simulation.Model
             SaveInDestination(destinationsBit, row, column, ramValue - 1);
             
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void iOrWf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1011,11 +1003,12 @@ namespace Simulation.Model
 
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void andWf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1028,11 +1021,12 @@ namespace Simulation.Model
 
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void xorWF(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1041,12 +1035,13 @@ namespace Simulation.Model
             isZero(ramValue, result);
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
-            MachineCycle++;
+            
 
         }
 
         internal void addWf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1069,7 +1064,7 @@ namespace Simulation.Model
             isDigitCarryBorrow(ramValue, result);
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void movF(int destinationsBit, int fileRegister)
@@ -1088,6 +1083,7 @@ namespace Simulation.Model
 
         internal void compF(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1098,11 +1094,13 @@ namespace Simulation.Model
 
             SaveInDestination(destinationsBit, row, column, result);
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void clearF(int fileRegister)
         {
+            MachineCycle++;
+
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1111,22 +1109,14 @@ namespace Simulation.Model
             isZero(1,0);
 
             ramViewModel.setByte(row, column, result);
-
-            if(row == 0 && column == 1)
-            {
-                TMR0 = 0;
-                ProgramCounter++;
-                _machineCycle++;
-                return;
-            }
-
-
+            
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void clearW()
-        {    
+        {
+            MachineCycle++;
             int ramValue = W_Register;
             int result = 0;
 
@@ -1135,11 +1125,12 @@ namespace Simulation.Model
             W_Register = 0;
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void incF(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1150,11 +1141,13 @@ namespace Simulation.Model
             ramViewModel.setByte(row, column, result);
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void decfsz(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
+
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1164,22 +1157,20 @@ namespace Simulation.Model
             {
                 ProgramCounter++;
                 ProgramCounter++;
-
-                MachineCycle++;
-                MachineCycle++;
+                MachineCycle++;                
             }
             else if (destinationsBit == 1)
             {
                 ramViewModel.setByte(row, column, result);
                 ProgramCounter++;
-                MachineCycle++;
+                
 
             }
             else if (destinationsBit == 0)
             {
                 W_Register = result;
                 ProgramCounter++;
-                MachineCycle++;
+                
             }
             else
             {
@@ -1190,6 +1181,8 @@ namespace Simulation.Model
 
         internal void rrf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
+
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1210,11 +1203,13 @@ namespace Simulation.Model
             SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void rlf(int destinationsBit, int fileRegister)
         {
+            MachineCycle++;
+
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1231,11 +1226,11 @@ namespace Simulation.Model
             SaveInDestination(destinationsBit, row, column, result);
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void swapf(int destinationsBit, int fileRegister)
-        {
+        {            
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1251,12 +1246,17 @@ namespace Simulation.Model
 
         internal void incfsz(int destinationsBit, int fileRegister)
         {
+
+            
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
             int result = ramValue + 1;
            
-            if(ramValue == 0)
+            if((result & 255) == 0)                         // P11: Ergebnis = 0?
             {
+                if(destinationsBit == 0) { W_Register = 0; }
+                else if(destinationsBit == 1) { ramViewModel.setByte(row, column, 0); }
+
                 ProgramCounter++;
                 ProgramCounter++;
 
@@ -1285,6 +1285,7 @@ namespace Simulation.Model
 
         internal void movWF(int v, int fileRegister)
         {
+            
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1295,8 +1296,7 @@ namespace Simulation.Model
             else
             {            
                 SaveInDestination(1, row, column, W_Register);
-            }           
-
+            }          
             ProgramCounter++;
             MachineCycle++;
         }
@@ -1320,14 +1320,14 @@ namespace Simulation.Model
             ProgramCounter = constValue;
 
             MachineCycle++;
-            MachineCycle++;
-
-            
+            MachineCycle++;            
         }
 
         internal void call(int constValue)
         {
-            
+            MachineCycle++;
+            MachineCycle++;
+
             StackProgramCounter.Add(ProgramCounter);
             StackProgramCounter = StackProgramCounter;
 
@@ -1336,15 +1336,13 @@ namespace Simulation.Model
             if(constValue > 255 && PCLATH == 0)
             {
                 MessageBox.Show("Fehler: Progamm ändern");
-            }
-
-            MachineCycle++;
-            MachineCycle++;
+            }            
         }
 
         internal void retLW(int constValue)
         {
-            
+            MachineCycle++;
+            MachineCycle++;
 
             W_Register = constValue;
             ProgramCounter = StackProgramCounter.Last() + 1;
@@ -1354,14 +1352,13 @@ namespace Simulation.Model
 
             PCLATH = 0;
 
-            MachineCycle++;
-            MachineCycle++;
+            
 
         }
 
         internal void iorLW(int constValue)
         {
-            
+            MachineCycle++;
             int result = W_Register | constValue;
             isZero(W_Register, result);
 
@@ -1369,11 +1366,12 @@ namespace Simulation.Model
 
 
             ProgramCounter++;
-            MachineCycle++;
+           
         }
 
         internal void andLW(int constValue)
         {
+            MachineCycle++;
             int result = W_Register & constValue;
 
             isZero(W_Register, result);
@@ -1381,11 +1379,12 @@ namespace Simulation.Model
             W_Register = result;
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void xorLW(int constValue)
         {
+            MachineCycle++;
             int result = W_Register ^ constValue;
 
             isZero(W_Register, result);
@@ -1393,11 +1392,12 @@ namespace Simulation.Model
             W_Register = result;
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void subLW(int constValue)
         {
+            MachineCycle++;
             int result = constValue - W_Register;
 
             isZero(W_Register, result);
@@ -1411,11 +1411,12 @@ namespace Simulation.Model
             W_Register = result;
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void addLW(int constValue)
         {
+            MachineCycle++;
             int result = W_Register + constValue;
 
             isZero(W_Register, result);
@@ -1425,11 +1426,12 @@ namespace Simulation.Model
             W_Register = result;
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }              
 
         internal void bcf(int fileRegister, int selectedBit)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1448,23 +1450,24 @@ namespace Simulation.Model
             ramViewModel.setByte(row, column, result);
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void clrwdt()
         {
+            MachineCycle++;
             WatchdogTimer = 0;
             TimeOutBit = 1;
             PowerDownBit = 1;
 
             STATUS = STATUS | 24;
-
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void bsf(int fileRegister, int selectedBit)
         {
+            MachineCycle++;
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1474,23 +1477,24 @@ namespace Simulation.Model
             ramViewModel.setByte(row, column, result);
 
             ProgramCounter++;
-            MachineCycle++;
+            
         }
 
         internal void retIEF()
         {
-            
+            MachineCycle++;
+            MachineCycle++;
             ProgramCounter = StackProgramCounter.Last() + 1 ;
             StackProgramCounter.Remove(StackProgramCounter.Last());
 
             StackProgramCounter = StackProgramCounter;
 
-            MachineCycle++;
-            MachineCycle++;
+            
         }
 
         internal void btfsc(int fileRegister, int selectedBit)
         {
+            
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
@@ -1500,7 +1504,6 @@ namespace Simulation.Model
             {
                 ProgramCounter++;
                 MachineCycle++;
-
             }
             else if (result == 0)
             {
@@ -1513,13 +1516,14 @@ namespace Simulation.Model
             {
                 throw new NotImplementedException();
             }
-            
+            MachineCycle++;
         }
 
         internal void reTurn()
         {
             //throw new NotImplementedException();
-            
+            MachineCycle++;
+            MachineCycle++;
 
             ProgramCounter = StackProgramCounter.Last() + 1;
             StackProgramCounter.Remove(StackProgramCounter.Last());
@@ -1528,23 +1532,23 @@ namespace Simulation.Model
 
             PCLATH = 0;
 
-            MachineCycle++;
-            MachineCycle++;
+            
         }
 
         internal void btfss(int fileRegister, int selectedBit)
         {
+            
             int row, column, ramValue;
             getRowColumn(fileRegister, out row, out column, out ramValue);
 
             int result = (ramViewModel.getByte(row, column) & Convert.ToInt32(Math.Pow(2, selectedBit))) / Convert.ToInt32(Math.Pow(2, selectedBit));
 
 
-            if(row == 0 && column == 1 && PrescallerAssignmentBit == 1) // Falls TMR0 Register überprüft wird: TMR0 hat einen höheren Werte, da Machinenzyklus
+         /*   if(row == 0 && column == 1 && PrescallerAssignmentBit == 1) // Falls TMR0 Register überprüft wird: TMR0 hat einen höheren Werte, da Machinenzyklus
             {
                 result = ((ramViewModel.getByte(row, column) + 1 ) & Convert.ToInt32(Math.Pow(2, selectedBit)))  / Convert.ToInt32(Math.Pow(2, selectedBit));
             }
-           
+           */
 
             if (result == 0 )
             {
@@ -1568,14 +1572,13 @@ namespace Simulation.Model
 
         internal void sleep()
         {
+            
             TimeOutBit = 1;
             PowerDownBit = 0;
             _STATUS = 247 & PowerDownBit;
-            STATUS = STATUS | 16;        
-                 
-            //unveränderter Programmcounter
-
+            STATUS = STATUS | 16;
             MachineCycle++;
+            //unveränderter Programmcounter           
         }
     }
 }
