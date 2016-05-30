@@ -89,7 +89,7 @@ namespace Simulation.Model
 
         }
 
-        private M_FileListItem operationCycle()
+        private M_FileListItem operationCycle() 
         {
             setPCL();
             operationViewModel.selectLine(programCounter);      // Update der Ansich "Operation View"
